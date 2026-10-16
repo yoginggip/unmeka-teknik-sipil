@@ -18,7 +18,7 @@ Lalu buka `http://localhost:5173`.
 
 | Halaman | Isi |
 |---|---|
-| `index.html` | Beranda: hero, tentang prodi, pendaftaran, berita, bidang kajian, dosen, galeri, mitra |
+| `index.html` | Beranda: hero bergaya layar CAD, tentang prodi, simulasi "gulir untuk membangun", pendaftaran, berita, bidang kajian, lab balok interaktif, dosen, galeri, mitra |
 | `profil.html` | Identitas, visi dan misi, sejarah, struktur organisasi |
 | `akademik.html` | Bidang kajian dan penjelajah kurikulum |
 | `dosen.html` | Daftar dan profil dosen |
