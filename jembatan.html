@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Uji Jembatan | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Mini game rekayasa struktur: rancang jembatan rangka batang dan uji dengan truk. Persembahan Program Studi Teknik Sipil UNMEKA.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head"><div class="bg" style="background-image:url(assets/img/web/prodi-sipil.jpg)"></div><div class="container">
+  <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Beranda</a><span aria-hidden="true">/</span><span>Uji Jembatan</span></nav>
+  <h1>Uji Jembatan</h1>
+  <p>Rancang jembatan rangka batang, lalu uji kekuatannya dengan truk. Bisakah rancanganmu bertahan dengan anggaran terbatas?</p>
+</div></section>
+
+<section class="section" style="padding-top:48px">
+  <div class="container">
+    <div class="bg-levels" id="bg-levels" role="tablist" aria-label="Pilih level"></div>
+
+    <div class="bg-wrap">
+      <div class="bg-main">
+        <div class="bg-bar">
+          <div class="bg-tools" role="toolbar" aria-label="Alat">
+            <button data-tool="road" title="Batang jalan (1)"><span class="sw road"></span>Jalan</button>
+            <button data-tool="steel" title="Rangka baja (2)"><span class="sw steel"></span>Rangka</button>
+            <button data-tool="erase" title="Hapus batang (3)"><svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Hapus</button>
+            <span class="sep"></span>
+            <button id="bg-undo" title="Urungkan (Ctrl+Z)"><svg class="icon" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>Urungkan</button>
+            <button id="bg-clear" title="Bersihkan desain"><svg class="icon" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>Bersihkan</button>
+          </div>
+          <button class="btn btn-primary" id="bg-test">Uji jembatan</button>
+        </div>
+        <div class="bg-stage">
+          <canvas id="bg-canvas" tabindex="0" aria-label="Area rancang jembatan"></canvas>
+          <div class="bg-msg" id="bg-msg" role="status"></div>
+          <div class="bg-result" id="bg-result" hidden></div>
+        </div>
+        <div class="bg-stats">
+          <div><small>Biaya</small><b id="bg-cost">Rp0</b></div>
+          <div class="budget"><small>Anggaran <span id="bg-budget"></span></small><div class="meter"><i id="bg-bar"></i></div></div>
+          <div><small>Batang</small><b id="bg-beams">0</b></div>
+          <div><small>Tegangan maks</small><b id="bg-stress">-</b></div>
+        </div>
+      </div>
+
+      <aside class="bg-side">
+        <div class="card">
+          <h3>Cara bermain</h3>
+          <ol class="bg-how">
+            <li>Pilih <b>Jalan</b> atau <b>Rangka</b>.</li>
+            <li>Tarik dari titik kuning (tumpuan) atau titik yang sudah ada ke posisi baru. Di ponsel, ketuk titik awal lalu ketuk titik akhir.</li>
+            <li>Truk hanya bisa melaju di atas batang <b>Jalan</b>. Hubungkan jalan dari tebing kiri ke tebing kanan.</li>
+            <li>Tekan <b>Uji jembatan</b>. Warna batang menunjukkan gaya: hijau aman, kuning tinggi, merah hampir putus.</li>
+          </ol>
+        </div>
+        <div class="card tip">
+          <h3>Prinsip rekayasa</h3>
+          <ul class="check">
+            <li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><b>Segitiga itu kaku.</b> Rangka batang (truss) tersusun dari segitiga sehingga bentuknya tidak berubah saat dibebani.</span></li>
+            <li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><b>Tinggi rangka mengurangi gaya.</b> Rangka yang lebih tinggi membuat gaya pada batang jalan lebih kecil.</span></li>
+            <li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><b>Manfaatkan tumpuan.</b> Titik tumpu di dinding tebing dan pilar bisa dipakai sebagai penopang miring.</span></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+    <p class="note"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Simulasi ini menyederhanakan perilaku struktur untuk tujuan edukasi. Rancangan tersimpan otomatis di peramban Anda.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="bg" style="background-image:url(assets/img/web/page-title-bg-sipil.jpg)"></div>
+  <div class="container">
+    <div class="reveal">
+      <span class="label" style="color:var(--yellow)">Teknik Sipil UNMEKA</span>
+      <h2>Suka merancang struktur?</h2>
+      <p>Analisis struktur, rangka batang, dan perancangan jembatan dipelajari secara mendalam di Program Studi Teknik Sipil.</p>
+    </div>
+    <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+      <a class="btn btn-primary" href="pmb.html">Informasi Pendaftaran</a>
+      <a class="btn btn-light" href="akademik.html">Lihat kurikulum</a>
+    </div>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/fx.js" defer></script>
+<script src="assets/js/bridge-engine.js"></script>
+<script src="assets/js/bridge-game.js"></script>
+<script>
+window.pageInit = function () { initBridgeGame(); };
+</script>
+</body>
+</html>

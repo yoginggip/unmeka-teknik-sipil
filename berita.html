@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Berita | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Berita dan kegiatan Program Studi Teknik Sipil dan Universitas Nusa Megarkencana.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head"><div class="bg" style="background-image:url(assets/img/web/article-03.jpg)"></div><div class="container">
+  <nav class="crumb" aria-label="Breadcrumb" id="crumb"><a href="index.html">Beranda</a><span aria-hidden="true">/</span><span>Berita</span></nav>
+  <h1 id="title">Berita</h1>
+  <p id="sub">Kabar terbaru seputar kegiatan akademik dan kemahasiswaan.</p>
+</div></section>
+<section class="section"><div class="container" id="view"></div></section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/fx.js" defer></script>
+<script>
+window.pageInit = function () {
+  const all = getBerita();
+  const id = +new URLSearchParams(location.search).get("id");
+  const v = $("#view");
+
+  if (id) {
+    const b = all.find(x => x.id === id);
+    if (!b) { v.innerHTML = `<p class="empty">Berita tidak ditemukan. <a class="link" href="berita.html">Kembali ke daftar berita</a></p>`; return; }
+    document.title = `${b.judul} | Teknik Sipil UNMEKA`;
+    $("#crumb").innerHTML = `<a href="index.html">Beranda</a><span aria-hidden="true">/</span><a href="berita.html">Berita</a><span aria-hidden="true">/</span><span>${esc(b.kategori)}</span>`;
+    $("#title").textContent = b.judul;
+    $("#sub").innerHTML = `${esc(b.kategori)} &middot; ${fmtDate(b.tanggal)}`;
+    const poster = b.gambar && b.gambar.startsWith("berita/");
+    const others = all.filter(x => x.id !== id).slice(0, 3);
+    v.innerHTML = `<article class="article">
+      ${b.gambar ? `<img class="cover${poster ? " poster" : ""}" src="${IMG(b.gambar)}" alt="${esc(b.judul)}">` : ""}
+      ${b.isi.split("\n").filter(Boolean).map(p => `<p>${esc(p)}</p>`).join("")}
+      ${b.galeri ? `<div class="figs">${b.galeri.map(g => `<figure><img src="${IMG(g[0])}" alt="${esc(g[1])}" loading="lazy"><figcaption>${esc(g[1])}</figcaption></figure>`).join("")}</div>` : ""}
+      <div class="article-foot"><a class="link" href="berita.html">${ic("arrow")} Semua berita</a><button class="btn btn-outline btn-sm" id="copy">Salin tautan</button></div>
+    </article>
+    ${others.length ? `<div style="margin-top:72px"><h2 class="h2" style="font-size:1.4rem;margin-bottom:24px">Berita lainnya</h2><div class="grid g3">${others.map(newsCard).join("")}</div></div>` : ""}`;
+    $(".article-foot .link .icon").style.transform = "rotate(180deg)";
+    $("#copy").onclick = e => { navigator.clipboard?.writeText(location.href).then(() => { e.target.textContent = "Tautan tersalin"; }); };
+    return;
+  }
+
+  const kats = ["Semua", ...new Set(all.map(b => b.kategori))];
+  let f = "Semua", shown = 9;
+  v.innerHTML = `<div class="toolbar">
+      <div class="chips" id="k">${kats.map(k => `<button class="chip" data-k="${k}">${k}</button>`).join("")}</div>
+      <label class="search"><span class="sr-only">Cari berita</span>${ic("search")}<input class="input" id="q" type="search" placeholder="Cari berita"></label>
+    </div>
+    <div class="grid g3" id="g"></div><p class="empty" id="e" hidden>Tidak ada berita yang sesuai.</p>
+    <div style="text-align:center;margin-top:36px"><button class="btn btn-outline" id="more" hidden>Muat lebih banyak</button></div>`;
+  const render = () => {
+    const q = $("#q").value.trim().toLowerCase();
+    $$("#k .chip").forEach(c => c.classList.toggle("on", c.dataset.k === f));
+    const list = all.filter(b => (f === "Semua" || b.kategori === f) && (b.judul + " " + b.ringkas).toLowerCase().includes(q));
+    $("#e").hidden = list.length > 0; $("#more").hidden = list.length <= shown;
+    $("#g").innerHTML = list.slice(0, shown).map(newsCard).join("");
+    $$("#g .reveal").forEach(el => el.classList.add("in"));
+  };
+  $("#k").addEventListener("click", e => { const c = e.target.closest(".chip"); if (c) { f = c.dataset.k; render(); } });
+  $("#q").addEventListener("input", render);
+  $("#more").addEventListener("click", () => { shown += 9; render(); });
+  render();
+};
+</script>
+</body>
+</html>

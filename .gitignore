@@ -1,0 +1,7 @@
+# Konfigurasi lokal editor/asisten
+.claude/
+
+# Sistem operasi
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Pesan Masuk | Admin Teknik Sipil UNMEKA</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="admin.js"></script>
+<script>
+window.pageInit = function () {
+  if (!shell("Pesan Masuk", "")) return;
+  crud({
+    key: "admin_pesan", noun: "Pesan", noAdd: true, emptyText: "Belum ada pesan dari formulir kontak.",
+    rowClass: r => r.baca ? "" : "unread",
+    onOpen: item => { const all = db.all("admin_pesan"); const m = all.find(x => x.id === item.id); if (m) { m.baca = true; db.save("admin_pesan", all); } },
+    cols: [
+      { label: "Pengirim", render: r => `${esc(r.nama)}<div class="meta">${esc(r.email)}</div>` },
+      { label: "Keperluan", render: r => `<span class="tag">${esc(r.topik)}</span>` },
+      { label: "Pesan", render: r => `<span style="display:block;max-width:340px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(r.pesan)}</span>` },
+      { label: "Tanggal", render: r => `<span style="white-space:nowrap">${fmtDate(r.tanggal)}</span>` },
+    ],
+    fields: [{ k: "nama", label: "Nama", ro: true }, { k: "email", label: "Email", ro: true }, { k: "topik", label: "Keperluan", ro: true }, { k: "tanggal", label: "Tanggal", ro: true }, { k: "pesan", label: "Pesan", type: "textarea", rows: 6, full: true, ro: true }],
+  });
+};
+</script>
+</body>
+</html>

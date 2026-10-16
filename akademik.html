@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Akademik | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Bidang kajian, kurikulum, dan informasi akademik Program Studi Teknik Sipil UNMEKA.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head"><div class="bg" style="background-image:url(assets/img/web/page-title-bg-sipil.jpg)"></div><div class="container">
+  <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Beranda</a><span aria-hidden="true">/</span><span>Akademik</span></nav>
+  <h1>Akademik</h1>
+  <p>Bidang kajian, struktur kurikulum, dan layanan akademik bagi mahasiswa.</p>
+</div></section>
+
+<section class="section" id="bidang">
+  <div class="container">
+    <div class="sec-head reveal"><div><span class="label">Bidang Kajian</span><h2 class="h2">Cakupan keilmuan teknik sipil</h2><p class="lead">Mahasiswa mempelajari lima bidang utama yang menjadi dasar pekerjaan perencanaan dan konstruksi infrastruktur.</p></div></div>
+    <div class="grid g3" id="bidang-list"></div>
+  </div>
+</section>
+
+<section class="section soft" id="kurikulum">
+  <div class="container">
+    <div class="sec-head reveal"><div><span class="label">Kurikulum</span><h2 class="h2">Jelajahi sebaran mata kuliah</h2><p class="lead">Pilih bidang untuk menyorot mata kuliahnya di seluruh semester, lalu klik grafik atau daftar semester untuk melihat rinciannya.</p></div></div>
+    <div class="kx-bar reveal" id="kx"><span>Sorot bidang:</span></div>
+    <div class="sks-chart reveal" id="chart" aria-label="Grafik SKS per semester"></div>
+    <div class="kur reveal">
+      <div class="sem-list" id="sem" role="tablist" aria-label="Semester"></div>
+      <div>
+        <div class="table-wrap"><table>
+          <thead><tr><th style="width:56px">No</th><th>Mata Kuliah</th><th>Bidang</th><th class="num">SKS</th></tr></thead>
+          <tbody id="mk"></tbody><tfoot><tr><td></td><td>Jumlah</td><td id="hits" style="font-weight:500;color:var(--muted)"></td><td class="num" id="total"></td></tr></tfoot>
+        </table></div>
+        <p class="note"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Sebaran mata kuliah ini bersifat sementara dan akan diperbarui sesuai dokumen kurikulum resmi program studi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="layanan">
+  <div class="container">
+    <div class="sec-head reveal"><div><span class="label">Layanan Akademik</span><h2 class="h2">Informasi dan sumber belajar</h2></div></div>
+    <div class="grid g3" id="layanan-list"></div>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/fx.js" defer></script>
+<script>
+window.pageInit = function () {
+  $("#bidang-list").innerHTML = D.bidang.map(b => `<div class="card reveal"><div class="ci">${ic(b.icon)}</div><h3>${b.nama}</h3><p>${b.desk}</p><p style="margin-top:14px;font-size:.84rem"><b style="color:var(--ink)">Mata kuliah terkait:</b> ${b.mk.join(", ")}</p></div>`).join("");
+
+  /* ---- penjelajah kurikulum ---- */
+  const K = D.kurikulum, SEM = Object.keys(K);
+  const BID = {
+    struktur: { n: "Struktur", c: "#2952a3", re: /struktur|statika|mekanika bahan|gempa|dinamika|bim/i },
+    geoteknik: { n: "Geoteknik", c: "#9a6b1f", re: /mekanika tanah|pondasi/i },
+    transportasi: { n: "Transportasi", c: "#b4472f", re: /transportasi|lalu lintas|jalan|perkerasan/i },
+    hidro: { n: "Keairan", c: "#1f7a8c", re: /fluida|hidrolika|hidrologi|bangunan air|lingkungan/i },
+    manajemen: { n: "Manajemen Konstruksi", c: "#6b4fa0", re: /manajemen|biaya|k3|kewirausahaan/i },
+  };
+  const bidangOf = name => Object.keys(BID).find(k => BID[k].re.test(name)) || null;
+  const sum = s => K[s].reduce((a, m) => a + m[1], 0);
+  const sumB = (s, b) => K[s].filter(m => bidangOf(m[0]) === b).reduce((a, m) => a + m[1], 0);
+  const maxS = 24; /* batas beban SKS per semester */
+  let sel = "1", fb = null;
+
+  $("#kx").insertAdjacentHTML("beforeend", `<button class="chip on" data-b="">Semua</button>` + Object.entries(BID).map(([k, v]) => `<button class="chip" data-b="${k}" style="--c:${v.c}"><span class="dot"></span>${v.n}</button>`).join(""));
+  $("#chart").innerHTML = SEM.map(s => `<button data-s="${s}" aria-label="Semester ${s}, ${sum(s)} SKS"><span class="col" style="height:${sum(s) / maxS * 100}%"><em>${sum(s)}</em><i style="height:0"></i></span><small>Smt ${s}</small></button>`).join("");
+
+  const render = () => {
+    $$("#kx .chip").forEach(c => c.classList.toggle("on", (c.dataset.b || null) === fb));
+    $$("#chart button").forEach(b => { b.classList.toggle("on", b.dataset.s === sel); $("i", b).style.height = fb ? (sumB(b.dataset.s, fb) / sum(b.dataset.s) * 100) + "%" : "0"; });
+    $("#sem").innerHTML = SEM.map(s => { const n = fb ? K[s].filter(m => bidangOf(m[0]) === fb).length : 0; return `<button role="tab" data-s="${s}" class="${s === sel ? "on" : ""}" aria-selected="${s === sel}">Semester ${s}${n ? `<span class="cnt">${n}</span>` : ""}<small>${sum(s)} SKS</small></button>`; }).join("");
+    $("#mk").innerHTML = K[sel].map((m, i) => {
+      const b = bidangOf(m[0]), cls = fb ? (b === fb ? "hit" : "dim") : "";
+      return `<tr class="${cls}"><td>${i + 1}</td><td>${m[0]}</td><td><span class="bt" style="--c:${b ? BID[b].c : "#cfd5df"}"></span>${b ? BID[b].n : "Umum"}</td><td class="num">${m[1]}</td></tr>`;
+    }).join("");
+    $("#total").textContent = sum(sel);
+    $("#hits").textContent = fb ? `${sumB(sel, fb)} SKS bidang ${BID[fb].n}` : "";
+  };
+  $("#kx").addEventListener("click", e => { const c = e.target.closest(".chip"); if (!c) return; fb = c.dataset.b || null; if (fb && !sumB(sel, fb)) sel = SEM.find(s => sumB(s, fb)) || sel; render(); });
+  $("#chart").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { sel = b.dataset.s; render(); } });
+  $("#sem").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { sel = b.dataset.s; render(); } });
+  render();
+
+  const s = D.site;
+  $("#layanan-list").innerHTML = [["calendar", "Kalender Akademik", "Jadwal registrasi, perkuliahan, ujian, dan libur akademik.", s.kalender], ["book", "Perpustakaan", "Koleksi elektronik bagi staf dosen melalui kerja sama dengan Universitas Gunadarma.", s.perpustakaan], ["file", "E-Journal UNMEKA", "Publikasi ilmiah dosen dan mahasiswa Universitas Nusa Megarkencana.", s.ejournal]]
+    .map(l => `<a class="card reveal" href="${l[3]}" target="_blank" rel="noopener"><div class="ci">${ic(l[0])}</div><h3>${l[1]}</h3><p>${l[2]}</p><span class="link" style="margin-top:14px">Buka ${ic("external")}</span></a>`).join("");
+};
+</script>
+</body>
+</html>

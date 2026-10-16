@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Berita | Admin Teknik Sipil UNMEKA</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="admin.js"></script>
+<script>
+window.pageInit = function () {
+  if (!shell("Berita", "")) return;
+  crud({
+    key: "admin_berita", noun: "Berita",
+    cols: [
+      { label: "Judul", render: r => `<b style="color:var(--ink)">${esc(r.judul)}</b>` },
+      { label: "Kategori", render: r => `<span class="tag">${esc(r.kategori)}</span>` },
+      { label: "Tanggal", render: r => `<span style="white-space:nowrap">${fmtDate(r.tanggal)}</span>` },
+    ],
+    fields: [
+      { k: "judul", label: "Judul", req: true, full: true },
+      { k: "kategori", label: "Kategori", type: "select", options: ["Kegiatan", "Prestasi", "Pendaftaran", "Akademik", "Penelitian", "Pengabdian", "Kampus"] },
+      { k: "tanggal", label: "Tanggal terbit", type: "date", req: true, def: new Date().toISOString().slice(0, 10) },
+      { k: "ringkas", label: "Ringkasan", type: "textarea", rows: 2, full: true, req: true, help: "Ditampilkan pada kartu berita." },
+      { k: "isi", label: "Isi berita", type: "textarea", rows: 8, full: true, req: true, help: "Pisahkan paragraf dengan baris baru." },
+    ],
+  });
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Dosen | Admin Teknik Sipil UNMEKA</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="admin.js"></script>
+<script>
+window.pageInit = function () {
+  if (!shell("Dosen", "")) return;
+  crud({
+    key: "admin_dosen", noun: "Dosen",
+    cols: [
+      { label: "Nama", render: r => `<div style="display:flex;gap:12px;align-items:center">${avatar(r.nama, 36)}<b style="color:var(--ink)">${esc(r.nama)}</b></div>` },
+      { label: "Jabatan", render: r => esc(r.jabatan) },
+      { label: "NIDN", render: r => esc(r.nidn || "-") },
+    ],
+    fields: [
+      { k: "nama", label: "Nama lengkap dan gelar", req: true, full: true },
+      { k: "jabatan", label: "Jabatan", type: "select", options: ["Ketua Program Studi", "Dosen Tetap", "Kepala Laboratorium", "Dosen Tidak Tetap"] },
+      { k: "nidn", label: "NIDN" },
+      { k: "pendidikan", label: "Pendidikan terakhir" },
+      { k: "email", label: "Email", type: "email" },
+      { k: "fokus", label: "Bidang keahlian", type: "textarea", rows: 2, full: true },
+    ],
+  });
+};
+</script>
+</body>
+</html>

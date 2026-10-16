@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dosen | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Daftar dosen Program Studi Teknik Sipil Universitas Nusa Megarkencana.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head"><div class="bg" style="background-image:url(assets/img/web/home-pic-2.jpg)"></div><div class="container">
+  <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Beranda</a><span aria-hidden="true">/</span><span>Dosen</span></nav>
+  <h1>Dosen</h1>
+  <p>Tenaga pengajar Program Studi Teknik Sipil, Fakultas Teknik dan Informatika.</p>
+</div></section>
+
+<section class="section">
+  <div class="container">
+    <div class="toolbar">
+      <label class="search"><span class="sr-only">Cari dosen</span><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="input" id="q" type="search" placeholder="Cari nama dosen"></label>
+      <span class="meta" id="count"></span>
+    </div>
+    <div class="grid g4" id="grid"></div>
+    <p class="empty" id="empty" hidden>Tidak ada dosen yang sesuai dengan pencarian.</p>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/fx.js" defer></script>
+<script>
+window.pageInit = function () {
+  const dosen = getDosen();
+  const render = () => {
+    const q = $("#q").value.trim().toLowerCase();
+    const list = dosen.filter(d => (d.nama + " " + d.jabatan + " " + (d.fokus || "")).toLowerCase().includes(q));
+    $("#count").textContent = `${list.length} dosen`;
+    $("#empty").hidden = list.length > 0;
+    $("#grid").innerHTML = list.map(d => `<button class="card person${d.jabatan === "Ketua Program Studi" ? " lead-p" : ""}" data-id="${d.id}">${avatar(d.nama)}<h3>${esc(d.nama)}</h3><div class="role">${esc(d.jabatan)}</div></button>`).join("");
+  };
+  const detail = id => {
+    const d = dosen.find(x => x.id === id); if (!d) return;
+    const rows = [["Jabatan", d.jabatan], ["Program Studi", "Teknik Sipil"], ["Pendidikan", d.pendidikan], ["NIDN", d.nidn], ["Bidang keahlian", d.fokus], ["Email", d.email]].filter(r => r[1]);
+    openModal(`<div style="display:flex;gap:18px;align-items:center;margin-bottom:6px">${avatar(d.nama, 72)}<div><h3 style="font-size:1.2rem">${esc(d.nama)}</h3><p class="meta">${esc(d.jabatan)}, Teknik Sipil UNMEKA</p></div></div>
+      <dl class="dl">${rows.map(r => `<div><dt>${r[0]}</dt><dd>${r[0] === "Email" ? `<a class="link" href="mailto:${esc(r[1])}">${esc(r[1])}</a>` : esc(r[1])}</dd></div>`).join("")}</dl>`);
+  };
+  $("#q").addEventListener("input", render);
+  $("#grid").addEventListener("click", e => { const c = e.target.closest(".person"); if (c) detail(+c.dataset.id); });
+  render();
+  const id = +new URLSearchParams(location.search).get("id"); if (id) detail(id);
+};
+</script>
+</body>
+</html>

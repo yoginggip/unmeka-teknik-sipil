@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pendaftaran | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Informasi penerimaan mahasiswa baru Program Studi Teknik Sipil Universitas Nusa Megarkencana: jalur, alur, dan estimasi biaya.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head"><div class="bg" style="background-image:url(assets/img/web/pendaftaran-reguler.jpg)"></div><div class="container">
+  <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Beranda</a><span aria-hidden="true">/</span><span>Pendaftaran</span></nav>
+  <h1>Penerimaan Mahasiswa Baru</h1>
+  <p>Pendaftaran mahasiswa baru tahun 2026 dibuka melalui enam jalur.</p>
+  <a class="btn btn-primary" id="portal" target="_blank" rel="noopener" style="margin-top:24px">Daftar di Portal Pendaftaran <svg class="icon" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+</div></section>
+
+<section class="section soft" id="bantu">
+  <div class="container">
+    <div class="wiz reveal">
+      <div class="wiz-side">
+        <span class="label" style="color:var(--yellow)">Bantu Pilih Jalur</span>
+        <h2>Belum yakin jalur mana yang cocok?</h2>
+        <p>Jawab beberapa pertanyaan singkat, kami tunjukkan jalur pendaftaran yang paling sesuai untukmu.</p>
+        <div class="wiz-steps" id="wiz-steps"><i></i><i></i><i></i></div>
+      </div>
+      <div class="wiz-main" id="wiz" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="jalur">
+  <div class="container">
+    <div class="sec-head reveal"><div><span class="label">Jalur Pendaftaran</span><h2 class="h2">Semua jalur pendaftaran</h2></div></div>
+    <div class="grid g3" id="jalur-list"></div>
+  </div>
+</section>
+
+<section class="section soft" id="alur">
+  <div class="container">
+    <div class="sec-head reveal"><div><span class="label">Alur Pendaftaran</span><h2 class="h2">Langkah mendaftar</h2></div></div>
+    <ol class="steps reveal">
+      <li><h3>Buat akun</h3><p>Daftar di portal pendaftaran UNMEKA dengan data diri dan email aktif.</p></li>
+      <li><h3>Pilih jalur dan program studi</h3><p>Pilih jalur pendaftaran dan Program Studi Teknik Sipil.</p></li>
+      <li><h3>Lengkapi berkas</h3><p>Unggah dokumen persyaratan sesuai jalur yang dipilih.</p></li>
+      <li><h3>Seleksi</h3><p>Ikuti proses seleksi sesuai ketentuan jalur pendaftaran.</p></li>
+      <li><h3>Daftar ulang</h3><p>Calon mahasiswa yang dinyatakan diterima melakukan daftar ulang.</p></li>
+    </ol>
+    <p class="note reveal"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Ketentuan dan jadwal lengkap mengikuti informasi resmi pada portal pendaftaran UNMEKA.</p>
+  </div>
+</section>
+
+<section class="section" id="biaya">
+  <div class="container">
+    <div id="biaya-body"></div>
+  </div>
+</section>
+
+<section class="section soft" id="faq">
+  <div class="container about" style="align-items:start">
+    <div class="reveal">
+      <span class="label">Tanya Jawab</span>
+      <h2 class="h2">Pertanyaan umum</h2>
+      <p class="lead">Belum menemukan jawaban? Hubungi kami melalui halaman kontak.</p>
+      <a class="btn btn-outline" href="kontak.html" style="margin-top:22px">Hubungi kami</a>
+    </div>
+    <div class="reveal" id="faq-list"></div>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/fx.js" defer></script>
+<script>
+window.pageInit = function () {
+  const s = D.site;
+  $("#portal").href = s.daftar;
+  const JI = { transfer: "arrow", ekstensi: "cap", karyawan: "briefcase" };
+  const daftar = j => `<span class="link">Daftar jalur ${j.nama} ${ic("external")}</span>`;
+  $("#jalur-list").innerHTML = D.jalur.map(j => j.foto
+    ? `<a class="card route reveal" href="${s.daftar}Registrasi/${j.path}" target="_blank" rel="noopener"><div class="ph"><img src="assets/img/${j.foto}" alt="" loading="lazy">${j.potongan ? `<span class="tag">Potongan hingga ${j.potongan * 100}%</span>` : ""}</div><div class="bd"><h3>${j.nama}</h3><p>${j.desk}</p>${daftar(j)}</div></a>`
+    : `<a class="card jalur reveal" href="${s.daftar}Registrasi/${j.path}" target="_blank" rel="noopener"><div class="ci">${ic(JI[j.id] || "file")}</div><h3>${j.nama}</h3><p>${j.desk}</p>${daftar(j)}</a>`).join("");
+
+  /* ---- biaya: kalkulator hanya tampil bila semua jalur sudah berisi biaya resmi di data.js ---- */
+  const hasFee = D.jalur.every(j => [j.daftar, j.spp, j.gedung].every(v => typeof v === "number"));
+  let calc = () => {};
+  if (hasFee) {
+    $("#biaya-body").innerHTML = `<div class="sec-head reveal"><div><span class="label">Biaya Pendidikan</span><h2 class="h2">Estimasi biaya kuliah</h2><p class="lead">Gunakan simulasi berikut untuk memperkirakan biaya selama masa studi.</p></div></div>
+      <div class="calc reveal"><div class="card"><div class="field"><label>Jalur pendaftaran</label><div id="opts"></div></div>
+        <div class="field"><label for="sem">Lama studi: <span id="semv">8</span> semester</label><input type="range" id="sem" min="7" max="14" value="8"></div></div>
+        <div class="total" aria-live="polite"><h3>Rincian estimasi</h3><div id="rows"></div><div class="sum"><span>Total estimasi</span><b id="sum"></b></div>
+        <small>Besaran biaya mengikuti ketetapan Universitas Nusa Megarkencana yang berlaku.</small></div></div>`;
+    $("#opts").innerHTML = D.jalur.map((j, i) => `<label class="opt"><input type="radio" name="j" value="${j.id}"${i ? "" : " checked"}><span><b>${j.nama}</b><small>${j.desk}</small></span></label>`).join("");
+    calc = () => {
+      const j = D.jalur.find(x => x.id === $("input[name=j]:checked").value);
+      const sem = +$("#sem").value; $("#semv").textContent = sem;
+      const spp = j.spp * (1 - (j.potongan || 0));
+      const rows = [["Biaya pendaftaran", j.daftar], ["Dana pengembangan (sekali bayar)", j.gedung], ["Biaya kuliah per semester", spp], [`Biaya kuliah ${sem} semester`, spp * sem]];
+      $("#rows").innerHTML = rows.map(r => `<div class="row"><span>${r[0]}</span><b>${rupiah(r[1])}</b></div>`).join("");
+      $("#sum").textContent = rupiah(j.daftar + j.gedung + spp * sem);
+    };
+    $(".calc").addEventListener("input", calc); calc();
+  } else {
+    $("#biaya-body").innerHTML = `<div class="fee-info reveal">
+      <div>
+        <span class="label">Biaya Pendidikan</span>
+        <h2 class="h2">Informasi biaya kuliah</h2>
+        <p class="lead">Rincian biaya pendaftaran dan biaya kuliah disampaikan langsung oleh bagian Penerimaan Mahasiswa Baru UNMEKA dan melalui portal pendaftaran.</p>
+        <ul class="check">
+          <li>${ic("check")}<span><b>KIP-Kuliah</b>: bantuan biaya pendidikan hingga 100% bagi yang memenuhi syarat.</span></li>
+          <li>${ic("check")}<span><b>Prestasi Raport</b>: beasiswa hingga 50% berdasarkan nilai raport.</span></li>
+          <li>${ic("check")}<span>Tersedia kelas <b>Karyawan</b> bagi calon mahasiswa yang sudah bekerja.</span></li>
+        </ul>
+      </div>
+      <div class="fee-contact">
+        <h3>Tanyakan rincian biaya</h3>
+        <p>Hubungi bagian PMB untuk informasi biaya terbaru sesuai jalur pendaftaran.</p>
+        <a class="fc-row" href="tel:+62274518987">${ic("phone")}<span><small>Telepon</small>${s.telp}</span></a>
+        <a class="fc-row" href="mailto:${s.email}">${ic("mail")}<span><small>Email</small>${s.email}</span></a>
+        <div class="fc-acts"><a class="btn btn-primary" href="${s.daftar}" target="_blank" rel="noopener">Portal Pendaftaran ${ic("external")}</a><a class="btn btn-light" href="kontak.html">Kirim pertanyaan</a></div>
+      </div>
+    </div>`;
+  }
+
+  /* ---- wizard pilih jalur ---- */
+  const Q = {
+    status: { q: "Apa status kamu saat ini?", opts: [["cap", "Siswa kelas 12 atau lulusan SMA, SMK, MA", "kip"], ["arrow", "Mahasiswa di perguruan tinggi lain", "=transfer"], ["award", "Lulusan diploma (D3)", "=ekstensi"], ["briefcase", "Sudah bekerja dan ingin kuliah", "=karyawan"]] },
+    kip: { q: "Apakah kamu penerima atau memenuhi syarat KIP-Kuliah?", opts: [["check", "Ya, saya penerima atau memenuhi syarat KIP", "=kip"], ["x", "Tidak", "nilai"]] },
+    nilai: { q: "Apakah nilai raport kamu termasuk tinggi atau kamu memiliki prestasi?", opts: [["award", "Ya, nilai raport saya baik", "=prestasi"], ["user", "Nilai saya rata-rata", "=reguler"]] },
+  };
+  let path = ["status"];
+  const steps = n => $$("#wiz-steps i").forEach((el, i) => el.classList.toggle("on", i < n));
+  const ask = () => {
+    const key = path[path.length - 1], q = Q[key];
+    steps(path.length);
+    $("#wiz").innerHTML = `<div class="wiz-q"><span class="label">Pertanyaan ${path.length}</span><h3>${q.q}</h3>
+      ${q.opts.map((o, i) => `<button class="wiz-opt" data-i="${i}">${ic(o[0])}<span>${o[1]}</span></button>`).join("")}</div>
+      ${path.length > 1 ? `<button class="wiz-back" id="wb">${ic("arrow")} Kembali</button>` : ""}`;
+    $$("#wiz .wiz-opt").forEach(b => b.addEventListener("click", () => {
+      const next = q.opts[+b.dataset.i][2];
+      if (next.startsWith("=")) result(next.slice(1)); else { path.push(next); ask(); }
+    }));
+    $("#wb")?.addEventListener("click", () => { path.pop(); ask(); });
+  };
+  const result = id => {
+    const j = D.jalur.find(x => x.id === id);
+    steps(3);
+    $("#wiz").innerHTML = `<div class="wiz-res">
+      ${j.foto ? `<img src="assets/img/${j.foto}" alt="">` : `<div class="ci">${ic(JI[j.id] || "file")}</div>`}
+      <div><span class="label">Rekomendasi untuk kamu</span><h3>Jalur ${j.nama}</h3><p>${j.desk}</p>
+      <div class="acts"><a class="btn btn-primary btn-sm" href="${s.daftar}Registrasi/${j.path}" target="_blank" rel="noopener">Daftar jalur ${j.nama} ${ic("external")}</a><button class="btn btn-outline btn-sm" id="wcalc">${hasFee ? "Hitung estimasi biaya" : "Info biaya kuliah"}</button></div></div></div>
+      <button class="wiz-back" id="wr">${ic("arrow")} Ulangi pertanyaan</button>`;
+    $("#wcalc").onclick = () => { if (hasFee) { $(`input[name=j][value=${j.id}]`).checked = true; calc(); } $("#biaya").scrollIntoView({ behavior: "smooth" }); };
+    $("#wr").onclick = () => { path = ["status"]; ask(); };
+  };
+  ask();
+
+  $("#faq-list").innerHTML = D.faq.map(f => `<div class="acc"><button>${esc(f[0])}${ic("chevron")}</button><div class="ans"><p>${esc(f[1])}</p></div></div>`).join("");
+};
+</script>
+</body>
+</html>

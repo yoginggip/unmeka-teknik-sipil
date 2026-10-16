@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kontak | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Alamat, telepon, email, dan formulir kontak Program Studi Teknik Sipil Universitas Nusa Megarkencana.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head"><div class="bg" style="background-image:url(assets/img/slider-2.jpg)"></div><div class="container">
+  <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Beranda</a><span aria-hidden="true">/</span><span>Kontak</span></nav>
+  <h1>Kontak</h1>
+  <p>Hubungi kami untuk informasi program studi, pendaftaran, maupun kerja sama.</p>
+</div></section>
+
+<section class="section">
+  <div class="container contact">
+    <div class="reveal">
+      <ul class="cinfo" id="ci"></ul>
+      <div class="map"><iframe title="Peta lokasi kampus Universitas Nusa Megarkencana" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=110.3600%2C-7.7790%2C110.3700%2C-7.7728&amp;layer=mapnik&amp;marker=-7.775912%2C110.365035"></iframe></div>
+      <a class="link" id="gmaps" target="_blank" rel="noopener" style="margin-top:14px">Buka di Google Maps <svg class="icon" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+    </div>
+    <form class="card reveal" id="f" novalidate style="padding:32px">
+      <h2 style="font-size:1.3rem">Kirim pesan</h2>
+      <p class="meta" style="margin:6px 0 22px">Kami akan membalas melalui email yang Anda cantumkan.</p>
+      <div id="msg" role="status"></div>
+      <div class="field"><label for="nama">Nama lengkap</label><input class="input" id="nama" autocomplete="name" required></div>
+      <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="topik">Keperluan</label><select class="input" id="topik"><option>Informasi pendaftaran</option><option>Informasi akademik</option><option>Kerja sama</option><option>Lainnya</option></select></div>
+      <div class="field"><label for="pesan">Pesan</label><textarea class="input" id="pesan" rows="5" required></textarea></div>
+      <button class="btn btn-navy" type="submit">Kirim pesan</button>
+    </form>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/fx.js" defer></script>
+<script>
+window.pageInit = function () {
+  const s = D.site;
+  $("#ci").innerHTML = [["pin", "Alamat", s.alamat], ["phone", "Telepon", `<a href="tel:+62274518987">${s.telp}</a>`], ["mail", "Email", `<a href="mailto:${s.email}">${s.email}</a>`], ["building", "Unit", `Program Studi Teknik Sipil, ${s.fakultas}`]]
+    .map(c => `<li><span class="ci">${ic(c[0])}</span><div><b>${c[1]}</b><span>${c[2]}</span></div></li>`).join("");
+  $("#gmaps").href = s.maps;
+
+  $("#f").addEventListener("submit", e => {
+    e.preventDefault();
+    const v = id => $("#" + id).value.trim();
+    const err = !v("nama") ? "Nama lengkap wajib diisi." : !/^\S+@\S+\.\S+$/.test(v("email")) ? "Masukkan alamat email yang valid." : v("pesan").length < 10 ? "Pesan minimal 10 karakter." : "";
+    if (err) { $("#msg").innerHTML = `<div class="alert err">${err}</div>`; return; }
+    const list = store.get("admin_pesan", null) || [];
+    list.unshift({ id: Date.now(), nama: v("nama"), email: v("email"), topik: v("topik"), pesan: v("pesan"), tanggal: new Date().toISOString().slice(0, 10), baca: false });
+    store.set("admin_pesan", list);
+    e.target.reset();
+    $("#msg").innerHTML = `<div class="alert ok">Terima kasih, pesan Anda sudah terkirim.</div>`;
+  });
+};
+</script>
+</body>
+</html>

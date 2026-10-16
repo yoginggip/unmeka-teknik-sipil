@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Dasbor | Admin Teknik Sipil UNMEKA</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="admin.js"></script>
+<script>
+window.pageInit = function () {
+  if (!shell("Dasbor", `<div class="kpi" id="kpi"></div>
+    <div class="two">
+      <div class="card"><div class="card-h"><h2>Berita terbaru</h2><a class="link" href="berita.html">Kelola</a></div><div class="table-wrap" style="border:0"><table><tbody id="recent"></tbody></table></div></div>
+      <div class="card"><div class="card-h"><h2>Pesan masuk</h2><a class="link" href="pesan.html">Semua pesan</a></div><div class="list-msg" id="msgs"></div></div>
+    </div>`)) return;
+  const b = db.all("admin_berita"), d = db.all("admin_dosen"), p = db.all("admin_pesan");
+  $("#kpi").innerHTML = [["news", b.length, "Berita"], ["users", d.length, "Dosen"], ["inbox", p.filter(x => !x.baca).length, "Pesan belum dibaca"], ["calendar", b.filter(x => x.tanggal.startsWith(String(new Date().getFullYear()))).length, "Berita tahun ini"]]
+    .map(k => `<div class="card"><span class="ci">${ic(k[0])}</span><div><b>${k[1]}</b><span>${k[2]}</span></div></div>`).join("");
+  $("#recent").innerHTML = b.slice().sort((x, y) => y.tanggal.localeCompare(x.tanggal)).slice(0, 5)
+    .map(x => `<tr><td style="padding-left:0">${esc(x.judul)}</td><td class="meta" style="white-space:nowrap;padding-right:0">${fmtDate(x.tanggal)}</td></tr>`).join("");
+  $("#msgs").innerHTML = p.length ? p.slice(0, 5).map(m => `<a href="pesan.html">${avatar(m.nama, 36)}<div class="t"><b>${esc(m.nama)}${m.baca ? "" : ' <span class="tag">Baru</span>'}</b><span>${esc(m.pesan)}</span></div></a>`).join("")
+    : `<p class="meta">Belum ada pesan. Pesan dari formulir kontak akan tampil di sini.</p>`;
+};
+</script>
+</body>
+</html>
