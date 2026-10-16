@@ -18,7 +18,7 @@ Lalu buka `http://localhost:5173`.
 
 | Halaman | Isi |
 |---|---|
-| `index.html` | Beranda: hero bergaya layar CAD, tentang prodi, simulasi "gulir untuk membangun", pendaftaran, berita, bidang kajian, lab balok interaktif, dosen, galeri, mitra |
+| `index.html` | Beranda: jembatan kabel 3D interaktif, teks berjalan, tentang prodi, simulasi "gulir untuk membangun", pendaftaran, berita, bidang kajian, dosen, galeri, lab balok interaktif, simulator gempa, mitra |
 | `profil.html` | Identitas, visi dan misi, sejarah, struktur organisasi |
 | `akademik.html` | Bidang kajian dan penjelajah kurikulum |
 | `dosen.html` | Daftar dan profil dosen |
@@ -37,6 +37,12 @@ assets/css/style.css        gaya seluruh situs
 assets/js/data.js           konten (dosen, berita, jalur, kurikulum, dll.)
 assets/js/app.js            layout bersama, ikon, pencarian, utilitas
 assets/js/fx.js             efek interaksi (parallax, reveal, penghitung)
+assets/js/flair.js          kursor khusus, tombol magnetis, efek label, teks berjalan
+assets/js/wow.js            beranda: gulir untuk membangun, lab balok, hero 2D cadangan
+assets/js/hero3d.js         jembatan kabel 3D di hero (three.js)
+assets/js/quake-engine.js   mesin fisika simulator gempa (bisa diuji di Node)
+assets/js/quake-game.js     antarmuka simulator gempa
+assets/js/vendor/           three.js r149 (lisensi MIT)
 assets/js/bridge-engine.js  mesin fisika mini game (bisa diuji di Node)
 assets/js/bridge-game.js    antarmuka mini game
 assets/img/                 logo dan foto
