@@ -55,6 +55,7 @@
 <script src="assets/js/data.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/fx.js" defer></script>
+<script src="assets/js/flair.js" defer></script>
 <script>
 window.pageInit = function () {
   $("#lab").innerHTML = D.lab.map(l => `<div class="card lab reveal" id="${l.id}"><div class="ci">${ic(l.icon)}</div><h3>${l.nama}</h3><p>${l.desk}</p><ul>${l.praktikum.map(p => `<li>${ic("check")}${p}</li>`).join("")}</ul></div>`).join("");

@@ -1,5 +1,5 @@
-/* Interaksi unggulan beranda: hero bergaya layar CAD, simulasi pembangunan gedung yang digerakkan
-   scroll, lab balok interaktif, dan tombol magnetis. Dimuat setelah app.js. */
+/* Interaksi unggulan beranda: hero bergaya layar CAD (cadangan bila WebGL tidak tersedia),
+   simulasi pembangunan gedung yang digerakkan scroll, dan lab balok interaktif. Dimuat setelah app.js. */
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -15,7 +15,7 @@
 
   /* ---------- 1. Hero: grid cetak biru, kursor CAD, dan rangka yang tersambung ---------- */
   function heroFx() {
-    const hero = document.getElementById("hero"); if (!hero) return;
+    const hero = document.getElementById("hero"); if (!hero || hero.classList.contains("has-3d")) return;
     const cv = document.createElement("canvas"); cv.className = "hero-fx"; cv.setAttribute("aria-hidden", "true");
     hero.querySelector(".hero-slides").after(cv);
     const ctx = cv.getContext("2d");
@@ -382,18 +382,5 @@
     }
   }
 
-  /* ---------- 4. Tombol magnetis ---------- */
-  function magnets() {
-    if (!fine || reduce) return;
-    $$(".hero .btn, .band .btn, .game-teaser .btn, .build .btn").forEach(b => {
-      b.classList.add("magnet");
-      b.addEventListener("pointermove", e => {
-        const r = b.getBoundingClientRect();
-        b.style.transform = `translate(${((e.clientX - r.left) / r.width - .5) * 10}px, ${((e.clientY - r.top) / r.height - .5) * 8}px)`;
-      });
-      b.addEventListener("pointerleave", () => { b.style.transform = ""; });
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", () => { heroFx(); buildFx(); beamLab(); magnets(); });
+  document.addEventListener("DOMContentLoaded", () => { heroFx(); buildFx(); beamLab(); });
 })();

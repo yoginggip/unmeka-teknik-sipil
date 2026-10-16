@@ -14,6 +14,20 @@
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<div class="preload" id="preload" aria-hidden="true">
+  <svg viewBox="0 0 420 150"><path pathLength="1" style="animation-delay:0.00s" d="M10 118H410"/><path pathLength="1" style="animation-delay:0.07s" d="M60 132V22"/><path pathLength="1" style="animation-delay:0.14s" d="M360 132V22"/><path pathLength="1" style="animation-delay:0.21s" d="M60 30L18 118"/><path pathLength="1" style="animation-delay:0.28s" d="M60 30L102 118"/><path pathLength="1" style="animation-delay:0.35s" d="M60 30L144 118"/><path pathLength="1" style="animation-delay:0.42s" d="M60 30L186 118"/><path pathLength="1" style="animation-delay:0.49s" d="M360 30L402 118"/><path pathLength="1" style="animation-delay:0.56s" d="M360 30L318 118"/><path pathLength="1" style="animation-delay:0.63s" d="M360 30L276 118"/><path pathLength="1" style="animation-delay:0.70s" d="M360 30L234 118"/></svg>
+  <div class="pl-txt"><b>Teknik Sipil</b><span>Universitas Nusa Megarkencana</span></div>
+  <div class="pl-num" id="pl-num">0%</div>
+</div>
+<script>
+(function () {
+  var el = document.getElementById("preload");
+  try { if (sessionStorage.getItem("unmeka_intro") || matchMedia("(prefers-reduced-motion: reduce)").matches) { el.remove(); return; } sessionStorage.setItem("unmeka_intro", "1"); } catch (e) { el.remove(); return; }
+  var n = document.getElementById("pl-num"), t0 = performance.now();
+  (function tick(now) { var k = Math.min((now - t0) / 1300, 1); n.textContent = Math.round(k * k * (3 - 2 * k) * 100) + "%"; if (k < 1) requestAnimationFrame(tick); })(t0);
+  setTimeout(function () { el.remove(); }, 2300);
+})();
+</script>
 <div id="site-header"></div>
 <main id="main">
 
@@ -35,6 +49,11 @@
 </section>
 
 <div class="facts"><div class="container"><ul id="facts"></ul></div></div>
+
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track"><span>Struktur</span><i>✦</i><span class="f">Geoteknik</span><i>✦</i><span>Transportasi</span><i>✦</i><span class="f">Keairan</span><i>✦</i><span>Manajemen Konstruksi</span><i>✦</i></div>
+  <div class="mq-track rev"><span class="f">Rancang</span><i>●</i><span>Hitung</span><i>●</i><span class="f">Bangun</span><i>●</i><span>Uji</span><i>●</i><span class="f">Lestarikan</span><i>●</i></div>
+</div>
 
 <section class="section">
   <div class="container about">
@@ -180,6 +199,37 @@
   </div>
 </section>
 
+<section class="quake" id="uji-gempa">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div><span class="label">Simulator Gempa</span><h2 class="h2">Seberapa kuat gedungmu menahan gempa?</h2>
+        <p class="lead">Indonesia berada di jalur gempa aktif, sehingga setiap gedung harus dirancang tahan gempa. Atur jumlah lantai dan kekuatan gempa, pilih teknologi perlindungan, lalu picu gempanya.</p></div>
+    </div>
+    <div class="qk reveal">
+      <div class="qk-stage">
+        <canvas id="qk-cv" role="img" aria-label="Simulasi gedung bertingkat yang diguncang gempa"></canvas>
+        <div class="qk-badge idle" id="qk-badge" role="status">Siap diuji</div>
+        <div class="qk-over" id="qk-over" hidden><b></b><p></p><button class="btn btn-primary btn-sm" id="qk-again" type="button">Bangun ulang</button></div>
+      </div>
+      <div class="qk-side">
+        <div class="bm-ctl"><label for="qk-n">Jumlah lantai <output id="qk-nv"></output></label><input id="qk-n" type="range" min="3" max="12" step="1" value="8"></div>
+        <div class="bm-ctl"><label for="qk-pga">Kekuatan gempa <output id="qk-pv"></output></label><input id="qk-pga" type="range" min="0.1" max="1.2" step="0.05" value="0.7"></div>
+        <div class="qk-tech" id="qk-tech" role="radiogroup" aria-label="Teknologi perlindungan">
+          <button type="button" role="radio" data-t="biasa" class="on" aria-checked="true"><b>Tanpa perlindungan</b><small>Rangka beton biasa</small></button>
+          <button type="button" role="radio" data-t="iso" aria-checked="false"><b>Isolator dasar</b><small>Bantalan karet di bawah gedung</small></button>
+          <button type="button" role="radio" data-t="tmd" aria-checked="false"><b>Peredam massa</b><small>Bandul penyeimbang di atap</small></button>
+        </div>
+        <button class="btn qk-go" id="qk-go" type="button">Picu gempa</button>
+        <dl class="bm-out qk-out">
+          <div><dt>Periode getar</dt><dd id="qk-T"></dd></div>
+          <div><dt>Simpangan atap</dt><dd id="qk-roof"></dd></div>
+          <div class="wide"><dt>Simpangan antarlantai maksimum</dt><dd id="qk-drift"></dd><small>Batas: retak 0,6% · rusak berat 1,4% · runtuh 2,2%</small></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="game">
   <div class="container game-teaser">
     <a class="shot reveal" href="jembatan.html" aria-label="Mainkan Uji Jembatan">
@@ -223,7 +273,12 @@
 <script src="assets/js/data.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/fx.js" defer></script>
+<script src="assets/js/flair.js" defer></script>
+<script src="assets/js/vendor/three.min.js" defer></script>
+<script src="assets/js/hero3d.js" defer></script>
 <script src="assets/js/wow.js" defer></script>
+<script src="assets/js/quake-engine.js" defer></script>
+<script src="assets/js/quake-game.js" defer></script>
 <script>
 window.pageInit = function () {
   const s = D.site;
