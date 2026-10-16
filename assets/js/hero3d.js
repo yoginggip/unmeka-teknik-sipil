@@ -46,8 +46,8 @@
     baja: new T.MeshStandardMaterial({ color: 0xc4cfe4, roughness: 0.45, metalness: 0.35 }),
     kuning: new T.MeshStandardMaterial({ color: 0xf5c219, roughness: 0.5, emissive: 0x000000 }),
     jalan: new T.MeshStandardMaterial({ color: 0x2b3650, roughness: 0.9 }),
-    tanah: new T.MeshStandardMaterial({ color: 0x15295c, roughness: 1 }),
-    air: new T.MeshStandardMaterial({ color: 0x0c2257, roughness: 0.55, metalness: 0.4, transparent: true, opacity: 0.92 }),
+    tanah: new T.MeshStandardMaterial({ color: 0x0f1f4a, roughness: 1 }),
+    air: new T.MeshStandardMaterial({ color: 0x0c2257, roughness: 0.9, metalness: 0.1, transparent: true, opacity: 0.92 }),
     putih: new T.MeshStandardMaterial({ color: 0xffffff, roughness: 0.6 }),
   };
   const solid = Object.values(M);
@@ -84,7 +84,7 @@
 
   /* daratan di kedua ujung */
   [-1, 1].forEach(s => {
-    box(90, 8.6, 70, M.tanah, s * 105, 4.3, 0, scene, true);
+    box(90, 8.6, 44, M.tanah, s * 105, 4.3, 0, scene, true);
     box(90, 0.1, 9, M.jalan, s * 105, 8.66, 0, scene, false);
   });
 
@@ -229,9 +229,11 @@
     W = cv.clientWidth; H = cv.clientHeight; if (!W || !H) return;
     renderer.setSize(W, H, false); camera.aspect = W / H;
     camera.fov = W / H < 1 ? 46 : 34;
-    /* geser jembatan ke kanan di layar lebar agar tidak menabrak teks hero */
-    if (W / H >= 1) camera.setViewOffset(W, H, -W * 0.1, 0, W, H); else camera.clearViewOffset();
     camera.updateProjectionMatrix();
+    /* jarak kamera menyesuaikan lebar kanvas agar seluruh bentang jembatan selalu terlihat */
+    const tv = Math.tan(camera.fov * Math.PI / 360), th = tv * camera.aspect;
+    goal.r = Math.max(88 / th, 34 / tv);
+    scene.fog.near = goal.r * 0.85; scene.fog.far = goal.r * 2.4;
   };
   addEventListener("resize", resize);
 
@@ -263,12 +265,13 @@
 
     /* kamera: intro menyapu, lalu berputar pelan bila tidak disentuh */
     const idle = now - idleAt > 3500;
-    if (!dragging) { goal.th += vth; vth *= 0.94; if (idle && t > 4) goal.th += dt * 0.07; }
+    /* bila dibiarkan, kamera kembali berayun pelan di sekitar sudut pandang terbaik */
+    if (!dragging) { goal.th += vth; vth *= 0.94; if (idle && t > 4) goal.th += (0.5 + 0.3 * Math.sin(t * 0.16) - goal.th) * 0.012; }
     const k = t < 4 ? 0.035 : 0.08;
     cam.th += (goal.th + (dragging ? 0 : mx * 0.25) - cam.th) * k;
     cam.ph += (goal.ph + (dragging ? 0 : my * 0.08) - cam.ph) * k;
     cam.r += (goal.r - cam.r) * k * 0.8;
-    const r = cam.r * (W / H < 1 ? 1.25 : 1);
+    const r = cam.r;
     camera.position.set(target.x + r * Math.cos(cam.ph) * Math.sin(cam.th), target.y + r * Math.sin(cam.ph), target.z + r * Math.cos(cam.ph) * Math.cos(cam.th));
     camera.lookAt(target);
     renderer.render(scene, camera);
