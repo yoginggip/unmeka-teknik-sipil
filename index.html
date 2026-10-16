@@ -54,6 +54,22 @@
   </div>
 </section>
 
+<section class="build" id="build" aria-label="Simulasi tahapan pembangunan gedung">
+  <div class="build-sticky"><div class="container build-in">
+    <div class="build-txt">
+      <span class="label">Gulir untuk membangun</span>
+      <h2 class="h2">Dari patok pertama hingga gedung berdiri</h2>
+      <p class="lead">Setiap tahap proyek dikerjakan oleh bidang ilmu yang dipelajari di Teknik Sipil.</p>
+      <div class="build-stage" id="build-stage" aria-live="polite"></div>
+      <ol class="build-steps" id="build-steps" aria-label="Tahapan pembangunan"></ol>
+    </div>
+    <div class="build-art">
+      <svg id="build-svg" viewBox="0 0 600 640" role="img" aria-label="Ilustrasi gedung yang terbangun bertahap mengikuti gulir halaman"></svg>
+      <div class="build-meter" aria-hidden="true"><span>Progres proyek</span><b id="build-pct">0%</b><i><em id="build-bar"></em></i></div>
+    </div>
+  </div></div>
+</section>
+
 <section class="band" id="pmb">
   <div class="bg" style="background-image:url(assets/img/slider-1.jpg)"></div>
   <div class="container">
@@ -136,6 +152,34 @@
   </div>
 </section>
 
+<section class="section soft" id="lab-balok">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div><span class="label">Lab Interaktif</span><h2 class="h2">Geser bebannya, lihat baloknya bekerja</h2>
+        <p class="lead">Balok baja sepanjang 10 meter di atas tumpuan sendi dan rol. Seret beban P di sepanjang balok, ubah besarnya, lalu lihat reaksi tumpuan, diagram momen, dan lendutannya berubah seketika.</p></div>
+    </div>
+    <div class="beam reveal">
+      <div class="beam-stage">
+        <svg id="beam-svg" viewBox="0 0 800 410" role="group" aria-label="Simulasi balok sederhana dengan beban terpusat dan beban merata"></svg>
+        <p class="beam-hint">Seret kotak <b>P</b> atau ketuk di mana saja pada balok. Bentuk lendutan digambar diperbesar agar terlihat.</p>
+      </div>
+      <div class="beam-side">
+        <div class="bm-ctl"><label for="bm-p">Beban terpusat P <output id="bm-pv"></output></label><input id="bm-p" type="range" min="10" max="200" step="5"></div>
+        <div class="bm-ctl"><label for="bm-q">Beban merata q <output id="bm-qv"></output></label><input id="bm-q" type="range" min="0" max="30" step="1"></div>
+        <div class="bm-ctl"><label for="bm-prof">Profil baja</label><select class="input" id="bm-prof"></select></div>
+        <dl class="bm-out">
+          <div><dt>Reaksi A</dt><dd id="o-ra"></dd></div>
+          <div><dt>Reaksi B</dt><dd id="o-rb"></dd></div>
+          <div><dt>Momen maksimum</dt><dd id="o-m"></dd></div>
+          <div><dt>Tegangan lentur</dt><dd id="o-s"></dd></div>
+          <div class="wide"><dt>Lendutan maksimum</dt><dd id="o-d"></dd><small id="o-dl"></small></div>
+        </dl>
+        <div class="bm-status" id="bm-status" role="status"><b></b><small></small><span><i></i></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="game">
   <div class="container game-teaser">
     <a class="shot reveal" href="jembatan.html" aria-label="Mainkan Uji Jembatan">
@@ -179,6 +223,7 @@
 <script src="assets/js/data.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/fx.js" defer></script>
+<script src="assets/js/wow.js" defer></script>
 <script>
 window.pageInit = function () {
   const s = D.site;
