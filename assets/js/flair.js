@@ -53,9 +53,9 @@
   /* ---------- label bagian muncul dengan efek dekode ---------- */
   function scramble() {
     if (reduce || !("IntersectionObserver" in window)) return;
-    const CH = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/<>+=";
+    const CH = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const run = el => {
-      const final = el.textContent, t0 = performance.now(), dur = 650 + final.length * 18;
+      const final = el.textContent, t0 = performance.now(), dur = 450 + final.length * 10;
       el.setAttribute("aria-label", final);
       const step = now => {
         const k = Math.min((now - t0) / dur, 1), n = Math.floor(final.length * k);

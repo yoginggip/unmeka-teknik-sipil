@@ -822,16 +822,21 @@ td .bt{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:
 /* Hero 3D (assets/js/hero3d.js) */
 .hero.has-3d{touch-action:pan-y;cursor:grab}
 .hero.has-3d.grabbing{cursor:grabbing}
-.hero.has-3d::before{background:linear-gradient(90deg,rgba(7,19,49,.96) 0%,rgba(7,19,49,.9) 45%,rgba(7,19,49,.85) 100%);transition:background .6s}
-.hero.m-night::before{background:rgba(3,8,24,.96)}
-.hero.m-blue::before{background:linear-gradient(90deg,rgba(10,38,102,.97),rgba(14,52,135,.94))}
+/* dengan 3D aktif, foto slideshow disembunyikan agar latar bersih: grid cetak biru + cahaya lembut */
+.hero.has-3d .hero-slides,.hero.has-3d .hero-nav{display:none}
+.hero.has-3d::before{background:radial-gradient(800px 520px at 72% 58%,rgba(46,98,214,.38),transparent 70%),linear-gradient(rgba(150,180,255,.05) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,rgba(150,180,255,.05) 1px,transparent 1px) 0 0/40px 40px,var(--navy-950);transition:background .6s}
+.hero.has-3d p{max-width:44ch}
+.hero.m-night::before{background:radial-gradient(800px 520px at 72% 58%,rgba(245,194,25,.08),transparent 70%),#030818}
+.hero.m-blue::before{background:linear-gradient(rgba(190,215,255,.1) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,rgba(190,215,255,.1) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(135deg,#0d2c74,#123a96)}
 .hero-3d{position:absolute;inset:0;pointer-events:none}
-.h3d-cv{position:absolute;top:0;right:0;width:64%;height:100%;z-index:1;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%);mask-image:linear-gradient(90deg,transparent,#000 22%)}
+/* kanvas dimulai tepat di kanan kolom teks hero, jadi jembatan tidak menabrak tulisan.
+   Lebarnya ditulis eksplisit karena <canvas> tidak melebar mengikuti left/right. */
+.h3d-cv{position:absolute;top:0;left:calc(max(20px,(100% - 1180px) / 2) + 500px);width:calc(100% - max(20px,(100% - 1180px) / 2) - 500px);height:100%;z-index:1;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%);mask-image:linear-gradient(90deg,transparent,#000 14%)}
 .h3d-ui{position:absolute;z-index:3;right:max(20px,calc((100% - 1180px) / 2));bottom:86px;display:flex;gap:2px;padding:4px;background:rgba(7,19,49,.65);border:1px solid rgba(255,255,255,.16);border-radius:999px;backdrop-filter:blur(8px);pointer-events:auto}
 .h3d-ui button{padding:7px 14px;border-radius:999px;font-size:.8rem;font-weight:600;color:#c3cbe0;white-space:nowrap;transition:background .2s,color .2s}
 .h3d-ui button:hover{color:#fff}
 .h3d-ui button.on{background:var(--yellow);color:var(--navy-950)}
-.h3d-hint{position:absolute;z-index:3;right:max(24px,calc((100% - 1180px) / 2 + 4px));bottom:134px;display:flex;align-items:center;gap:10px;font-size:.78rem;color:#c3cbe0;transition:opacity .5s;max-width:none}
+.h3d-hint{position:absolute;z-index:3;right:max(24px,calc((100% - 1180px) / 2 + 4px));bottom:134px;display:flex;align-items:center;gap:30px;font-size:.78rem;color:#c3cbe0;transition:opacity .5s;max-width:none}
 .hero-3d.used .h3d-hint{opacity:0}
 .h3d-hint .hand{width:10px;height:10px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 4px rgba(245,194,25,.25);animation:hand 1.6s ease-in-out infinite}
 @keyframes hand{50%{transform:translateX(16px)}}
@@ -846,7 +851,7 @@ td .bt{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:
 .h3d-card b{color:var(--navy-900);font-size:.95rem}.h3d-card p{margin-top:4px}
 @media(max-width:900px){
   .hero.has-3d .container{padding-bottom:350px}
-  .h3d-cv{top:auto;bottom:30px;width:100%;height:380px;-webkit-mask-image:linear-gradient(180deg,transparent,#000 22%);mask-image:linear-gradient(180deg,transparent,#000 22%)}
+  .h3d-cv{top:auto;bottom:30px;left:0;width:100%;height:380px;-webkit-mask-image:linear-gradient(180deg,transparent,#000 22%);mask-image:linear-gradient(180deg,transparent,#000 22%)}
   .h3d-ui{right:auto;left:50%;transform:translateX(-50%);bottom:72px}
   .h3d-hint{right:0;left:0;justify-content:center;bottom:116px}
   .hero.has-3d .hero-nav{display:none}
