@@ -213,7 +213,8 @@
   });
   addEventListener("pointermove", e => {
     const r = hero.getBoundingClientRect();
-    mx = (e.clientX - r.left) / r.width - .5; my = (e.clientY - r.top) / r.height - .5;
+    /* dibatasi agar kamera tidak miring berlebihan saat kursor di luar hero */
+    mx = clamp((e.clientX - r.left) / r.width - .5, -.5, .5); my = clamp((e.clientY - r.top) / r.height - .5, -.5, .5);
     if (!dragging) return;
     const dx = e.clientX - lastX, dy = e.clientY - lastY; lastX = e.clientX; lastY = e.clientY;
     vth = -dx * 0.006; goal.th += vth;
@@ -225,12 +226,31 @@
 
   /* ---------- Ukuran, putaran, dan siklus gambar ---------- */
   let W = 0, H = 0;
+  /* di layar lebar, kanvas dimulai tepat di kanan blok teks hero agar jembatan tidak menimpa teks;
+     di layar ≤1100px jembatan ditaruh di bawah teks (lihat .h3d-stack di CSS) */
+  const STACK = 1100;
+  const place = () => {
+    const stacked = innerWidth <= STACK;
+    hero.classList.toggle("h3d-stack", stacked);
+    if (stacked) { cv.style.left = cv.style.width = ""; return; }
+    const hr = hero.getBoundingClientRect(), box = hero.querySelector(".container");
+    /* ukur tepi kanan isi yang terlihat (teks & tombol), bukan kotak bloknya yang selebar container */
+    const edges = [];
+    box.querySelectorAll("h1, p").forEach(el => {
+      const rg = document.createRange(); rg.selectNodeContents(el);
+      for (const r of rg.getClientRects()) edges.push(r.right);
+    });
+    box.querySelectorAll(".hero-logo, .actions > *").forEach(el => edges.push(el.getBoundingClientRect().right));
+    const left = Math.round(Math.min(Math.max(Math.max(0, ...edges) - hr.left - 24, hr.width * 0.3), hr.width * 0.62));
+    cv.style.left = left + "px";
+    cv.style.width = Math.round(hr.width - left) + "px"; /* kanvas tidak melebar otomatis, jadi lebar dihitung */
+  };
   const resize = () => {
+    place();
     W = cv.clientWidth; H = cv.clientHeight; if (!W || !H) return;
     renderer.setSize(W, H, false); camera.aspect = W / H;
     camera.fov = W / H < 1 ? 46 : 34;
-    /* geser jembatan ke kanan di layar lebar agar tidak menabrak teks hero */
-    if (W / H >= 1) camera.setViewOffset(W, H, -W * 0.1, 0, W, H); else camera.clearViewOffset();
+    camera.clearViewOffset();
     camera.updateProjectionMatrix();
   };
   addEventListener("resize", resize);
@@ -291,4 +311,6 @@
   new IntersectionObserver(([e]) => e.isIntersecting ? start() : stop()).observe(hero);
   document.addEventListener("visibilitychange", () => document.hidden ? stop() : start());
   addEventListener("load", resize);
+  /* lebar teks berubah setelah font web selesai dimuat */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(resize);
 })();
