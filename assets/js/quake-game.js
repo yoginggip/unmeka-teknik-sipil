@@ -247,8 +247,14 @@
       aman: ["Gedung aman!", `Simpangan antarlantai maksimum ${num(worst, 2)}% masih di bawah batas retak. Coba naikkan kekuatan gempa.`],
       retak: ["Bertahan, tetapi retak", `Simpangan maksimum ${num(worst, 2)}%. Dinding retak ringan dan perlu perbaikan nonstruktural.`],
       "rusak berat": ["Rusak berat", `Simpangan maksimum ${num(worst, 2)}%. Gedung masih berdiri tetapi perlu perkuatan struktur. Coba isolator dasar.`],
-      runtuh: ["Gedung runtuh!", `Kolom lantai ${world.failed + 1} gagal. Coba pasang isolator dasar, peredam massa, atau kurangi jumlah lantai.`],
+      runtuh: ["Gedung runtuh!", `Kolom lantai ${world.failed + 1} gagal. ` + ({
+        biasa: "Coba pasang isolator dasar atau peredam massa, atau kurangi jumlah lantai.",
+        tmd: "Peredam massa saja belum cukup untuk gempa sebesar ini. Coba isolator dasar atau kurangi jumlah lantai.",
+        iso: "Coba kurangi jumlah lantai atau kekuatan gempa.",
+      })[tech]],
     }[s] || ["Selesai", ""];
+    /* saran isolator hanya relevan bila isolator belum dipasang */
+    if (s === "rusak berat" && tech === "iso") msg[1] = `Simpangan maksimum ${num(worst, 2)}%. Gedung masih berdiri tetapi perlu perkuatan struktur.`;
     ui.over.hidden = false; ui.over.className = "qk-over " + (STATUS[s] || STATUS.aman)[1];
     $("b", ui.over).textContent = msg[0]; $("p", ui.over).textContent = msg[1];
     ui.go.disabled = false; ui.go.textContent = "Ulangi gempa";

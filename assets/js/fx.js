@@ -65,6 +65,17 @@
       document.body.append(cta);
     }
 
+    /* sembunyikan tombol melayang saat bagian interaktif menempati tengah layar, agar tidak menutupi kontrolnya */
+    const tools = document.querySelectorAll("#build, #lab-balok, #uji-gempa, .bg-wrap, .wiz, #kurikulum");
+    if (tools.length && "IntersectionObserver" in window) {
+      const on = new Set();
+      const io = new IntersectionObserver(es => {
+        es.forEach(e => e.isIntersecting ? on.add(e.target) : on.delete(e.target));
+        document.body.classList.toggle("in-tool", on.size > 0);
+      }, { rootMargin: "-30% 0px -30% 0px" });
+      tools.forEach(t => io.observe(t));
+    }
+
     const px = [...document.querySelectorAll(".hero-slides, .band > .bg, .blueprint > .bg, .page-head .bg")];
     const lines = [...document.querySelectorAll(".timeline")];
     let ticking = false;
