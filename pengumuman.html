@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pengumuman | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Pengumuman akademik Program Studi Teknik Sipil UNMEKA: jadwal KRS, tugas akhir, kegiatan, dan pendaftaran.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teknik Sipil UNMEKA">
+<meta property="og:title" content="Pengumuman | Program Studi Teknik Sipil UNMEKA">
+<meta property="og:description" content="Pengumuman akademik Program Studi Teknik Sipil UNMEKA: jadwal KRS, tugas akhir, kegiatan, dan pendaftaran.">
+<meta property="og:url" content="https://yoginggip.github.io/unmeka-teknik-sipil/pengumuman.html">
+<meta property="og:image" content="https://yoginggip.github.io/unmeka-teknik-sipil/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="id_ID">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://yoginggip.github.io/unmeka-teknik-sipil/pengumuman.html">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261102n">
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head"><div class="bg" style="background-image:url(assets/img/web/article-03.jpg)"></div><div class="container">
+  <nav class="crumb" aria-label="Breadcrumb" id="crumb"><a href="index.html">Beranda</a><span aria-hidden="true">/</span><span>Pengumuman</span></nav>
+  <h1 id="title">Pengumuman</h1>
+  <p id="sub">Informasi akademik terbaru untuk mahasiswa dan calon mahasiswa.</p>
+</div></section>
+<section class="section"><div class="container" id="view"></div></section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=20261102n"></script>
+<script src="assets/js/app.js?v=20261102n"></script>
+<script src="assets/js/fx.js" defer></script>
+<script src="assets/js/flair.js?v=20261102n" defer></script>
+<script>
+window.pageInit = function () {
+  const all = getPengumuman();
+  const id = +new URLSearchParams(location.search).get("id");
+  const v = $("#view");
+  const note = all.some(p => p.contoh) ? `<p class="job-note">${ic("info")}<span>Pengumuman bertanda <b>Contoh</b> adalah data peraga. Pengumuman resmi diunggah oleh admin program studi melalui panel admin.</span></p>` : "";
+  if (id) {
+    const p = all.find(x => x.id === id);
+    if (!p) { v.innerHTML = `<p class="empty">Pengumuman tidak ditemukan. <a class="link" href="pengumuman.html">Kembali ke daftar pengumuman</a></p>`; return; }
+    document.title = `${p.judul} | Teknik Sipil UNMEKA`;
+    $("#crumb").innerHTML = `<a href="index.html">Beranda</a><span aria-hidden="true">/</span><a href="pengumuman.html">Pengumuman</a><span aria-hidden="true">/</span><span>${esc(p.kategori)}</span>`;
+    $("#title").textContent = p.judul;
+    $("#sub").innerHTML = `${esc(p.kategori)} &middot; ${fmtDate(p.tanggal)}`;
+    v.innerHTML = `${p.contoh ? note : ""}<article class="article">${p.isi.split("\n").filter(Boolean).map(x => `<p>${esc(x)}</p>`).join("")}
+      <div class="article-foot"><a class="link" href="pengumuman.html" id="back">${ic("arrow")} Semua pengumuman</a></div></article>`;
+    $("#back .icon").style.transform = "rotate(180deg)";
+    return;
+  }
+  const kats = ["Semua", ...new Set(all.map(p => p.kategori))];
+  let f = "Semua";
+  v.innerHTML = `${note}<div class="toolbar">
+      <div class="chips" id="k">${kats.map(k => `<button class="chip" data-k="${k}">${k}</button>`).join("")}</div>
+      <label class="search"><span class="sr-only">Cari pengumuman</span>${ic("search")}<input class="input" id="q" type="search" placeholder="Cari pengumuman"></label>
+    </div><div class="ann-list" id="g"></div><p class="empty" id="e" hidden>Tidak ada pengumuman yang sesuai.</p>`;
+  const render = () => {
+    const q = $("#q").value.trim().toLowerCase();
+    $$("#k .chip").forEach(c => c.classList.toggle("on", c.dataset.k === f));
+    const list = all.filter(p => (f === "Semua" || p.kategori === f) && p.judul.toLowerCase().includes(q));
+    $("#e").hidden = list.length > 0;
+    $("#g").innerHTML = list.map(annItem).join("");
+    $$("#g .reveal").forEach(el => el.classList.add("in"));
+  };
+  $("#k").addEventListener("click", e => { const c = e.target.closest(".chip"); if (c) { f = c.dataset.k; render(); } });
+  $("#q").addEventListener("input", render);
+  render();
+};
+</script>
+</body>
+</html>

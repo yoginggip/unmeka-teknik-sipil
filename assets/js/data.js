@@ -18,6 +18,7 @@ window.UNMEKA = {
     kalender: "https://unmeka.ac.id/page/kalender-akademik",
     perpustakaan: "https://unmeka.ac.id/page/perpustakaan",
     web: "https://unmeka.ac.id/",
+    wa: "", /* nomor WhatsApp PMB, format 62812xxxxxxx; kosong = tombol diarahkan ke halaman Kontak */
   },
 
   dosen: [
@@ -65,6 +66,50 @@ window.UNMEKA = {
   ],
 
   agenda: [],
+
+  /* contoh — pengumuman resmi diisi admin prodi lewat panel admin */
+  pengumuman: [
+    { id: 1, judul: "Jadwal pengisian KRS semester genap", kategori: "KRS", tanggal: "2026-11-02", penting: true, isi: "Pengisian Kartu Rencana Studi (KRS) semester genap dilakukan melalui sistem akademik sesuai jadwal pada kalender akademik.\nMahasiswa diharapkan berkonsultasi dengan dosen pembimbing akademik sebelum mengisi KRS.", contoh: true },
+    { id: 2, judul: "Batas pengumpulan proposal tugas akhir", kategori: "Tugas Akhir", tanggal: "2026-10-28", isi: "Mahasiswa yang akan mengambil tugas akhir mengumpulkan proposal kepada koordinator tugas akhir program studi.\nFormat proposal mengikuti pedoman tugas akhir yang tersedia di halaman Unduhan.", contoh: true },
+    { id: 3, judul: "Kuliah lapangan mata kuliah Ilmu Ukur Tanah", kategori: "Akademik", tanggal: "2026-10-20", isi: "Kuliah lapangan dilaksanakan di area kampus. Mahasiswa membawa perlengkapan pengukuran sesuai arahan dosen pengampu.", contoh: true },
+    { id: 4, judul: "Pembukaan pendaftaran mahasiswa baru 2026", kategori: "PMB", tanggal: "2026-10-10", isi: "Pendaftaran mahasiswa baru dibuka melalui enam jalur. Informasi lengkap tersedia di halaman Pendaftaran.", contoh: true },
+  ],
+
+  /* contoh — dokumen resmi menunggu dari prodi; isi "url" bila berkas sudah tersedia */
+  unduhan: [
+    { kat: "Akademik", judul: "Kalender Akademik", ket: "Jadwal registrasi, perkuliahan, ujian, dan libur akademik", url: "https://unmeka.ac.id/page/kalender-akademik", jenis: "Tautan" },
+    { kat: "Akademik", judul: "Buku Pedoman Akademik", ket: "Aturan akademik, sistem kredit, dan evaluasi studi", url: "", jenis: "PDF", contoh: true },
+    { kat: "Akademik", judul: "Struktur Kurikulum Teknik Sipil", ket: "Daftar mata kuliah per semester beserta SKS", url: "", jenis: "PDF", contoh: true },
+    { kat: "Tugas Akhir", judul: "Pedoman Penulisan Tugas Akhir", ket: "Format penulisan, sistematika, dan tata cara sidang", url: "", jenis: "PDF", contoh: true },
+    { kat: "Tugas Akhir", judul: "Formulir Pengajuan Judul Tugas Akhir", ket: "Diisi bersama calon dosen pembimbing", url: "", jenis: "DOCX", contoh: true },
+    { kat: "Formulir", judul: "Formulir Kerja Praktik", ket: "Pengajuan kerja praktik ke instansi atau perusahaan", url: "", jenis: "DOCX", contoh: true },
+    { kat: "Formulir", judul: "Formulir Cuti Akademik", ket: "Pengajuan cuti studi satu semester", url: "", jenis: "DOCX", contoh: true },
+    { kat: "Akreditasi", judul: "Sertifikat Akreditasi Program Studi", ket: "Status akreditasi Baik", url: "", jenis: "PDF", contoh: true },
+  ],
+
+  /* contoh — rumusan umum; menunggu dokumen kurikulum resmi prodi */
+  profilLulusan: [
+    { icon: "ruler", t: "Perencana dan perancang", d: "Merencanakan dan merancang struktur bangunan, jalan, jembatan, dan bangunan air." },
+    { icon: "hardhat", t: "Pelaksana konstruksi", d: "Memimpin pelaksanaan pekerjaan konstruksi di lapangan sesuai mutu, biaya, dan waktu." },
+    { icon: "eye", t: "Pengawas dan konsultan", d: "Mengawasi mutu pekerjaan dan memberi konsultasi teknis pada proyek konstruksi." },
+    { icon: "clipboard", t: "Manajer proyek", d: "Mengelola sumber daya, jadwal, biaya, dan keselamatan kerja proyek." },
+    { icon: "flask", t: "Peneliti dan akademisi", d: "Mengembangkan ilmu dan teknologi teknik sipil melalui penelitian dan pengajaran." },
+    { icon: "briefcase", t: "Wirausaha jasa konstruksi", d: "Membangun usaha di bidang jasa konstruksi, konsultan, atau material bangunan." },
+  ],
+  cpl: [
+    { a: "Sikap", items: ["Bertakwa kepada Tuhan Yang Maha Esa serta menjunjung nilai kemanusiaan dan etika profesi insinyur.", "Bertanggung jawab atas pekerjaan di bidang keahliannya secara mandiri."] },
+    { a: "Pengetahuan", items: ["Menguasai konsep matematika, fisika, dan mekanika sebagai dasar analisis rekayasa sipil.", "Menguasai prinsip perancangan struktur, geoteknik, transportasi, keairan, dan manajemen konstruksi."] },
+    { a: "Keterampilan umum", items: ["Mampu berpikir logis, kritis, dan sistematis dalam menyelesaikan masalah rekayasa.", "Mampu berkomunikasi dan bekerja sama dalam tim multidisiplin."] },
+    { a: "Keterampilan khusus", items: ["Mampu menganalisis dan merancang komponen infrastruktur sesuai standar yang berlaku.", "Mampu menggunakan perangkat lunak rekayasa serta merencanakan biaya dan jadwal proyek."] },
+  ],
+
+  /* contoh — lowongan resmi diisi admin prodi lewat panel admin */
+  lowongan: [
+    { id: 1, posisi: "Drafter Struktur", instansi: "Konsultan perencana struktur", jenis: "Kerja", lokasi: "Yogyakarta", batas: "2026-12-15", tanggal: "2026-11-02", ringkas: "Menyusun gambar kerja struktur beton bertulang dan baja menggunakan AutoCAD dan Revit.", syarat: "Lulusan S1 Teknik Sipil\nMenguasai AutoCAD; Revit menjadi nilai tambah\nMampu membaca gambar struktur", tautan: "", contoh: true },
+    { id: 2, posisi: "Magang Pelaksana Lapangan", instansi: "Kontraktor bangunan gedung", jenis: "Magang", lokasi: "Sleman", batas: "2026-11-30", tanggal: "2026-10-28", ringkas: "Membantu pengawasan pekerjaan struktur di proyek gedung bertingkat selama tiga bulan.", syarat: "Mahasiswa Teknik Sipil minimal semester 5\nBersedia bekerja di lapangan\nMemahami dasar K3 konstruksi", tautan: "", contoh: true },
+    { id: 3, posisi: "Estimator Biaya (Quantity Surveyor)", instansi: "Perusahaan jasa konstruksi", jenis: "Kerja", lokasi: "Yogyakarta", batas: "2027-01-10", tanggal: "2026-10-20", ringkas: "Menghitung volume pekerjaan, menyusun RAB, dan memantau biaya proyek.", syarat: "Lulusan S1 Teknik Sipil\nMenguasai Microsoft Excel dan analisa harga satuan\nTeliti dan mampu bekerja dalam tim", tautan: "", contoh: true },
+    { id: 4, posisi: "Magang Surveyor Pemetaan", instansi: "Konsultan survei dan pemetaan", jenis: "Magang", lokasi: "Bantul", batas: "2026-12-20", tanggal: "2026-10-15", ringkas: "Membantu pengukuran topografi menggunakan total station dan pengolahan data pengukuran.", syarat: "Mahasiswa Teknik Sipil minimal semester 4\nTelah lulus mata kuliah Ilmu Ukur Tanah", tautan: "", contoh: true },
+  ],
 
   /* foto kampus dari unmeka.ac.id */
   galeri: [

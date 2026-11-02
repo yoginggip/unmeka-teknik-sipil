@@ -5,11 +5,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Akademik | Program Studi Teknik Sipil UNMEKA</title>
 <meta name="description" content="Bidang kajian, kurikulum, dan informasi akademik Program Studi Teknik Sipil UNMEKA.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teknik Sipil UNMEKA">
+<meta property="og:title" content="Akademik | Program Studi Teknik Sipil UNMEKA">
+<meta property="og:description" content="Bidang kajian, kurikulum, dan informasi akademik Program Studi Teknik Sipil UNMEKA.">
+<meta property="og:url" content="https://yoginggip.github.io/unmeka-teknik-sipil/akademik.html">
+<meta property="og:image" content="https://yoginggip.github.io/unmeka-teknik-sipil/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="id_ID">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://yoginggip.github.io/unmeka-teknik-sipil/akademik.html">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=20261102n">
 </head>
 <body>
 <div id="site-header"></div>
@@ -27,7 +38,17 @@
   </div>
 </section>
 
-<section class="section soft" id="kurikulum">
+<section class="section soft" id="lulusan">
+  <div class="container">
+    <div class="sec-head reveal"><div><span class="label">Profil Lulusan</span><h2 class="h2">Peran lulusan di dunia kerja</h2><p class="lead">Lulusan Sarjana Teknik Sipil disiapkan untuk berkarier pada peran berikut.</p></div></div>
+    <div class="grid g3" id="pl-list"></div>
+    <div class="sec-head reveal" style="margin-top:64px"><div><span class="label">Capaian Pembelajaran Lulusan</span><h2 class="h2">Kemampuan yang dicapai lulusan</h2><p class="lead">Capaian pembelajaran lulusan (CPL) dikelompokkan dalam empat aspek sesuai Standar Nasional Pendidikan Tinggi.</p></div></div>
+    <p class="job-note" id="cpl-note"></p>
+    <div class="cpl" id="cpl"></div>
+  </div>
+</section>
+
+<section class="section" id="kurikulum">
   <div class="container">
     <div class="sec-head reveal"><div><span class="label">Kurikulum</span><h2 class="h2">Jelajahi sebaran mata kuliah</h2><p class="lead">Pilih bidang untuk menyorot mata kuliahnya di seluruh semester, lalu klik grafik atau daftar semester untuk melihat rinciannya.</p></div></div>
     <div class="kx-bar reveal" id="kx"><span>Sorot bidang:</span></div>
@@ -53,12 +74,16 @@
 </section>
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
+<script src="assets/js/data.js?v=20261102n"></script>
+<script src="assets/js/app.js?v=20261102n"></script>
 <script src="assets/js/fx.js" defer></script>
-<script src="assets/js/flair.js" defer></script>
+<script src="assets/js/flair.js?v=20261102n" defer></script>
 <script>
 window.pageInit = function () {
+  $("#pl-list").innerHTML = D.profilLulusan.map(p => `<div class="card reveal"><div class="ci">${ic(p.icon)}</div><h3>${p.t}</h3><p>${p.d}</p></div>`).join("");
+  $("#cpl-note").innerHTML = `${ic("info")}<span>Profil lulusan dan rumusan CPL berikut merupakan contoh rumusan umum. Rumusan resmi mengikuti dokumen kurikulum program studi.</span>`;
+  let n = 0;
+  $("#cpl").innerHTML = D.cpl.map(g => `<div class="card reveal"><h3>${ic("check")}${g.a}</h3><ol>${g.items.map(t => `<li><code>CPL-${String(++n).padStart(2, "0")}</code><span>${t}</span></li>`).join("")}</ol></div>`).join("");
   $("#bidang-list").innerHTML = D.bidang.map(b => `<div class="card reveal"><div class="ci">${ic(b.icon)}</div><h3>${b.nama}</h3><p>${b.desk}</p><p style="margin-top:14px;font-size:.84rem"><b style="color:var(--ink)">Mata kuliah terkait:</b> ${b.mk.join(", ")}</p></div>`).join("");
 
   /* ---- penjelajah kurikulum ---- */
@@ -96,7 +121,7 @@ window.pageInit = function () {
   render();
 
   const s = D.site;
-  $("#layanan-list").innerHTML = [["calendar", "Kalender Akademik", "Jadwal registrasi, perkuliahan, ujian, dan libur akademik.", s.kalender], ["book", "Perpustakaan", "Koleksi elektronik bagi staf dosen melalui kerja sama dengan Universitas Gunadarma.", s.perpustakaan], ["file", "E-Journal UNMEKA", "Publikasi ilmiah dosen dan mahasiswa Universitas Nusa Megarkencana.", s.ejournal]]
+  $("#layanan-list").innerHTML = [["download", "Unduhan Dokumen", "Pedoman akademik, pedoman tugas akhir, formulir, dan dokumen akreditasi.", "unduhan.html"], ["calendar", "Kalender Akademik", "Jadwal registrasi, perkuliahan, ujian, dan libur akademik.", s.kalender], ["book", "Perpustakaan", "Koleksi elektronik bagi staf dosen melalui kerja sama dengan Universitas Gunadarma.", s.perpustakaan], ["file", "E-Journal UNMEKA", "Publikasi ilmiah dosen dan mahasiswa Universitas Nusa Megarkencana.", s.ejournal]]
     .map(l => `<a class="card reveal" href="${l[3]}" target="_blank" rel="noopener"><div class="ci">${ic(l[0])}</div><h3>${l[1]}</h3><p>${l[2]}</p><span class="link" style="margin-top:14px">Buka ${ic("external")}</span></a>`).join("");
 };
 </script>

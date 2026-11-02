@@ -3,6 +3,8 @@
 const SEED = {
   admin_berita: () => D.berita.map(b => ({ ...b })),
   admin_dosen: () => D.dosen.map(d => ({ ...d })),
+  admin_lowongan: () => D.lowongan.map(l => ({ ...l })),
+  admin_pengumuman: () => D.pengumuman.map(p => ({ ...p })),
   admin_pesan: () => [],
 };
 const db = {
@@ -12,7 +14,7 @@ const db = {
 const authed = () => { try { return sessionStorage.getItem("unmeka_admin") === "1"; } catch { return false; } };
 function toast(m) { const t = document.createElement("div"); t.className = "toast"; t.setAttribute("role", "status"); t.textContent = m; document.body.append(t); setTimeout(() => t.remove(), 2600); }
 
-const NAV = [["dashboard.html", "grid", "Dasbor"], ["berita.html", "news", "Berita"], ["dosen.html", "users", "Dosen"], ["pesan.html", "inbox", "Pesan Masuk"]];
+const NAV = [["dashboard.html", "grid", "Dasbor"], ["pengumuman.html", "bell", "Pengumuman"], ["berita.html", "news", "Berita"], ["lowongan.html", "briefcase", "Lowongan"], ["dosen.html", "users", "Dosen"], ["pesan.html", "inbox", "Pesan Masuk"]];
 function shell(title, body) {
   if (!authed()) { location.replace("index.html"); return false; }
   const cur = location.pathname.split("/").pop();

@@ -256,7 +256,7 @@
   addEventListener("resize", resize);
 
   /* tunda intro sampai layar pembuka selesai */
-  const t0 = performance.now() + (document.getElementById("preload") ? 1500 : 0), v = new T.Vector3();
+  const t0 = performance.now() + (document.getElementById("preload") ? 800 : 0), v = new T.Vector3();
   let running = false, raf = 0, prev = t0;
   const frame = now => {
     const dt = Math.min((now - prev) / 1000, 0.05), t = reduce ? 99 : Math.max((now - t0) / 1000, 0); prev = now;

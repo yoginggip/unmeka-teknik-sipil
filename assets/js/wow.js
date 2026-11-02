@@ -1,5 +1,5 @@
-/* Interaksi unggulan beranda: hero bergaya layar CAD (cadangan bila WebGL tidak tersedia),
-   simulasi pembangunan gedung yang digerakkan scroll, dan lab balok interaktif. Dimuat setelah app.js. */
+/* Interaksi halaman Mini Game: simulasi pembangunan gedung yang digerakkan scroll
+   dan lab balok interaktif. Dimuat setelah app.js. */
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -12,93 +12,6 @@
     return n;
   };
   const num = (v, d = 1) => v.toLocaleString("id-ID", { minimumFractionDigits: d, maximumFractionDigits: d });
-
-  /* ---------- 1. Hero: grid cetak biru, kursor CAD, dan rangka yang tersambung ---------- */
-  function heroFx() {
-    const hero = document.getElementById("hero"); if (!hero || hero.classList.contains("has-3d")) return;
-    const cv = document.createElement("canvas"); cv.className = "hero-fx"; cv.setAttribute("aria-hidden", "true");
-    hero.querySelector(".hero-slides").after(cv);
-    const ctx = cv.getContext("2d");
-    const GRID = 40, R = 190, LINK = 130;
-    let W = 0, H = 0, nodes = [], mouse = null, running = false, raf = 0;
-    const cur = { x: 0, y: 0 };
-
-    const resize = () => {
-      const dpr = Math.min(devicePixelRatio || 1, 2);
-      W = hero.clientWidth; H = hero.clientHeight;
-      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      nodes = Array.from({ length: Math.round(W * H / 14000) }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3 }));
-      cur.x = W * .7; cur.y = H * .45;
-    };
-
-    const draw = now => {
-      const t = now / 1000;
-      const tgt = mouse || { x: W * (.7 + .18 * Math.sin(t * .45)), y: H * (.45 + .22 * Math.sin(t * .7 + 1)) };
-      cur.x += (tgt.x - cur.x) * .14; cur.y += (tgt.y - cur.y) * .14;
-      ctx.clearRect(0, 0, W, H);
-
-      /* grid: garis tipis, lebih terang di sekitar kursor */
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = "rgba(170,195,255,.06)"; ctx.beginPath();
-      for (let x = 0; x < W; x += GRID) { ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, H); }
-      for (let y = 0; y < H; y += GRID) { ctx.moveTo(0, y + .5); ctx.lineTo(W, y + .5); }
-      ctx.stroke();
-      const g = ctx.createRadialGradient(cur.x, cur.y, 0, cur.x, cur.y, R * 1.3);
-      g.addColorStop(0, "rgba(245,194,25,.13)"); g.addColorStop(1, "rgba(245,194,25,0)");
-      ctx.fillStyle = g; ctx.fillRect(cur.x - R * 1.3, cur.y - R * 1.3, R * 2.6, R * 2.6);
-
-      /* titik buhul bergerak pelan; yang dekat kursor saling tersambung seperti rangka batang */
-      const near = [];
-      for (const n of nodes) {
-        if (!reduce) { n.x += n.vx; n.y += n.vy; if (n.x < 0 || n.x > W) n.vx *= -1; if (n.y < 0 || n.y > H) n.vy *= -1; }
-        const d = Math.hypot(n.x - cur.x, n.y - cur.y);
-        if (d < R) near.push([n, d]);
-        ctx.fillStyle = d < R ? `rgba(245,194,25,${.35 + .6 * (1 - d / R)})` : "rgba(255,255,255,.18)";
-        ctx.beginPath(); ctx.arc(n.x, n.y, d < R ? 2.6 : 1.5, 0, 7); ctx.fill();
-      }
-      for (let i = 0; i < near.length; i++) for (let j = i + 1; j < near.length; j++) {
-        const [a, da] = near[i], [b, db] = near[j], d = Math.hypot(a.x - b.x, a.y - b.y);
-        if (d > LINK) continue;
-        ctx.strokeStyle = `rgba(245,194,25,${(1 - d / LINK) * (1 - Math.max(da, db) / R) * .8})`;
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-      }
-      near.sort((a, b) => a[1] - b[1]).slice(0, 3).forEach(([n, d]) => {
-        ctx.strokeStyle = `rgba(255,255,255,${.5 * (1 - d / R)})`;
-        ctx.beginPath(); ctx.moveTo(cur.x, cur.y); ctx.lineTo(n.x, n.y); ctx.stroke();
-      });
-
-      /* crosshair dan koordinat ala perangkat lunak CAD */
-      const gap = 12;
-      ctx.strokeStyle = "rgba(245,194,25,.28)"; ctx.beginPath();
-      ctx.moveTo(0, cur.y); ctx.lineTo(cur.x - gap, cur.y); ctx.moveTo(cur.x + gap, cur.y); ctx.lineTo(W, cur.y);
-      ctx.moveTo(cur.x, 0); ctx.lineTo(cur.x, cur.y - gap); ctx.moveTo(cur.x, cur.y + gap); ctx.lineTo(cur.x, H);
-      ctx.stroke();
-      ctx.strokeStyle = "rgba(245,194,25,.9)"; ctx.strokeRect(cur.x - 5, cur.y - 5, 10, 10);
-      if (W < 700) { if (running) raf = requestAnimationFrame(draw); return; }
-      ctx.font = "600 11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace";
-      const label = `X ${num(cur.x / GRID, 2)}  Y ${num((H - cur.y) / GRID, 2)} m`;
-      const tw = ctx.measureText(label).width;
-      const lx = Math.min(cur.x + 14, W - tw - 18), ly = Math.min(cur.y + 30, H - 12);
-      ctx.fillStyle = "rgba(7,19,49,.7)"; ctx.fillRect(lx - 6, ly - 14, tw + 12, 20);
-      ctx.fillStyle = "#f5c219"; ctx.fillText(label, lx, ly);
-
-      if (running) raf = requestAnimationFrame(draw);
-    };
-    const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(draw); } };
-    const stop = () => { running = false; cancelAnimationFrame(raf); };
-
-    hero.addEventListener("pointermove", e => {
-      if (e.pointerType !== "mouse") return;
-      const r = hero.getBoundingClientRect(); mouse = { x: e.clientX - r.left, y: e.clientY - r.top };
-      if (reduce) draw(performance.now());
-    });
-    hero.addEventListener("pointerleave", () => { mouse = null; });
-    addEventListener("resize", () => { resize(); if (reduce) draw(0); });
-    resize();
-    if (reduce) { draw(0); return; }
-    new IntersectionObserver(([e]) => e.isIntersecting ? start() : stop()).observe(hero);
-    document.addEventListener("visibilitychange", () => document.hidden ? stop() : start());
-  }
 
   /* ---------- 2. Gulir untuk membangun: tahapan proyek gedung ---------- */
   const STAGES = [
@@ -382,5 +295,5 @@
     }
   }
 
-  document.addEventListener("DOMContentLoaded", () => { heroFx(); buildFx(); beamLab(); });
+  document.addEventListener("DOMContentLoaded", () => { buildFx(); beamLab(); });
 })();

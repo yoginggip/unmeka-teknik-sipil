@@ -19,9 +19,17 @@ const DATA_V = 6;
 if (store.get("data_v", 0) < DATA_V) { ["admin_berita", "admin_dosen", "admin_pesan"].forEach(k => { try { localStorage.removeItem(k); } catch {} }); store.set("data_v", DATA_V); }
 const getBerita = () => (store.get("admin_berita", null) || D.berita).slice().sort((a, b) => b.tanggal.localeCompare(a.tanggal));
 const getDosen = () => store.get("admin_dosen", null) || D.dosen;
+/* lowongan yang masih berlaku (batas lamaran belum lewat), terbaru di atas */
+const today = () => new Date().toISOString().slice(0, 10);
+const getPengumuman = () => (store.get("admin_pengumuman", null) || D.pengumuman).slice().sort((a, b) => b.tanggal.localeCompare(a.tanggal));
+const getLowongan = (all = false) => (store.get("admin_lowongan", null) || D.lowongan).filter(l => all || !l.batas || l.batas >= today()).sort((a, b) => (b.tanggal || "").localeCompare(a.tanggal || ""));
 
 /* ---------- Ikon (garis, 24px) ---------- */
 const P = {
+  bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
+  chat: '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"/>',
+  hardhat: '<path d="M2 18h20v2H2zM4 18v-3a8 8 0 0 1 16 0v3"/><path d="M10 7V4h4v3"/>',
+  eye: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>', chevron: '<path d="m6 9 6 6 6-6"/>', up: '<path d="m18 15-6-6-6 6"/>',
   search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>', menu: '<path d="M4 6h16M4 12h16M4 18h16"/>', x: '<path d="M18 6 6 18M6 6l12 12"/>',
   phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
@@ -60,9 +68,23 @@ const P = {
 const ic = (n, cls = "") => `<svg class="icon ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n] || ""}</svg>`;
 const avatar = (nama, size = 84) => `<span class="avatar" style="width:${size}px;height:${size}px;font-size:${size / 3.2}px">${esc(initials(nama))}</span>`;
 
+/* menu utama: tautan tunggal atau grup dropdown */
+const MENU = [
+  ["index.html", "Beranda"],
+  { t: "Profil", items: [["profil.html", "Profil Program Studi"], ["dosen.html", "Dosen"], ["fasilitas.html", "Fasilitas"], ["penelitian.html", "Penelitian"]] },
+  { t: "Akademik", items: [["akademik.html", "Kurikulum dan Lulusan"], ["unduhan.html", "Unduhan Dokumen"]] },
+  { t: "Informasi", items: [["pengumuman.html", "Pengumuman"], ["berita.html", "Berita"], ["karier.html", "Karier dan Lowongan"]] },
+  ["kontak.html", "Kontak"],
+];
+function navHTML(cur) {
+  const on = h => cur === h || (h === "minigame.html" && cur === "jembatan.html");
+  const link = ([h, t]) => `<a href="${h}"${on(h) ? ' class="active" aria-current="page"' : ""}>${t}</a>`;
+  return MENU.map((m, i) => Array.isArray(m) ? link(m)
+    : `<div class="dd"><button class="dd-t${m.items.some(([h]) => on(h)) ? " active" : ""}" aria-expanded="false" aria-controls="dd-${i}">${m.t}${ic("chevron")}</button><div class="dd-m" id="dd-${i}">${m.items.map(link).join("")}</div></div>`).join("");
+}
 const PAGES = [
   ["index.html", "Beranda"], ["profil.html", "Profil"], ["akademik.html", "Akademik"], ["dosen.html", "Dosen"],
-  ["fasilitas.html", "Fasilitas"], ["penelitian.html", "Penelitian"], ["berita.html", "Berita"], ["kontak.html", "Kontak"],
+  ["fasilitas.html", "Fasilitas"], ["pengumuman.html", "Pengumuman"], ["berita.html", "Berita"], ["karier.html", "Karier"], ["kontak.html", "Kontak"],
 ];
 
 function mountLayout() {
@@ -81,7 +103,7 @@ function mountLayout() {
       <span class="pt">Program Studi<br>Teknik Sipil<small>Sarjana (S1)</small></span></a>
     <nav class="nav" id="nav" aria-label="Menu utama">
       <button class="icon-btn nav-close" id="btn-close" aria-label="Tutup menu">${ic("x")}</button>
-      ${PAGES.map(([h, t]) => `<a href="${h}"${cur === h ? ' class="active" aria-current="page"' : ""}>${t}</a>`).join("")}
+      ${navHTML(cur)}
       <a class="btn btn-primary" href="pmb.html">Pendaftaran</a>
     </nav>
     <div class="h-actions">
@@ -98,12 +120,13 @@ function mountLayout() {
       <div><a class="brand" href="index.html"><img src="${IMG("logo-white-659.png")}" alt="Universitas Nusa Megarkencana" width="165" height="50"></a><p style="margin-top:14px;color:var(--yellow);font-weight:600;font-size:.86rem;letter-spacing:.04em">${s.tagline}</p>
         <p style="margin-top:18px">Program Studi Sarjana Teknik Sipil, ${s.fakultas}, ${s.univ}.</p></div>
       <div><h4>Program Studi</h4><ul>${PAGES.slice(1, 5).map(([h, t]) => `<li><a href="${h}">${t}</a></li>`).join("")}<li><a href="penelitian.html">Penelitian</a></li></ul></div>
-      <div><h4>Informasi</h4><ul><li><a href="pmb.html">Pendaftaran</a></li><li><a href="berita.html">Berita</a></li><li><a href="jembatan.html">Mini Game Uji Jembatan</a></li><li><a href="${s.kalender}" target="_blank" rel="noopener">Kalender Akademik</a></li><li><a href="${s.ejournal}" target="_blank" rel="noopener">E-Journal</a></li><li><a href="${s.web}" target="_blank" rel="noopener">unmeka.ac.id</a></li></ul></div>
+      <div><h4>Informasi</h4><ul><li><a href="pmb.html">Pendaftaran</a></li><li><a href="berita.html">Berita</a></li><li><a href="pengumuman.html">Pengumuman</a></li><li><a href="unduhan.html">Unduhan Dokumen</a></li><li><a href="karier.html">Karier &amp; Lowongan</a></li><li><a href="minigame.html">Mini Game</a></li><li><a href="${s.kalender}" target="_blank" rel="noopener">Kalender Akademik</a></li><li><a href="${s.ejournal}" target="_blank" rel="noopener">E-Journal</a></li><li><a href="${s.web}" target="_blank" rel="noopener">unmeka.ac.id</a></li></ul></div>
       <div><h4>Kontak</h4><ul class="f-contact"><li>${ic("pin")}<span>${s.alamat}</span></li><li>${ic("phone")}<a href="tel:+62274518987">${s.telp}</a></li><li>${ic("mail")}<a href="mailto:${s.email}">${s.email}</a></li></ul></div>
     </div>
     <div class="f-bottom"><span>© ${new Date().getFullYear()} Program Studi Teknik Sipil, ${s.univ}</span><a href="${BASE}admin/index.html">Admin</a></div>
   </div></footer>
   <button class="to-top" id="to-top" aria-label="Kembali ke atas">${ic("up")}</button>
+  ${location.pathname.includes("/admin/") ? "" : `<a class="ask-fab" href="${s.wa ? `https://wa.me/${s.wa}?text=${encodeURIComponent("Halo, saya ingin bertanya tentang pendaftaran Program Studi Teknik Sipil UNMEKA.")}` : BASE + "kontak.html"}"${s.wa ? ' target="_blank" rel="noopener"' : ""} aria-label="Tanya seputar pendaftaran">${ic("chat")}<span>Tanya PMB</span></a>`}
   <div class="modal sd" id="sd" role="dialog" aria-modal="true" aria-label="Pencarian"><div class="modal-box">
     <div class="sd-in">${ic("search")}<input id="sd-in" placeholder="Cari halaman, dosen, atau berita" autocomplete="off"><kbd>Esc</kbd></div>
     <div class="sd-list" id="sd-list"></div><div class="sd-foot"><kbd>↑</kbd> <kbd>↓</kbd> untuk memilih, <kbd>Enter</kbd> untuk membuka</div></div></div>`;
@@ -130,6 +153,9 @@ function initSearch() {
     { t: "Uji Jembatan (mini game)", s: "Halaman", h: "jembatan.html", i: "bridge" },
     ...getDosen().map(d => ({ t: d.nama, s: "Dosen", h: "dosen.html?id=" + d.id, i: "user" })),
     ...getBerita().map(b => ({ t: b.judul, s: "Berita", h: "berita.html?id=" + b.id, i: "news" })),
+    ...getPengumuman().map(p => ({ t: p.judul, s: "Pengumuman", h: "pengumuman.html?id=" + p.id, i: "bell" })),
+    { t: "Unduhan dokumen", s: "Pedoman, formulir, akreditasi", h: "unduhan.html", i: "file" },
+    ...getLowongan().map(l => ({ t: l.posisi, s: "Karier · " + l.jenis, h: "karier.html?id=" + l.id, i: "briefcase" })),
     ...D.bidang.map(b => ({ t: "Bidang " + b.nama, s: "Akademik", h: "akademik.html#bidang", i: b.icon })),
   ];
   let sel = 0, cur = [];
@@ -161,6 +187,10 @@ function initChrome() {
   const onScroll = () => { hdr?.classList.toggle("scrolled", scrollY > 10); top?.classList.toggle("show", scrollY > 700); };
   addEventListener("scroll", onScroll, { passive: true }); onScroll();
   top?.addEventListener("click", () => scrollTo({ top: 0 }));
+  const closeDD = except => $$(".dd.open").forEach(d => { if (d !== except) { d.classList.remove("open"); $(".dd-t", d).setAttribute("aria-expanded", "false"); } });
+  $$(".dd-t").forEach(b => b.addEventListener("click", e => { e.stopPropagation(); const d = b.parentElement, o = !d.classList.contains("open"); closeDD(d); d.classList.toggle("open", o); b.setAttribute("aria-expanded", o); }));
+  document.addEventListener("click", e => { if (!e.target.closest(".dd")) closeDD(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeDD(); });
   $("#btn-menu")?.addEventListener("click", () => { const o = $("#nav").classList.toggle("open"); $("#scrim").classList.toggle("show", o); $("#btn-menu").setAttribute("aria-expanded", o); });
   $("#scrim")?.addEventListener("click", closeMenu);
   $("#btn-close")?.addEventListener("click", closeMenu);
@@ -203,6 +233,15 @@ function lightbox(items, i) {
   };
   show(); addEventListener("keydown", key);
 }
+const jobCard = l => `<a class="card job-card reveal" href="karier.html?id=${l.id}"><div class="jc-top"><span class="ci">${ic("briefcase")}</span><span class="tag${l.jenis === "Magang" ? " tag-y" : ""}">${esc(l.jenis)}</span></div><h3>${esc(l.posisi)}</h3><div class="jc-org">${esc(l.instansi)}</div><p>${esc(l.ringkas)}</p><div class="jc-meta"><span>${ic("pin")}${esc(l.lokasi)}</span><span>${ic("clock")}Hingga ${fmtDate(l.batas)}</span></div></a>`;
+const MINIGAMES = [
+  { h: "jembatan.html", i: "bridge", t: "Uji Jembatan", d: "Rancang jembatan rangka batang dengan anggaran terbatas, lalu uji kekuatannya dengan truk.", tag: "Tiga level" },
+  { h: "minigame.html#lab-balok", i: "layers", t: "Lab Balok", d: "Geser beban pada balok dan lihat reaksi tumpuan, gaya lintang, serta momen secara langsung.", tag: "Statika" },
+  { h: "minigame.html#uji-gempa", i: "building", t: "Simulator Gempa", d: "Guncang gedung dengan berbagai kekuatan gempa dan bandingkan teknologi peredam getaran.", tag: "Dinamika struktur" },
+  { h: "minigame.html#build", i: "hardhat", t: "Tahapan Proyek", d: "Gulir untuk membangun gedung dari patok pertama hingga serah terima, lengkap dengan bidang ilmu di tiap tahap.", tag: "Manajemen konstruksi" },
+];
+const mgCard = g => `<a class="card mg-card reveal" href="${g.h}"><span class="ci">${ic(g.i)}</span><span class="tag">${g.tag}</span><h3>${g.t}</h3><p>${g.d}</p><span class="link">Mainkan ${ic("arrow")}</span></a>`;
+const annItem = p => { const d = new Date(p.tanggal + "T00:00:00"); return `<a class="ann reveal${p.penting ? " hot" : ""}" href="pengumuman.html?id=${p.id}"><time datetime="${p.tanggal}"><b>${d.getDate()}</b>${BULAN[d.getMonth()].slice(0, 3)} ${d.getFullYear()}</time><span class="ann-b"><span class="ann-k">${esc(p.kategori)}${p.penting ? "<em>Penting</em>" : ""}</span><b>${esc(p.judul)}</b></span>${ic("arrow")}</a>`; };
 const newsCard = b => `<a class="card news-card reveal" href="berita.html?id=${b.id}"><div class="thumb">${thumb(b)}</div><div class="body"><div class="meta"><span class="tag">${esc(b.kategori)}</span><span>${fmtDate(b.tanggal)}</span></div><h3>${esc(b.judul)}</h3><p>${esc(b.ringkas)}</p></div></a>`;
 
 document.addEventListener("DOMContentLoaded", () => {
