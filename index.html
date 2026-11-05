@@ -5,29 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Program Studi Teknik Sipil | Universitas Nusa Megarkencana</title>
 <meta name="description" content="Program Studi Sarjana Teknik Sipil, Fakultas Teknik dan Informatika, Universitas Nusa Megarkencana (UNMEKA) Yogyakarta.">
-<meta property="og:title" content="Program Studi Teknik Sipil UNMEKA">
+<meta name="theme-color" content="#0b1c47">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="id_ID">
+<meta property="og:site_name" content="Program Studi Teknik Sipil UNMEKA">
+<meta property="og:title" content="Program Studi Teknik Sipil | Universitas Nusa Megarkencana">
+<meta property="og:description" content="Program Studi Sarjana Teknik Sipil, Fakultas Teknik dan Informatika, Universitas Nusa Megarkencana (UNMEKA) Yogyakarta.">
 <meta property="og:image" content="assets/img/web/og-unmeka.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=8">
 </head>
 <body>
-<div class="preload" id="preload" aria-hidden="true">
-  <svg viewBox="0 0 420 150"><path pathLength="1" style="animation-delay:0.00s" d="M10 118H410"/><path pathLength="1" style="animation-delay:0.07s" d="M60 132V22"/><path pathLength="1" style="animation-delay:0.14s" d="M360 132V22"/><path pathLength="1" style="animation-delay:0.21s" d="M60 30L18 118"/><path pathLength="1" style="animation-delay:0.28s" d="M60 30L102 118"/><path pathLength="1" style="animation-delay:0.35s" d="M60 30L144 118"/><path pathLength="1" style="animation-delay:0.42s" d="M60 30L186 118"/><path pathLength="1" style="animation-delay:0.49s" d="M360 30L402 118"/><path pathLength="1" style="animation-delay:0.56s" d="M360 30L318 118"/><path pathLength="1" style="animation-delay:0.63s" d="M360 30L276 118"/><path pathLength="1" style="animation-delay:0.70s" d="M360 30L234 118"/></svg>
-  <div class="pl-txt"><b>Teknik Sipil</b><span>Universitas Nusa Megarkencana</span></div>
-  <div class="pl-num" id="pl-num">0%</div>
-</div>
-<script>
-(function () {
-  var el = document.getElementById("preload");
-  try { if (sessionStorage.getItem("unmeka_intro") || matchMedia("(prefers-reduced-motion: reduce)").matches) { el.remove(); return; } sessionStorage.setItem("unmeka_intro", "1"); } catch (e) { el.remove(); return; }
-  var n = document.getElementById("pl-num"), t0 = performance.now();
-  (function tick(now) { var k = Math.min((now - t0) / 1300, 1); n.textContent = Math.round(k * k * (3 - 2 * k) * 100) + "%"; if (k < 1) requestAnimationFrame(tick); })(t0);
-  setTimeout(function () { el.remove(); }, 2300);
-})();
-</script>
 <div id="site-header"></div>
 <main id="main">
 
@@ -45,17 +37,17 @@
       <a class="btn btn-light" href="profil.html">Profil Program Studi</a>
     </div>
   </div>
-  <div class="hero-nav"><div class="container"><div class="hero-dots" id="dots"></div><span class="hero-cap" id="cap"></span></div></div>
+  <div class="hero-nav"><div class="container">
+    <div class="hero-count" aria-hidden="true"><b id="h-cur">01</b> / <span id="h-all">03</span></div>
+    <div class="hero-dots" id="dots"></div>
+    <span class="hero-cap" id="cap"></span>
+    <div class="hero-arrows"><button class="h-arrow prev" id="h-prev" aria-label="Foto sebelumnya"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button><button class="h-arrow" id="h-next" aria-label="Foto berikutnya"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+  </div></div>
 </section>
 
 <div class="facts"><div class="container"><ul id="facts"></ul></div></div>
 
-<div class="marquee" aria-hidden="true">
-  <div class="mq-track"><span>Struktur</span><i>✦</i><span class="f">Geoteknik</span><i>✦</i><span>Transportasi</span><i>✦</i><span class="f">Keairan</span><i>✦</i><span>Manajemen Konstruksi</span><i>✦</i></div>
-  <div class="mq-track rev"><span class="f">Rancang</span><i>●</i><span>Hitung</span><i>●</i><span class="f">Bangun</span><i>●</i><span>Uji</span><i>●</i><span class="f">Lestarikan</span><i>●</i></div>
-</div>
-
-<section class="section">
+<section class="section" id="tentang">
   <div class="container about">
     <div class="collage reveal">
       <figure class="c1"><img src="assets/img/web/home-pic-1.jpg" alt="Mahasiswa di depan gedung Universitas Nusa Megarkencana" width="480" height="720" loading="lazy"></figure>
@@ -73,20 +65,29 @@
   </div>
 </section>
 
-<section class="build" id="build" aria-label="Simulasi tahapan pembangunan gedung">
-  <div class="build-sticky"><div class="container build-in">
-    <div class="build-txt">
-      <span class="label">Gulir untuk membangun</span>
-      <h2 class="h2">Dari patok pertama hingga gedung berdiri</h2>
-      <p class="lead">Setiap tahap proyek dikerjakan oleh bidang ilmu yang dipelajari di Teknik Sipil.</p>
-      <div class="build-stage" id="build-stage" aria-live="polite"></div>
-      <ol class="build-steps" id="build-steps" aria-label="Tahapan pembangunan"></ol>
+<section class="stats" id="angka" aria-labelledby="angka-h">
+  <div class="container">
+    <div class="stats-head reveal">
+      <span class="label">Dalam Angka</span>
+      <h2 id="angka-h">Universitas yang tumbuh sejak 1998</h2>
     </div>
-    <div class="build-art">
-      <svg id="build-svg" viewBox="0 0 600 640" role="img" aria-label="Ilustrasi gedung yang terbangun bertahap mengikuti gulir halaman"></svg>
-      <div class="build-meter" aria-hidden="true"><span>Progres proyek</span><b id="build-pct">0%</b><i><em id="build-bar"></em></i></div>
+    <dl class="stats-grid">
+      <div class="reveal"><dt>Fakultas</dt><dd><b data-count="2">2</b><span>Fakultas Ekonomi dan Bisnis serta Fakultas Teknik dan Informatika</span></dd></div>
+      <div class="reveal"><dt>Program studi sarjana</dt><dd><b data-count="5">5</b><span>Termasuk Teknik Sipil, Sistem Informasi, dan Informatika</span></dd></div>
+      <div class="reveal"><dt>Dosen di lima prodi</dt><dd><b data-count="30">30</b><span>Lima di antaranya mengajar di Program Studi Teknik Sipil</span></dd></div>
+      <div class="reveal"><dt>Jalur pendaftaran</dt><dd><b data-count="6">6</b><span>Termasuk KIP-Kuliah hingga 100% dan Prestasi Raport hingga 50%</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="section" id="berita">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div><span class="label">Kabar Kampus</span><h2 class="h2">Berita terbaru</h2></div>
+      <a class="link" href="berita.html">Semua berita <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
-  </div></div>
+    <div class="news-ed" id="news"></div>
+  </div>
 </section>
 
 <section class="band" id="pmb">
@@ -105,13 +106,13 @@
   </div>
 </section>
 
-<section class="section" id="berita">
+<section class="section" id="dosen-sec">
   <div class="container">
     <div class="sec-head reveal">
-      <div><span class="label">Kabar Kampus</span><h2 class="h2">Berita terbaru</h2></div>
-      <a class="link" href="berita.html">Semua berita <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div><span class="label">Tenaga Pengajar</span><h2 class="h2">Dosen Program Studi</h2></div>
+      <a class="link" href="dosen.html">Profil dosen <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
-    <div class="grid g3" id="news"></div>
+    <div class="grid g5" id="dosen"></div>
   </div>
 </section>
 
@@ -129,17 +130,7 @@
   </div>
 </section>
 
-<section class="section soft" id="dosen-sec">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div><span class="label">Tenaga Pengajar</span><h2 class="h2">Dosen Program Studi</h2></div>
-      <a class="link" href="dosen.html">Profil dosen <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </div>
-    <div class="grid g5" id="dosen"></div>
-  </div>
-</section>
-
-<section class="section" id="galeri">
+<section class="section soft" id="galeri">
   <div class="container">
     <div class="sec-head reveal">
       <div><span class="label">Galeri</span><h2 class="h2">Kehidupan kampus</h2></div>
@@ -149,7 +140,7 @@
   </div>
 </section>
 
-<section class="section soft" id="identitas">
+<section class="section" id="identitas">
   <div class="container">
     <div class="identity reveal">
       <div class="crest">
@@ -159,105 +150,8 @@
       <div>
         <p class="tl">Unggul <em>&middot;</em> Mandiri <em>&middot;</em> Berdaya Saing</p>
         <p>Universitas Nusa Megarkencana bernaung di bawah Yayasan Pendidikan Nusa Megarkencana dan memperoleh izin perubahan bentuk menjadi universitas pada 23 Juli 2024. Program Studi Teknik Sipil hadir sebagai bagian dari Fakultas Teknik dan Informatika.</p>
-        <div class="numbers">
-          <div><b data-count="2">2</b><small>Fakultas</small></div>
-          <div><b data-count="5">5</b><small>Program studi sarjana</small></div>
-          <div><b data-count="30">30</b><small>Dosen di lima prodi</small></div>
-          <div><b data-count="6">6</b><small>Jalur pendaftaran</small></div>
-        </div>
       </div>
-      <div class="partners" id="partners"><small>Mitra dan ekosistem universitas</small></div>
-    </div>
-  </div>
-</section>
-
-<section class="section soft" id="lab-balok">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div><span class="label">Lab Interaktif</span><h2 class="h2">Geser bebannya, lihat baloknya bekerja</h2>
-        <p class="lead">Balok baja sepanjang 10 meter di atas tumpuan sendi dan rol. Seret beban P di sepanjang balok, ubah besarnya, lalu lihat reaksi tumpuan, diagram momen, dan lendutannya berubah seketika.</p></div>
-    </div>
-    <div class="beam reveal">
-      <div class="beam-stage">
-        <svg id="beam-svg" viewBox="0 0 800 410" role="group" aria-label="Simulasi balok sederhana dengan beban terpusat dan beban merata"></svg>
-        <p class="beam-hint">Seret kotak <b>P</b> atau ketuk di mana saja pada balok. Bentuk lendutan digambar diperbesar agar terlihat.</p>
-      </div>
-      <div class="beam-side">
-        <div class="bm-ctl"><label for="bm-p">Beban terpusat P <output id="bm-pv"></output></label><input id="bm-p" type="range" min="10" max="200" step="5"></div>
-        <div class="bm-ctl"><label for="bm-q">Beban merata q <output id="bm-qv"></output></label><input id="bm-q" type="range" min="0" max="30" step="1"></div>
-        <div class="bm-ctl"><label for="bm-prof">Profil baja</label><select class="input" id="bm-prof"></select></div>
-        <dl class="bm-out">
-          <div><dt>Reaksi A</dt><dd id="o-ra"></dd></div>
-          <div><dt>Reaksi B</dt><dd id="o-rb"></dd></div>
-          <div><dt>Momen maksimum</dt><dd id="o-m"></dd></div>
-          <div><dt>Tegangan lentur</dt><dd id="o-s"></dd></div>
-          <div class="wide"><dt>Lendutan maksimum</dt><dd id="o-d"></dd><small id="o-dl"></small></div>
-        </dl>
-        <div class="bm-status" id="bm-status" role="status"><b></b><small></small><span><i></i></span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="quake" id="uji-gempa">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div><span class="label">Simulator Gempa</span><h2 class="h2">Seberapa kuat gedungmu menahan gempa?</h2>
-        <p class="lead">Indonesia berada di jalur gempa aktif, sehingga setiap gedung harus dirancang tahan gempa. Atur jumlah lantai dan kekuatan gempa, pilih teknologi perlindungan, lalu picu gempanya.</p></div>
-    </div>
-    <div class="qk reveal">
-      <div class="qk-stage">
-        <canvas id="qk-cv" role="img" aria-label="Simulasi gedung bertingkat yang diguncang gempa"></canvas>
-        <div class="qk-badge idle" id="qk-badge" role="status">Siap diuji</div>
-        <div class="qk-over" id="qk-over" hidden><b></b><p></p><button class="btn btn-primary btn-sm" id="qk-again" type="button">Bangun ulang</button></div>
-      </div>
-      <div class="qk-side">
-        <div class="bm-ctl"><label for="qk-n">Jumlah lantai <output id="qk-nv"></output></label><input id="qk-n" type="range" min="3" max="12" step="1" value="8"></div>
-        <div class="bm-ctl"><label for="qk-pga">Kekuatan gempa <output id="qk-pv"></output></label><input id="qk-pga" type="range" min="0.1" max="1.2" step="0.05" value="0.7"></div>
-        <div class="qk-tech" id="qk-tech" role="radiogroup" aria-label="Teknologi perlindungan">
-          <button type="button" role="radio" data-t="biasa" class="on" aria-checked="true"><b>Tanpa perlindungan</b><small>Rangka beton biasa</small></button>
-          <button type="button" role="radio" data-t="iso" aria-checked="false"><b>Isolator dasar</b><small>Bantalan karet di bawah gedung</small></button>
-          <button type="button" role="radio" data-t="tmd" aria-checked="false"><b>Peredam massa</b><small>Bandul penyeimbang di atap</small></button>
-        </div>
-        <button class="btn qk-go" id="qk-go" type="button">Picu gempa</button>
-        <dl class="bm-out qk-out">
-          <div><dt>Periode getar</dt><dd id="qk-T"></dd></div>
-          <div><dt>Simpangan atap</dt><dd id="qk-roof"></dd></div>
-          <div class="wide"><dt>Simpangan antarlantai maksimum</dt><dd id="qk-drift"></dd><small>Batas: retak 0,6% · rusak berat 1,4% · runtuh 2,2%</small></div>
-        </dl>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="game">
-  <div class="container game-teaser">
-    <a class="shot reveal" href="jembatan.html" aria-label="Mainkan Uji Jembatan">
-      <svg viewBox="0 0 960 540" role="img" aria-label="Ilustrasi jembatan rangka dan truk">
-        <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9eef8"/><stop offset="1" stop-color="#f8fafd"/></linearGradient></defs>
-        <rect width="960" height="540" fill="url(#sky)"/>
-        <rect x="320" y="494" width="320" height="46" fill="#3b6fb6"/>
-        <path d="M320 508q20-6 40 0t40 0 40 0 40 0 40 0 40 0 40 0 40 0M320 524q20-6 40 0t40 0 40 0 40 0 40 0 40 0 40 0 40 0" stroke="rgba(255,255,255,.35)" stroke-width="2" fill="none"/>
-        <rect x="0" y="360" width="320" height="180" fill="#10275e"/><rect x="640" y="360" width="320" height="180" fill="#10275e"/>
-        <rect x="0" y="356" width="320" height="4" fill="#f5c219"/><rect x="640" y="356" width="320" height="4" fill="#f5c219"/>
-        <g stroke-linecap="round" stroke-width="6">
-          <path d="M320 360 352 280M352 280 384 360M384 360 416 280M416 280 448 360M448 360 480 280M480 280 512 360M512 360 544 280M544 280 576 360M576 360 608 280M608 280 640 360" stroke="#2f9e44"/>
-          <path d="M352 280H416" stroke="#8ec23f"/><path d="M416 280H544" stroke="#f5c219"/><path d="M544 280H608" stroke="#8ec23f"/>
-        </g>
-        <path d="M320 360H640" stroke="#e0a312" stroke-width="10" stroke-linecap="round"/>
-        <g fill="#fff" stroke="#10275e" stroke-width="2"><circle cx="384" cy="360" r="5"/><circle cx="448" cy="360" r="5"/><circle cx="512" cy="360" r="5"/><circle cx="576" cy="360" r="5"/><circle cx="352" cy="280" r="5"/><circle cx="416" cy="280" r="5"/><circle cx="480" cy="280" r="5"/><circle cx="544" cy="280" r="5"/><circle cx="608" cy="280" r="5"/></g>
-        <g fill="#f5c219" stroke="#10275e" stroke-width="2"><circle cx="320" cy="360" r="7"/><circle cx="640" cy="360" r="7"/></g>
-        <g transform="translate(430 309)"><rect x="0" y="0" width="58" height="30" rx="4" fill="#10275e"/><rect x="60" y="6" width="24" height="24" rx="4" fill="#f5c219"/><rect x="70" y="10" width="10" height="9" fill="#cfe0f7"/><text x="5" y="19" fill="#fff" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700">UNMEKA</text>
-          <circle cx="14" cy="38" r="13" fill="#1b1f27"/><circle cx="14" cy="38" r="5" fill="#c9ced8"/><circle cx="66" cy="38" r="13" fill="#1b1f27"/><circle cx="66" cy="38" r="5" fill="#c9ced8"/></g>
-        <rect x="758" y="314" width="3" height="46" fill="#10275e"/><path d="M761 314l24 8-24 8z" fill="#f5c219"/>
-      </svg>
-    </a>
-    <div class="reveal">
-      <span class="label">Mini Game</span>
-      <h2 class="h2">Coba jadi insinyur jembatan</h2>
-      <p class="lead">Rancang jembatan rangka batang dengan anggaran terbatas, lalu uji kekuatannya dengan truk. Warna batang menunjukkan gaya yang bekerja, persis seperti analisis struktur yang dipelajari di Teknik Sipil.</p>
-      <ul class="check"><li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Tiga level dengan tantangan berbeda</span></li><li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Simulasi gaya tarik dan tekan pada setiap batang</span></li><li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Bisa dimainkan di komputer maupun ponsel</span></li></ul>
-      <a class="btn btn-primary" href="jembatan.html">Mainkan Uji Jembatan <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="partners"><small>Mitra dan ekosistem universitas</small><div class="logo-run" id="partners"><div class="logo-track"></div></div></div>
     </div>
   </div>
 </section>
@@ -268,17 +162,21 @@
   </div>
 </section>
 
+<section class="cta-end">
+  <div class="bg" style="background-image:url(assets/img/web/article-05.jpg)"></div>
+  <div class="container reveal">
+    <span class="label">Penerimaan Mahasiswa Baru 2026</span>
+    <h2>Mulai langkahmu menjadi Sarjana Teknik.</h2>
+    <p>Pilih jalur yang sesuai, siapkan berkas, lalu daftar melalui portal resmi UNMEKA.</p>
+    <div class="actions"><a class="btn btn-primary" href="pmb.html">Lihat jalur pendaftaran <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-light" href="kontak.html">Hubungi kami</a></div>
+  </div>
+</section>
+
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script src="assets/js/fx.js" defer></script>
-<script src="assets/js/flair.js" defer></script>
-<script src="assets/js/vendor/three.min.js" defer></script>
-<script src="assets/js/hero3d.js" defer></script>
-<script src="assets/js/wow.js" defer></script>
-<script src="assets/js/quake-engine.js" defer></script>
-<script src="assets/js/quake-game.js" defer></script>
+<script src="assets/js/data.js?v=8"></script>
+<script src="assets/js/app.js?v=8"></script>
+<script src="assets/js/fx.js?v=8" defer></script>
 <script>
 window.pageInit = function () {
   const s = D.site;
@@ -294,9 +192,13 @@ window.pageInit = function () {
     $$("#slides .slide").forEach((el, k) => el.classList.toggle("on", k === cur));
     $$("#dots button").forEach((b, k) => { b.classList.remove("on"); if (k === cur) { void b.offsetWidth; b.classList.add("on"); } });
     $("#cap").textContent = SL[cur][1];
+    $("#h-cur").textContent = String(cur + 1).padStart(2, "0");
     clearTimeout(timer); if (!hero.classList.contains("paused")) timer = setTimeout(() => go(cur + 1), 6000);
   };
   $$("#dots button").forEach((b, i) => b.addEventListener("click", () => go(i)));
+  $("#h-all").textContent = String(SL.length).padStart(2, "0");
+  $("#h-prev").addEventListener("click", () => go(cur - 1));
+  $("#h-next").addEventListener("click", () => go(cur + 1));
   hero.addEventListener("mouseenter", () => { hero.classList.add("paused"); clearTimeout(timer); });
   hero.addEventListener("mouseleave", () => { hero.classList.remove("paused"); go(cur); });
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) hero.classList.add("paused");
@@ -322,13 +224,15 @@ window.pageInit = function () {
 
   $("#news").innerHTML = getBerita().slice(0, 3).map(newsCard).join("");
 
-  $("#partners").insertAdjacentHTML("beforeend", D.mitra.map(m => `<div class="pt-logo" title="${m[1]}"><img src="assets/img/partner/${m[0].replace("partner-", "trim-")}" alt="${m[1]}" loading="lazy"></div>`).join(""));
+  /* logo mitra berjalan pelan; deretan digandakan agar putarannya tanpa sambungan */
+  const logo = (m, hide) => `<div class="pt-logo"${hide ? ' aria-hidden="true"' : ""}><img src="assets/img/partner/${m[0].replace("partner-", "trim-")}" alt="${hide ? "" : m[1]}" loading="lazy"></div>`;
+  $("#partners .logo-track").innerHTML = D.mitra.map(m => logo(m)).join("") + [1, 2, 3].map(() => D.mitra.map(m => logo(m, true)).join("")).join("");
 
   const G = D.galeri.slice(0, 6);
-  $("#mosaic").innerHTML = G.map((g, i) => `<button data-i="${i}" aria-label="Perbesar foto: ${esc(g[1])}"><img src="assets/img/${g[0]}" alt="${esc(g[1])}" loading="lazy"><span>${esc(g[1])}</span></button>`).join("");
+  $("#mosaic").innerHTML = G.map((g, i) => `<button data-i="${i}" aria-label="Perbesar foto: ${esc(g[1])}"><img src="assets/img/${g[0]}" alt="" loading="lazy"><span>${esc(g[1])}</span></button>`).join("");
   $("#mosaic").addEventListener("click", e => { const b = e.target.closest("button"); if (b) lightbox(G, +b.dataset.i); });
 
-  $("#dosen").innerHTML = getDosen().map((d, i) => `<a class="card person reveal${i === 0 ? " lead-p" : ""}" href="dosen.html?id=${d.id}">${avatar(d.nama)}<h3>${esc(d.nama)}</h3><div class="role">${esc(d.jabatan)}</div></a>`).join("");
+  $("#dosen").innerHTML = getDosen().map((d, i) => `<a class="card person reveal${i === 0 ? " lead-p" : ""}" href="dosen.html?id=${d.id}">${avatar(d.nama)}<h3>${esc(d.nama)}</h3><div class="role">${esc(d.jabatan)}</div><span class="more">Lihat profil ${ic("arrow")}</span></a>`).join("");
 
   $("#portal").href = s.daftar;
   $("#routes").innerHTML = D.jalur.filter(j => j.foto).map(j => `<a class="card route" href="${s.daftar}Registrasi/${j.path}" target="_blank" rel="noopener"><div class="ph"><img src="assets/img/${j.foto}" alt="" loading="lazy"></div><div class="bd"><h3>${j.nama}</h3><p>${j.desk}</p></div></a>`).join("");

@@ -5,11 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kontak | Program Studi Teknik Sipil UNMEKA</title>
 <meta name="description" content="Alamat, telepon, email, dan formulir kontak Program Studi Teknik Sipil Universitas Nusa Megarkencana.">
+<meta name="theme-color" content="#0b1c47">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="id_ID">
+<meta property="og:site_name" content="Program Studi Teknik Sipil UNMEKA">
+<meta property="og:title" content="Kontak | Program Studi Teknik Sipil UNMEKA">
+<meta property="og:description" content="Alamat, telepon, email, dan formulir kontak Program Studi Teknik Sipil Universitas Nusa Megarkencana.">
+<meta property="og:image" content="assets/img/web/og-unmeka.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=8">
 </head>
 <body>
 <div id="site-header"></div>
@@ -29,22 +37,21 @@
     </div>
     <form class="card reveal" id="f" novalidate style="padding:32px">
       <h2 style="font-size:1.3rem">Kirim pesan</h2>
-      <p class="meta" style="margin:6px 0 22px">Kami akan membalas melalui email yang Anda cantumkan.</p>
+      <p class="meta" style="margin:6px 0 22px">Pesan diteruskan lewat aplikasi email Anda ke alamat program studi, dan balasan dikirim ke email yang Anda cantumkan.</p>
       <div id="msg" role="status"></div>
       <div class="field"><label for="nama">Nama lengkap</label><input class="input" id="nama" autocomplete="name" required></div>
       <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" autocomplete="email" required></div>
       <div class="field"><label for="topik">Keperluan</label><select class="input" id="topik"><option>Informasi pendaftaran</option><option>Informasi akademik</option><option>Kerja sama</option><option>Lainnya</option></select></div>
       <div class="field"><label for="pesan">Pesan</label><textarea class="input" id="pesan" rows="5" required></textarea></div>
-      <button class="btn btn-navy" type="submit">Kirim pesan</button>
+      <button class="btn btn-navy" type="submit">Kirim lewat email</button>
     </form>
   </div>
 </section>
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script src="assets/js/fx.js" defer></script>
-<script src="assets/js/flair.js" defer></script>
+<script src="assets/js/data.js?v=8"></script>
+<script src="assets/js/app.js?v=8"></script>
+<script src="assets/js/fx.js?v=8" defer></script>
 <script>
 window.pageInit = function () {
   const s = D.site;
@@ -60,8 +67,11 @@ window.pageInit = function () {
     const list = store.get("admin_pesan", null) || [];
     list.unshift({ id: Date.now(), nama: v("nama"), email: v("email"), topik: v("topik"), pesan: v("pesan"), tanggal: new Date().toISOString().slice(0, 10), baca: false });
     store.set("admin_pesan", list);
+    /* website statis tidak punya server pengirim: pesan dibuka di aplikasi email pengunjung, sudah terisi */
+    const subjek = `[Website Teknik Sipil] ${v("topik")} - ${v("nama")}`, isi = `${v("pesan")}\n\n${v("nama")}\n${v("email")}`;
+    location.href = `mailto:${s.email}?subject=${encodeURIComponent(subjek)}&body=${encodeURIComponent(isi)}`;
     e.target.reset();
-    $("#msg").innerHTML = `<div class="alert ok">Terima kasih, pesan Anda sudah terkirim.</div>`;
+    $("#msg").innerHTML = `<div class="alert ok">Pesan sudah disiapkan di aplikasi email Anda. Tekan <b>Kirim</b> di sana. Bila aplikasi email tidak terbuka, kirim pesan langsung ke <b>${s.email}</b>.</div>`;
   });
 };
 </script>

@@ -5,11 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Berita | Program Studi Teknik Sipil UNMEKA</title>
 <meta name="description" content="Berita dan kegiatan Program Studi Teknik Sipil dan Universitas Nusa Megarkencana.">
+<meta name="theme-color" content="#0b1c47">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="id_ID">
+<meta property="og:site_name" content="Program Studi Teknik Sipil UNMEKA">
+<meta property="og:title" content="Berita | Program Studi Teknik Sipil UNMEKA">
+<meta property="og:description" content="Berita dan kegiatan Program Studi Teknik Sipil dan Universitas Nusa Megarkencana.">
+<meta property="og:image" content="assets/img/web/og-unmeka.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=8">
 </head>
 <body>
 <div id="site-header"></div>
@@ -19,13 +27,12 @@
   <h1 id="title">Berita</h1>
   <p id="sub">Kabar terbaru seputar kegiatan akademik dan kemahasiswaan.</p>
 </div></section>
-<section class="section"><div class="container" id="view"></div></section>
+<section class="section" aria-labelledby="view-h"><h2 class="sr-only" id="view-h">Daftar berita</h2><div class="container" id="view"></div></section>
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
-<script src="assets/js/fx.js" defer></script>
-<script src="assets/js/flair.js" defer></script>
+<script src="assets/js/data.js?v=8"></script>
+<script src="assets/js/app.js?v=8"></script>
+<script src="assets/js/fx.js?v=8" defer></script>
 <script>
 window.pageInit = function () {
   const all = getBerita();
@@ -54,7 +61,7 @@ window.pageInit = function () {
   }
 
   const kats = ["Semua", ...new Set(all.map(b => b.kategori))];
-  let f = "Semua", shown = 9;
+  let f = "Semua", shown = 7;
   v.innerHTML = `<div class="toolbar">
       <div class="chips" id="k">${kats.map(k => `<button class="chip" data-k="${k}">${k}</button>`).join("")}</div>
       <label class="search"><span class="sr-only">Cari berita</span>${ic("search")}<input class="input" id="q" type="search" placeholder="Cari berita"></label>
@@ -66,12 +73,12 @@ window.pageInit = function () {
     $$("#k .chip").forEach(c => c.classList.toggle("on", c.dataset.k === f));
     const list = all.filter(b => (f === "Semua" || b.kategori === f) && (b.judul + " " + b.ringkas).toLowerCase().includes(q));
     $("#e").hidden = list.length > 0; $("#more").hidden = list.length <= shown;
-    $("#g").innerHTML = list.slice(0, shown).map(newsCard).join("");
+    $("#g").innerHTML = list.slice(0, shown).map((b, i) => i === 0 && list.length > 1 ? newsCard(b).replace("card news-card", "card news-card feature") : newsCard(b)).join("");
     $$("#g .reveal").forEach(el => el.classList.add("in"));
   };
   $("#k").addEventListener("click", e => { const c = e.target.closest(".chip"); if (c) { f = c.dataset.k; render(); } });
   $("#q").addEventListener("input", render);
-  $("#more").addEventListener("click", () => { shown += 9; render(); });
+  $("#more").addEventListener("click", () => { shown += 6; render(); });
   render();
 };
 </script>

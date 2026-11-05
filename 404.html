@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Halaman tidak ditemukan | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Halaman yang Anda cari tidak ditemukan di situs Program Studi Teknik Sipil Universitas Nusa Megarkencana.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b1c47">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=8">
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head nf"><div class="container">
+  <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Beranda</a><span aria-hidden="true">/</span><span>Halaman tidak ditemukan</span></nav>
+  <p class="nf-code" aria-hidden="true">404</p>
+  <h1>Halaman tidak ditemukan</h1>
+  <p>Alamatnya mungkin salah ketik, atau halamannya sudah dipindahkan. Cari lewat kotak pencarian, atau mulai dari salah satu halaman berikut.</p>
+  <div class="actions"><a class="btn btn-primary" href="index.html">Kembali ke Beranda</a><button class="btn btn-light" type="button" id="nf-search">Cari di situs</button></div>
+</div></section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="sr-only">Halaman utama</h2>
+    <div class="grid g4" id="nf-links"></div>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=8"></script>
+<script src="assets/js/app.js?v=8"></script>
+<script src="assets/js/fx.js?v=8" defer></script>
+<script>
+window.pageInit = function () {
+  $("#nf-search").addEventListener("click", () => $("#btn-search").click());
+  $("#nf-links").innerHTML = [["file", "Profil", "Visi, misi, sejarah, struktur", "profil.html"], ["book", "Akademik", "Bidang kajian dan kurikulum", "akademik.html"], ["cap", "Pendaftaran", "Jalur, langkah, dan FAQ", "pmb.html"], ["mail", "Kontak", "Alamat, telepon, dan pesan", "kontak.html"]]
+    .map(q => `<a class="qlink" href="${q[3]}"><span class="ci">${ic(q[0])}</span><div><b>${q[1]}</b><small>${q[2]}</small></div>${ic("arrow")}</a>`).join("");
+};
+</script>
+</body>
+</html>

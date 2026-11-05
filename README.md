@@ -18,7 +18,7 @@ Lalu buka `http://localhost:5173`.
 
 | Halaman | Isi |
 |---|---|
-| `index.html` | Beranda: jembatan kabel 3D interaktif, teks berjalan, tentang prodi, simulasi "gulir untuk membangun", pendaftaran, berita, bidang kajian, dosen, galeri, lab balok interaktif, simulator gempa, mitra |
+| `index.html` | Beranda: foto kampus, tentang prodi, pendaftaran, berita, bidang kajian, dosen, galeri, identitas dan mitra |
 | `profil.html` | Identitas, visi dan misi, sejarah, struktur organisasi |
 | `akademik.html` | Bidang kajian dan penjelajah kurikulum |
 | `dosen.html` | Daftar dan profil dosen |
@@ -27,7 +27,7 @@ Lalu buka `http://localhost:5173`.
 | `berita.html` | Daftar dan detail berita |
 | `pmb.html` | Jalur pendaftaran, wizard pilih jalur, informasi biaya, FAQ |
 | `kontak.html` | Kontak, peta, formulir pesan |
-| `jembatan.html` | Mini game "Uji Jembatan" (simulasi rangka batang) |
+| `404.html` | Halaman tidak ditemukan |
 | `admin/` | Panel administrator (prototipe) |
 
 ## Struktur
@@ -36,18 +36,20 @@ Lalu buka `http://localhost:5173`.
 assets/css/style.css        gaya seluruh situs
 assets/js/data.js           konten (dosen, berita, jalur, kurikulum, dll.)
 assets/js/app.js            layout bersama, ikon, pencarian, utilitas
-assets/js/fx.js             efek interaksi (parallax, reveal, penghitung)
-assets/js/flair.js          kursor khusus, tombol magnetis, efek label, teks berjalan
-assets/js/wow.js            beranda: gulir untuk membangun, lab balok, hero 2D cadangan
-assets/js/hero3d.js         jembatan kabel 3D di hero (three.js)
-assets/js/quake-engine.js   mesin fisika simulator gempa (bisa diuji di Node)
-assets/js/quake-game.js     antarmuka simulator gempa
-assets/js/vendor/           three.js r149 (lisensi MIT)
-assets/js/bridge-engine.js  mesin fisika mini game (bisa diuji di Node)
-assets/js/bridge-game.js    antarmuka mini game
+assets/js/fx.js             animasi (reveal bertahap, judul per baris, parallax, penghitung)
 assets/img/                 logo dan foto
 admin/                      panel administrator
 ```
+
+## Kualitas
+
+- Seluruh halaman publik diperiksa dengan axe-core (aksesibilitas WCAG) di lebar 1440 px dan 390 px:
+  tanpa pelanggaran, tanpa error JavaScript, dan tanpa gulir horizontal.
+- Warna emas untuk teks di latar terang memakai `--gold-700` agar kontrasnya memenuhi WCAG AA.
+- Formulir kontak membuka aplikasi email pengunjung dengan pesan yang sudah terisi, karena situs statis
+  tidak memiliki server pengirim.
+- `robots.txt` menutup folder `admin/` dari mesin pencari. Meta `og:image` masih berupa alamat relatif;
+  ganti dengan alamat lengkap setelah domain situs ditetapkan.
 
 ## Catatan data
 

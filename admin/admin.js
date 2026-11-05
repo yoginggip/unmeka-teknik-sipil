@@ -56,7 +56,7 @@ function crud(cfg) {
           : `<input class="input" id="f_${f.k}" type="${f.type || "text"}" value="${val}"${f.ro ? " readonly" : ""}>`;
         return `<div class="field${f.full ? " full" : ""}"><label for="f_${f.k}">${f.label}${f.req ? ' <span style="color:#c53030">*</span>' : ""}</label>${ctl}${f.help ? `<small class="meta">${f.help}</small>` : ""}</div>`;
       }).join("")}</div>
-      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">${cfg.noAdd ? `<button type="button" class="btn btn-outline" onclick="closeModal()">Tutup</button>` : `<button type="button" class="btn btn-outline" onclick="closeModal()">Batal</button><button class="btn btn-navy" type="submit">Simpan</button>`}</div></form>`, "form");
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">${cfg.noAdd ? `<button type="button" class="btn btn-outline" onclick="closeModal()">Tutup</button>` : `<button type="button" class="btn btn-outline" onclick="closeModal()">Batal</button><button class="btn btn-navy" type="submit">Simpan</button>`}</div></form>`, "form", `${item ? (cfg.noAdd ? "Detail" : "Ubah") : "Tambah"} ${cfg.noun.toLowerCase()}`);
     if (cfg.onOpen && item) { cfg.onOpen(item); draw(); }
     $("#fm").addEventListener("submit", e => {
       e.preventDefault();
