@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=7">
+<link rel="stylesheet" href="assets/css/style.css?v=8">
 </head>
 <body>
 <div id="site-header"></div>
@@ -37,12 +37,17 @@
       <a class="btn btn-light" href="profil.html">Profil Program Studi</a>
     </div>
   </div>
-  <div class="hero-nav"><div class="container"><div class="hero-dots" id="dots"></div><span class="hero-cap" id="cap"></span></div></div>
+  <div class="hero-nav"><div class="container">
+    <div class="hero-count" aria-hidden="true"><b id="h-cur">01</b> / <span id="h-all">03</span></div>
+    <div class="hero-dots" id="dots"></div>
+    <span class="hero-cap" id="cap"></span>
+    <div class="hero-arrows"><button class="h-arrow prev" id="h-prev" aria-label="Foto sebelumnya"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button><button class="h-arrow" id="h-next" aria-label="Foto berikutnya"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+  </div></div>
 </section>
 
 <div class="facts"><div class="container"><ul id="facts"></ul></div></div>
 
-<section class="section">
+<section class="section" id="tentang">
   <div class="container about">
     <div class="collage reveal">
       <figure class="c1"><img src="assets/img/web/home-pic-1.jpg" alt="Mahasiswa di depan gedung Universitas Nusa Megarkencana" width="480" height="720" loading="lazy"></figure>
@@ -57,6 +62,31 @@
       <ul class="check" id="about-list"></ul>
       <a class="link" href="profil.html">Selengkapnya tentang program studi <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
+  </div>
+</section>
+
+<section class="stats" id="angka" aria-labelledby="angka-h">
+  <div class="container">
+    <div class="stats-head reveal">
+      <span class="label">Dalam Angka</span>
+      <h2 id="angka-h">Universitas yang tumbuh sejak 1998</h2>
+    </div>
+    <dl class="stats-grid">
+      <div class="reveal"><dt>Fakultas</dt><dd><b data-count="2">2</b><span>Fakultas Ekonomi dan Bisnis serta Fakultas Teknik dan Informatika</span></dd></div>
+      <div class="reveal"><dt>Program studi sarjana</dt><dd><b data-count="5">5</b><span>Termasuk Teknik Sipil, Sistem Informasi, dan Informatika</span></dd></div>
+      <div class="reveal"><dt>Dosen di lima prodi</dt><dd><b data-count="30">30</b><span>Lima di antaranya mengajar di Program Studi Teknik Sipil</span></dd></div>
+      <div class="reveal"><dt>Jalur pendaftaran</dt><dd><b data-count="6">6</b><span>Termasuk KIP-Kuliah hingga 100% dan Prestasi Raport hingga 50%</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="section" id="berita">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div><span class="label">Kabar Kampus</span><h2 class="h2">Berita terbaru</h2></div>
+      <a class="link" href="berita.html">Semua berita <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="news-ed" id="news"></div>
   </div>
 </section>
 
@@ -76,13 +106,13 @@
   </div>
 </section>
 
-<section class="section" id="berita">
+<section class="section" id="dosen-sec">
   <div class="container">
     <div class="sec-head reveal">
-      <div><span class="label">Kabar Kampus</span><h2 class="h2">Berita terbaru</h2></div>
-      <a class="link" href="berita.html">Semua berita <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div><span class="label">Tenaga Pengajar</span><h2 class="h2">Dosen Program Studi</h2></div>
+      <a class="link" href="dosen.html">Profil dosen <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
-    <div class="grid g3" id="news"></div>
+    <div class="grid g5" id="dosen"></div>
   </div>
 </section>
 
@@ -100,17 +130,7 @@
   </div>
 </section>
 
-<section class="section soft" id="dosen-sec">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div><span class="label">Tenaga Pengajar</span><h2 class="h2">Dosen Program Studi</h2></div>
-      <a class="link" href="dosen.html">Profil dosen <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </div>
-    <div class="grid g5" id="dosen"></div>
-  </div>
-</section>
-
-<section class="section" id="galeri">
+<section class="section soft" id="galeri">
   <div class="container">
     <div class="sec-head reveal">
       <div><span class="label">Galeri</span><h2 class="h2">Kehidupan kampus</h2></div>
@@ -120,7 +140,7 @@
   </div>
 </section>
 
-<section class="section soft" id="identitas">
+<section class="section" id="identitas">
   <div class="container">
     <div class="identity reveal">
       <div class="crest">
@@ -130,14 +150,8 @@
       <div>
         <p class="tl">Unggul <em>&middot;</em> Mandiri <em>&middot;</em> Berdaya Saing</p>
         <p>Universitas Nusa Megarkencana bernaung di bawah Yayasan Pendidikan Nusa Megarkencana dan memperoleh izin perubahan bentuk menjadi universitas pada 23 Juli 2024. Program Studi Teknik Sipil hadir sebagai bagian dari Fakultas Teknik dan Informatika.</p>
-        <div class="numbers">
-          <div><b data-count="2">2</b><small>Fakultas</small></div>
-          <div><b data-count="5">5</b><small>Program studi sarjana</small></div>
-          <div><b data-count="30">30</b><small>Dosen di lima prodi</small></div>
-          <div><b data-count="6">6</b><small>Jalur pendaftaran</small></div>
-        </div>
       </div>
-      <div class="partners" id="partners"><small>Mitra dan ekosistem universitas</small></div>
+      <div class="partners"><small>Mitra dan ekosistem universitas</small><div class="logo-run" id="partners"><div class="logo-track"></div></div></div>
     </div>
   </div>
 </section>
@@ -148,11 +162,21 @@
   </div>
 </section>
 
+<section class="cta-end">
+  <div class="bg" style="background-image:url(assets/img/web/article-05.jpg)"></div>
+  <div class="container reveal">
+    <span class="label">Penerimaan Mahasiswa Baru 2026</span>
+    <h2>Mulai langkahmu menjadi Sarjana Teknik.</h2>
+    <p>Pilih jalur yang sesuai, siapkan berkas, lalu daftar melalui portal resmi UNMEKA.</p>
+    <div class="actions"><a class="btn btn-primary" href="pmb.html">Lihat jalur pendaftaran <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-light" href="kontak.html">Hubungi kami</a></div>
+  </div>
+</section>
+
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js?v=7"></script>
-<script src="assets/js/app.js?v=7"></script>
-<script src="assets/js/fx.js?v=7" defer></script>
+<script src="assets/js/data.js?v=8"></script>
+<script src="assets/js/app.js?v=8"></script>
+<script src="assets/js/fx.js?v=8" defer></script>
 <script>
 window.pageInit = function () {
   const s = D.site;
@@ -168,9 +192,13 @@ window.pageInit = function () {
     $$("#slides .slide").forEach((el, k) => el.classList.toggle("on", k === cur));
     $$("#dots button").forEach((b, k) => { b.classList.remove("on"); if (k === cur) { void b.offsetWidth; b.classList.add("on"); } });
     $("#cap").textContent = SL[cur][1];
+    $("#h-cur").textContent = String(cur + 1).padStart(2, "0");
     clearTimeout(timer); if (!hero.classList.contains("paused")) timer = setTimeout(() => go(cur + 1), 6000);
   };
   $$("#dots button").forEach((b, i) => b.addEventListener("click", () => go(i)));
+  $("#h-all").textContent = String(SL.length).padStart(2, "0");
+  $("#h-prev").addEventListener("click", () => go(cur - 1));
+  $("#h-next").addEventListener("click", () => go(cur + 1));
   hero.addEventListener("mouseenter", () => { hero.classList.add("paused"); clearTimeout(timer); });
   hero.addEventListener("mouseleave", () => { hero.classList.remove("paused"); go(cur); });
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) hero.classList.add("paused");
@@ -196,7 +224,9 @@ window.pageInit = function () {
 
   $("#news").innerHTML = getBerita().slice(0, 3).map(newsCard).join("");
 
-  $("#partners").insertAdjacentHTML("beforeend", D.mitra.map(m => `<div class="pt-logo" title="${m[1]}"><img src="assets/img/partner/${m[0].replace("partner-", "trim-")}" alt="${m[1]}" loading="lazy"></div>`).join(""));
+  /* logo mitra berjalan pelan; deretan digandakan agar putarannya tanpa sambungan */
+  const logo = (m, hide) => `<div class="pt-logo"${hide ? ' aria-hidden="true"' : ""}><img src="assets/img/partner/${m[0].replace("partner-", "trim-")}" alt="${hide ? "" : m[1]}" loading="lazy"></div>`;
+  $("#partners .logo-track").innerHTML = D.mitra.map(m => logo(m)).join("") + [1, 2, 3].map(() => D.mitra.map(m => logo(m, true)).join("")).join("");
 
   const G = D.galeri.slice(0, 6);
   $("#mosaic").innerHTML = G.map((g, i) => `<button data-i="${i}" aria-label="Perbesar foto: ${esc(g[1])}"><img src="assets/img/${g[0]}" alt="" loading="lazy"><span>${esc(g[1])}</span></button>`).join("");

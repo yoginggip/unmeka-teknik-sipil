@@ -22,7 +22,7 @@
     if (!reduce) document.querySelectorAll(".hero h1, .page-head h1").forEach(splitLines);
 
     /* item di dalam grid muncul berurutan */
-    document.querySelectorAll(".grid, .routes, .mosaic, .bk-tabs").forEach(g => [...g.children].forEach((c, i) => c.style.setProperty("--stagger", (i % 6) * 80 + "ms")));
+    document.querySelectorAll(".grid, .routes, .mosaic, .bk-tabs, .news-ed, .stats-grid").forEach(g => [...g.children].forEach((c, i) => c.style.setProperty("--stagger", (i % 6) * 80 + "ms")));
 
     const counters = document.querySelectorAll("[data-count]");
     if (counters.length) {
@@ -50,7 +50,7 @@
       tools.forEach(t => io.observe(t));
     }
 
-    const px = [...document.querySelectorAll(".hero-slides, .band > .bg, .blueprint > .bg, .page-head .bg")];
+    const px = [...document.querySelectorAll(".hero-slides, .band > .bg, .blueprint > .bg, .page-head .bg, .cta-end > .bg")];
     const lines = [...document.querySelectorAll(".timeline")];
     let ticking = false;
     const frame = () => {

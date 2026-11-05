@@ -68,6 +68,8 @@ const PAGES = [
 function mountLayout() {
   const cur = location.pathname.split("/").pop() || "index.html";
   const s = D.site;
+  /* di Beranda, topbar dan header transparan di atas foto hero */
+  document.body.classList.toggle("home", cur === "index.html" && !!$(".hero"));
   const hdr = $("#site-header");
   if (hdr) hdr.outerHTML = `
   <a class="skip" href="#main">Lewati ke konten utama</a>
@@ -77,7 +79,8 @@ function mountLayout() {
   </div></aside>
   <header class="header" id="header"><div class="container">
     <a class="brand" href="index.html">
-      <img src="${IMG("logo-330.png")}" srcset="${IMG("logo-330.png")} 330w, ${IMG("web/logo-659.png")} 659w" sizes="165px" alt="Universitas Nusa Megarkencana" width="165" height="50"><span class="div"></span>
+      <img class="logo-c" src="${IMG("logo-330.png")}" srcset="${IMG("logo-330.png")} 330w, ${IMG("web/logo-659.png")} 659w" sizes="165px" alt="Universitas Nusa Megarkencana" width="165" height="50">
+      <img class="logo-w" src="${IMG("logo-white-330.png")}" srcset="${IMG("logo-white-330.png")} 330w, ${IMG("logo-white-659.png")} 659w" sizes="165px" alt="" width="165" height="50"><span class="div"></span>
       <span class="pt">Program Studi<br>Teknik Sipil<small>Sarjana (S1)</small></span></a>
     <nav class="nav" id="nav" aria-label="Menu utama">
       <button class="icon-btn nav-close" id="btn-close" aria-label="Tutup menu">${ic("x")}</button>
@@ -161,7 +164,7 @@ function initChrome() {
   let lastY = scrollY;
   const onScroll = () => {
     const y = scrollY, dy = y - lastY;
-    hdr?.classList.toggle("scrolled", y > 10);
+    hdr?.classList.toggle("scrolled", y > (document.body.classList.contains("home") ? 60 : 10));
     if (hdr && Math.abs(dy) > 6) { hdr.classList.toggle("hide", dy > 0 && y > 320 && !$("#nav")?.classList.contains("open")); lastY = y; }
     top?.classList.toggle("show", y > 700);
   };
