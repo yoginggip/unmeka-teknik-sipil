@@ -98,7 +98,7 @@ function mountLayout() {
       <div><a class="brand" href="index.html"><img src="${IMG("logo-white-659.png")}" alt="Universitas Nusa Megarkencana" width="165" height="50"></a><p style="margin-top:14px;color:var(--yellow);font-weight:600;font-size:.86rem;letter-spacing:.04em">${s.tagline}</p>
         <p style="margin-top:18px">Program Studi Sarjana Teknik Sipil, ${s.fakultas}, ${s.univ}.</p></div>
       <div><h3>Program Studi</h3><ul>${PAGES.slice(1, 5).map(([h, t]) => `<li><a href="${h}">${t}</a></li>`).join("")}<li><a href="penelitian.html">Penelitian</a></li></ul></div>
-      <div><h3>Informasi</h3><ul><li><a href="pmb.html">Pendaftaran</a></li><li><a href="berita.html">Berita</a></li><li><a href="jembatan.html">Mini Game Uji Jembatan</a></li><li><a href="${s.kalender}" target="_blank" rel="noopener">Kalender Akademik</a></li><li><a href="${s.ejournal}" target="_blank" rel="noopener">E-Journal</a></li><li><a href="${s.web}" target="_blank" rel="noopener">unmeka.ac.id</a></li></ul></div>
+      <div><h3>Informasi</h3><ul><li><a href="pmb.html">Pendaftaran</a></li><li><a href="berita.html">Berita</a></li><li><a href="${s.kalender}" target="_blank" rel="noopener">Kalender Akademik</a></li><li><a href="${s.ejournal}" target="_blank" rel="noopener">E-Journal</a></li><li><a href="${s.web}" target="_blank" rel="noopener">unmeka.ac.id</a></li></ul></div>
       <div><h3>Kontak</h3><ul class="f-contact"><li>${ic("pin")}<span>${s.alamat}</span></li><li>${ic("phone")}<a href="tel:+62274518987">${s.telp}</a></li><li>${ic("mail")}<a href="mailto:${s.email}">${s.email}</a></li></ul></div>
     </div>
     <div class="f-bottom"><span>© ${new Date().getFullYear()} Program Studi Teknik Sipil, ${s.univ}</span><a href="${BASE}admin/index.html">Admin</a></div>
@@ -127,7 +127,6 @@ function initSearch() {
   const idx = [
     ...PAGES.map(([h, t]) => ({ t, s: "Halaman", h, i: "file" })),
     { t: "Pendaftaran Mahasiswa Baru", s: "Halaman", h: "pmb.html", i: "cap" },
-    { t: "Uji Jembatan (mini game)", s: "Halaman", h: "jembatan.html", i: "bridge" },
     ...getDosen().map(d => ({ t: d.nama, s: "Dosen", h: "dosen.html?id=" + d.id, i: "user" })),
     ...getBerita().map(b => ({ t: b.judul, s: "Berita", h: "berita.html?id=" + b.id, i: "news" })),
     ...D.bidang.map(b => ({ t: "Bidang " + b.nama, s: "Akademik", h: "akademik.html#bidang", i: b.icon })),
@@ -158,7 +157,14 @@ function initSearch() {
 function closeMenu() { $("#nav")?.classList.remove("open"); $("#scrim")?.classList.remove("show"); $("#btn-menu")?.setAttribute("aria-expanded", "false"); }
 function initChrome() {
   const hdr = $("#header"), top = $("#to-top");
-  const onScroll = () => { hdr?.classList.toggle("scrolled", scrollY > 10); top?.classList.toggle("show", scrollY > 700); };
+  /* header menyingkir saat menggulir ke bawah dan kembali saat menggulir ke atas */
+  let lastY = scrollY;
+  const onScroll = () => {
+    const y = scrollY, dy = y - lastY;
+    hdr?.classList.toggle("scrolled", y > 10);
+    if (hdr && Math.abs(dy) > 6) { hdr.classList.toggle("hide", dy > 0 && y > 320 && !$("#nav")?.classList.contains("open")); lastY = y; }
+    top?.classList.toggle("show", y > 700);
+  };
   addEventListener("scroll", onScroll, { passive: true }); onScroll();
   top?.addEventListener("click", () => scrollTo({ top: 0 }));
   $("#btn-menu")?.addEventListener("click", () => { const o = $("#nav").classList.toggle("open"); $("#scrim").classList.toggle("show", o); $("#btn-menu").setAttribute("aria-expanded", o); });

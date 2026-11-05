@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=6">
+<link rel="stylesheet" href="assets/css/style.css?v=7">
 </head>
 <body>
 <div id="site-header"></div>
@@ -58,22 +58,6 @@
       <a class="link" href="profil.html">Selengkapnya tentang program studi <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
-</section>
-
-<section class="build" id="build" aria-label="Simulasi tahapan pembangunan gedung">
-  <div class="build-sticky"><div class="container build-in">
-    <div class="build-txt">
-      <span class="label">Gulir untuk membangun</span>
-      <h2 class="h2">Dari patok pertama hingga gedung berdiri</h2>
-      <p class="lead">Setiap tahap proyek dikerjakan oleh bidang ilmu yang dipelajari di Teknik Sipil.</p>
-      <div class="build-stage" id="build-stage" aria-live="polite"></div>
-      <ol class="build-steps" id="build-steps" aria-label="Tahapan pembangunan"></ol>
-    </div>
-    <div class="build-art">
-      <svg id="build-svg" viewBox="0 0 600 640" role="img" aria-label="Ilustrasi gedung yang terbangun bertahap mengikuti gulir halaman"></svg>
-      <div class="build-meter" aria-hidden="true"><span>Progres proyek</span><b id="build-pct">0%</b><i><em id="build-bar"></em></i></div>
-    </div>
-  </div></div>
 </section>
 
 <section class="band" id="pmb">
@@ -158,97 +142,6 @@
   </div>
 </section>
 
-<section class="section soft" id="lab-balok">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div><span class="label">Lab Interaktif</span><h2 class="h2">Geser bebannya, lihat baloknya bekerja</h2>
-        <p class="lead">Balok baja sepanjang 10 meter di atas tumpuan sendi dan rol. Seret beban P di sepanjang balok, ubah besarnya, lalu lihat reaksi tumpuan, diagram momen, dan lendutannya berubah seketika.</p></div>
-    </div>
-    <div class="beam reveal">
-      <div class="beam-stage">
-        <svg id="beam-svg" viewBox="0 0 800 410" role="group" aria-label="Simulasi balok sederhana dengan beban terpusat dan beban merata"></svg>
-        <p class="beam-hint">Seret kotak <b>P</b> atau ketuk di mana saja pada balok. Bentuk lendutan digambar diperbesar agar terlihat.</p>
-      </div>
-      <div class="beam-side">
-        <div class="bm-ctl"><label for="bm-p">Beban terpusat P <output id="bm-pv"></output></label><input id="bm-p" type="range" min="10" max="200" step="5"></div>
-        <div class="bm-ctl"><label for="bm-q">Beban merata q <output id="bm-qv"></output></label><input id="bm-q" type="range" min="0" max="30" step="1"></div>
-        <div class="bm-ctl"><label for="bm-prof">Profil baja</label><select class="input" id="bm-prof"></select></div>
-        <dl class="bm-out">
-          <div><dt>Reaksi A</dt><dd id="o-ra"></dd></div>
-          <div><dt>Reaksi B</dt><dd id="o-rb"></dd></div>
-          <div><dt>Momen maksimum</dt><dd id="o-m"></dd></div>
-          <div><dt>Tegangan lentur</dt><dd id="o-s"></dd></div>
-          <div class="wide"><dt>Lendutan maksimum</dt><dd><span id="o-d"></span><small id="o-dl"></small></dd></div>
-        </dl>
-        <div class="bm-status" id="bm-status" role="status"><b></b><small></small><span><i></i></span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="quake" id="uji-gempa">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div><span class="label">Simulator Gempa</span><h2 class="h2">Seberapa kuat gedungmu menahan gempa?</h2>
-        <p class="lead">Indonesia berada di jalur gempa aktif, sehingga setiap gedung harus dirancang tahan gempa. Atur jumlah lantai dan kekuatan gempa, pilih teknologi perlindungan, lalu picu gempanya.</p></div>
-    </div>
-    <div class="qk reveal">
-      <div class="qk-stage">
-        <canvas id="qk-cv" role="img" aria-label="Simulasi gedung bertingkat yang diguncang gempa"></canvas>
-        <div class="qk-badge idle" id="qk-badge" role="status">Siap diuji</div>
-        <div class="qk-over" id="qk-over" hidden><b></b><p></p><button class="btn btn-primary btn-sm" id="qk-again" type="button">Bangun ulang</button></div>
-      </div>
-      <div class="qk-side">
-        <div class="bm-ctl"><label for="qk-n">Jumlah lantai <output id="qk-nv"></output></label><input id="qk-n" type="range" min="3" max="12" step="1" value="8"></div>
-        <div class="bm-ctl"><label for="qk-pga">Kekuatan gempa <output id="qk-pv"></output></label><input id="qk-pga" type="range" min="0.1" max="1.2" step="0.05" value="0.7"></div>
-        <div class="qk-tech" id="qk-tech" role="radiogroup" aria-label="Teknologi perlindungan">
-          <button type="button" role="radio" data-t="biasa" class="on" aria-checked="true"><b>Tanpa perlindungan</b><small>Rangka beton biasa</small></button>
-          <button type="button" role="radio" data-t="iso" aria-checked="false"><b>Isolator dasar</b><small>Bantalan karet di bawah gedung</small></button>
-          <button type="button" role="radio" data-t="tmd" aria-checked="false"><b>Peredam massa</b><small>Bandul penyeimbang di atap</small></button>
-        </div>
-        <button class="btn qk-go" id="qk-go" type="button">Picu gempa</button>
-        <dl class="bm-out qk-out">
-          <div><dt>Periode getar</dt><dd id="qk-T"></dd></div>
-          <div><dt>Simpangan atap</dt><dd id="qk-roof"></dd></div>
-          <div class="wide"><dt>Simpangan antarlantai maksimum</dt><dd><span id="qk-drift"></span><small>Batas: retak 0,6% · rusak berat 1,4% · runtuh 2,2%</small></dd></div>
-        </dl>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="game">
-  <div class="container game-teaser">
-    <a class="shot reveal" href="jembatan.html">
-      <svg viewBox="0 0 960 540" aria-hidden="true" focusable="false">
-        <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9eef8"/><stop offset="1" stop-color="#f8fafd"/></linearGradient></defs>
-        <rect width="960" height="540" fill="url(#sky)"/>
-        <rect x="320" y="494" width="320" height="46" fill="#3b6fb6"/>
-        <path d="M320 508q20-6 40 0t40 0 40 0 40 0 40 0 40 0 40 0 40 0M320 524q20-6 40 0t40 0 40 0 40 0 40 0 40 0 40 0 40 0" stroke="rgba(255,255,255,.35)" stroke-width="2" fill="none"/>
-        <rect x="0" y="360" width="320" height="180" fill="#10275e"/><rect x="640" y="360" width="320" height="180" fill="#10275e"/>
-        <rect x="0" y="356" width="320" height="4" fill="#f5c219"/><rect x="640" y="356" width="320" height="4" fill="#f5c219"/>
-        <g stroke-linecap="round" stroke-width="6">
-          <path d="M320 360 352 280M352 280 384 360M384 360 416 280M416 280 448 360M448 360 480 280M480 280 512 360M512 360 544 280M544 280 576 360M576 360 608 280M608 280 640 360" stroke="#2f9e44"/>
-          <path d="M352 280H416" stroke="#8ec23f"/><path d="M416 280H544" stroke="#f5c219"/><path d="M544 280H608" stroke="#8ec23f"/>
-        </g>
-        <path d="M320 360H640" stroke="#e0a312" stroke-width="10" stroke-linecap="round"/>
-        <g fill="#fff" stroke="#10275e" stroke-width="2"><circle cx="384" cy="360" r="5"/><circle cx="448" cy="360" r="5"/><circle cx="512" cy="360" r="5"/><circle cx="576" cy="360" r="5"/><circle cx="352" cy="280" r="5"/><circle cx="416" cy="280" r="5"/><circle cx="480" cy="280" r="5"/><circle cx="544" cy="280" r="5"/><circle cx="608" cy="280" r="5"/></g>
-        <g fill="#f5c219" stroke="#10275e" stroke-width="2"><circle cx="320" cy="360" r="7"/><circle cx="640" cy="360" r="7"/></g>
-        <g transform="translate(430 309)"><rect x="0" y="0" width="58" height="30" rx="4" fill="#10275e"/><rect x="60" y="6" width="24" height="24" rx="4" fill="#f5c219"/><rect x="70" y="10" width="10" height="9" fill="#cfe0f7"/><text x="5" y="19" fill="#fff" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700">UNMEKA</text>
-          <circle cx="14" cy="38" r="13" fill="#1b1f27"/><circle cx="14" cy="38" r="5" fill="#c9ced8"/><circle cx="66" cy="38" r="13" fill="#1b1f27"/><circle cx="66" cy="38" r="5" fill="#c9ced8"/></g>
-        <rect x="758" y="314" width="3" height="46" fill="#10275e"/><path d="M761 314l24 8-24 8z" fill="#f5c219"/>
-      </svg>
-    <span class="play">Mainkan<span class="sr-only"> Uji Jembatan</span></span></a>
-    <div class="reveal">
-      <span class="label">Mini Game</span>
-      <h2 class="h2">Coba jadi insinyur jembatan</h2>
-      <p class="lead">Rancang jembatan rangka batang dengan anggaran terbatas, lalu uji kekuatannya dengan truk. Warna batang menunjukkan gaya yang bekerja, persis seperti analisis struktur yang dipelajari di Teknik Sipil.</p>
-      <ul class="check"><li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Tiga level dengan tantangan berbeda</span></li><li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Simulasi gaya tarik dan tekan pada setiap batang</span></li><li><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Bisa dimainkan di komputer maupun ponsel</span></li></ul>
-      <a class="btn btn-primary" href="jembatan.html">Mainkan Uji Jembatan <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </div>
-  </div>
-</section>
-
 <section class="section tight soft">
   <div class="container">
     <div class="grid g4" id="quick"></div>
@@ -257,14 +150,9 @@
 
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js?v=6"></script>
-<script src="assets/js/app.js?v=6"></script>
-<script src="assets/js/fx.js?v=6" defer></script>
-<script src="assets/js/vendor/three.min.js?v=6" defer></script>
-<script src="assets/js/hero3d.js?v=6" defer></script>
-<script src="assets/js/wow.js?v=6" defer></script>
-<script src="assets/js/quake-engine.js?v=6" defer></script>
-<script src="assets/js/quake-game.js?v=6" defer></script>
+<script src="assets/js/data.js?v=7"></script>
+<script src="assets/js/app.js?v=7"></script>
+<script src="assets/js/fx.js?v=7" defer></script>
 <script>
 window.pageInit = function () {
   const s = D.site;
