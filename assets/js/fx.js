@@ -1,8 +1,7 @@
-/* Efek interaksi: progres scroll, parallax, tilt, penghitung angka, teks hero, CTA mobile.
+/* Efek interaksi: progres scroll, parallax, penghitung angka, teks hero, CTA mobile.
    Dimuat setelah app.js sehingga konten dari pageInit sudah tersedia. */
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   /* Teks hero muncul per kata */
   function splitWords(el) {
@@ -28,17 +27,6 @@
     requestAnimationFrame(step);
   }
 
-  /* Kartu miring mengikuti kursor */
-  function tilt(el) {
-    el.addEventListener("pointermove", e => {
-      const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-      el.style.transform = `perspective(900px) rotateX(${(-y * 5).toFixed(2)}deg) rotateY(${(x * 6).toFixed(2)}deg) translateY(-3px)`;
-      el.style.setProperty("--gx", (x + .5) * 100 + "%"); el.style.setProperty("--gy", (y + .5) * 100 + "%");
-    });
-    el.addEventListener("pointerleave", () => { el.style.transform = ""; });
-    el.classList.add("tilt");
-  }
-
   document.addEventListener("DOMContentLoaded", () => {
     const bar = document.createElement("div"); bar.className = "scroll-progress"; bar.setAttribute("aria-hidden", "true"); document.body.prepend(bar);
 
@@ -48,7 +36,6 @@
     /* stagger untuk item di dalam grid */
     document.querySelectorAll(".grid, .routes, .mosaic, .bk-tabs").forEach(g => [...g.children].forEach((c, i) => c.style.setProperty("--stagger", (i % 6) * 70 + "ms")));
 
-    if (fine && !reduce) document.querySelectorAll(".route, .person, .news-card, .card.jalur, .qlink").forEach(tilt);
 
     const counters = document.querySelectorAll("[data-count]");
     if (counters.length) {

@@ -228,7 +228,7 @@
     document.getElementById("bg-stress").textContent = world ? Math.round(world.maxStress * 100) + "%" : "-";
   }
   function renderLevels() {
-    document.getElementById("bg-levels").innerHTML = LEVELS.map((l, i) => { const s = starsOf(i); return `<button class="${i === lv ? "on" : ""}" data-lv="${i}"><b>Level ${i + 1}</b><span>${l.nama}</span>${s ? `<em>${"★".repeat(s)}${"☆".repeat(3 - s)}</em>` : ""}</button>`; }).join("");
+    document.getElementById("bg-levels").innerHTML = LEVELS.map((l, i) => { const s = starsOf(i); return `<button role="tab" aria-selected="${i === lv}" class="${i === lv ? "on" : ""}" data-lv="${i}"><b>Level ${i + 1}</b><span>${l.nama}</span>${s ? `<em>${"★".repeat(s)}${"☆".repeat(3 - s)}</em>` : ""}</button>`; }).join("");
   }
   function refresh() {
     document.querySelectorAll("[data-tool]").forEach(b => { b.classList.toggle("on", b.dataset.tool === tool); b.disabled = mode === "sim"; });

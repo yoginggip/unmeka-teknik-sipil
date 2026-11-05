@@ -14,6 +14,8 @@
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const ease = t => 1 - Math.pow(1 - clamp(t, 0, 1), 3);
   hero.classList.add("has-3d");
+  /* slideshow foto disembunyikan saat 3D aktif, jadi hero bukan lagi carousel bagi pembaca layar */
+  hero.removeAttribute("aria-roledescription"); hero.setAttribute("aria-label", "Pembuka");
 
   /* ---------- DOM ---------- */
   const wrap = document.createElement("div");
@@ -259,8 +261,7 @@
   };
   addEventListener("resize", resize);
 
-  /* tunda intro sampai layar pembuka selesai */
-  const t0 = performance.now() + (document.getElementById("preload") ? 1500 : 0), v = new T.Vector3();
+  const t0 = performance.now(), v = new T.Vector3();
   let running = false, raf = 0, prev = t0;
   const frame = now => {
     const dt = Math.min((now - prev) / 1000, 0.05), t = reduce ? 99 : Math.max((now - t0) / 1000, 0); prev = now;

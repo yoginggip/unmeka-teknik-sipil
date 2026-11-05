@@ -71,12 +71,12 @@ function mountLayout() {
   const hdr = $("#site-header");
   if (hdr) hdr.outerHTML = `
   <a class="skip" href="#main">Lewati ke konten utama</a>
-  <div class="topbar"><div class="container">
+  <aside class="topbar" aria-label="Kontak cepat"><div class="container">
     <div class="l"><span>${s.fakultas}</span><span>${s.univ}</span></div>
     <div class="r"><a href="tel:+62274518987">${ic("phone")} ${s.telp}</a><a href="mailto:${s.email}">${ic("mail")} ${s.email}</a><a href="${s.ejournal}" target="_blank" rel="noopener">E-Journal</a></div>
-  </div></div>
+  </div></aside>
   <header class="header" id="header"><div class="container">
-    <a class="brand" href="index.html" aria-label="Beranda Program Studi Teknik Sipil UNMEKA">
+    <a class="brand" href="index.html">
       <img src="${IMG("logo-330.png")}" srcset="${IMG("logo-330.png")} 330w, ${IMG("web/logo-659.png")} 659w" sizes="165px" alt="Universitas Nusa Megarkencana" width="165" height="50"><span class="div"></span>
       <span class="pt">Program Studi<br>Teknik Sipil<small>Sarjana (S1)</small></span></a>
     <nav class="nav" id="nav" aria-label="Menu utama">
@@ -97,9 +97,9 @@ function mountLayout() {
     <div class="f-grid">
       <div><a class="brand" href="index.html"><img src="${IMG("logo-white-659.png")}" alt="Universitas Nusa Megarkencana" width="165" height="50"></a><p style="margin-top:14px;color:var(--yellow);font-weight:600;font-size:.86rem;letter-spacing:.04em">${s.tagline}</p>
         <p style="margin-top:18px">Program Studi Sarjana Teknik Sipil, ${s.fakultas}, ${s.univ}.</p></div>
-      <div><h4>Program Studi</h4><ul>${PAGES.slice(1, 5).map(([h, t]) => `<li><a href="${h}">${t}</a></li>`).join("")}<li><a href="penelitian.html">Penelitian</a></li></ul></div>
-      <div><h4>Informasi</h4><ul><li><a href="pmb.html">Pendaftaran</a></li><li><a href="berita.html">Berita</a></li><li><a href="jembatan.html">Mini Game Uji Jembatan</a></li><li><a href="${s.kalender}" target="_blank" rel="noopener">Kalender Akademik</a></li><li><a href="${s.ejournal}" target="_blank" rel="noopener">E-Journal</a></li><li><a href="${s.web}" target="_blank" rel="noopener">unmeka.ac.id</a></li></ul></div>
-      <div><h4>Kontak</h4><ul class="f-contact"><li>${ic("pin")}<span>${s.alamat}</span></li><li>${ic("phone")}<a href="tel:+62274518987">${s.telp}</a></li><li>${ic("mail")}<a href="mailto:${s.email}">${s.email}</a></li></ul></div>
+      <div><h3>Program Studi</h3><ul>${PAGES.slice(1, 5).map(([h, t]) => `<li><a href="${h}">${t}</a></li>`).join("")}<li><a href="penelitian.html">Penelitian</a></li></ul></div>
+      <div><h3>Informasi</h3><ul><li><a href="pmb.html">Pendaftaran</a></li><li><a href="berita.html">Berita</a></li><li><a href="jembatan.html">Mini Game Uji Jembatan</a></li><li><a href="${s.kalender}" target="_blank" rel="noopener">Kalender Akademik</a></li><li><a href="${s.ejournal}" target="_blank" rel="noopener">E-Journal</a></li><li><a href="${s.web}" target="_blank" rel="noopener">unmeka.ac.id</a></li></ul></div>
+      <div><h3>Kontak</h3><ul class="f-contact"><li>${ic("pin")}<span>${s.alamat}</span></li><li>${ic("phone")}<a href="tel:+62274518987">${s.telp}</a></li><li>${ic("mail")}<a href="mailto:${s.email}">${s.email}</a></li></ul></div>
     </div>
     <div class="f-bottom"><span>© ${new Date().getFullYear()} Program Studi Teknik Sipil, ${s.univ}</span><a href="${BASE}admin/index.html">Admin</a></div>
   </div></footer>
@@ -110,10 +110,10 @@ function mountLayout() {
 }
 
 /* ---------- Modal ---------- */
-function openModal(html, cls = "") {
+function openModal(html, cls = "", label = "Detail") {
   let m = $("#gmodal");
   if (!m) { m = document.createElement("div"); m.id = "gmodal"; m.className = "modal"; m.setAttribute("role", "dialog"); m.setAttribute("aria-modal", "true"); document.body.append(m); m.addEventListener("click", e => { if (e.target === m) closeModal(); }); }
-  m.classList.remove("lb");
+  m.classList.remove("lb"); m.setAttribute("aria-label", label);
   m.innerHTML = `<div class="modal-box ${cls}"><button class="modal-x" aria-label="Tutup" onclick="closeModal()">${ic("x")}</button>${html}</div>`;
   requestAnimationFrame(() => m.classList.add("open"));
   setTimeout(() => $(".modal-x", m)?.focus(), 50);
@@ -191,7 +191,7 @@ function lightbox(items, i) {
   const show = () => {
     const [f, cap] = items[cur];
     openModal(`<figure><img src="${IMG(f)}" alt="${esc(cap)}"><figcaption>${esc(cap)}<small>${cur + 1} / ${items.length}</small></figcaption></figure>
-      ${items.length > 1 ? `<button class="lb-nav prev" aria-label="Foto sebelumnya">${ic("arrow")}</button><button class="lb-nav next" aria-label="Foto berikutnya">${ic("arrow")}</button>` : ""}`, "");
+      ${items.length > 1 ? `<button class="lb-nav prev" aria-label="Foto sebelumnya">${ic("arrow")}</button><button class="lb-nav next" aria-label="Foto berikutnya">${ic("arrow")}</button>` : ""}`, "", "Foto: " + cap);
     const m = $("#gmodal"); m.classList.add("lb");
     $(".prev", m)?.addEventListener("click", () => { cur = (cur - 1 + items.length) % items.length; show(); });
     $(".next", m)?.addEventListener("click", () => { cur = (cur + 1) % items.length; show(); });
