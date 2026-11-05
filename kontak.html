@@ -71,7 +71,7 @@ window.pageInit = function () {
     const subjek = `[Website Teknik Sipil] ${v("topik")} - ${v("nama")}`, isi = `${v("pesan")}\n\n${v("nama")}\n${v("email")}`;
     location.href = `mailto:${s.email}?subject=${encodeURIComponent(subjek)}&body=${encodeURIComponent(isi)}`;
     e.target.reset();
-    $("#msg").innerHTML = `<div class="alert ok">Aplikasi email Anda dibuka dengan pesan yang sudah terisi. Tekan <b>Kirim</b> di sana untuk mengirimkannya ke ${s.email}.</div>`;
+    $("#msg").innerHTML = `<div class="alert ok">Pesan sudah disiapkan di aplikasi email Anda. Tekan <b>Kirim</b> di sana. Bila aplikasi email tidak terbuka, kirim pesan langsung ke <b>${s.email}</b>.</div>`;
   });
 };
 </script>
