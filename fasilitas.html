@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261116zz3">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zz9">
 </head>
 <body>
 <div id="site-header"></div>
@@ -31,11 +31,20 @@
   <p>Sarana praktikum, perpustakaan, dan lingkungan belajar di kampus UNMEKA Yogyakarta.</p>
 </div></section>
 
-<section class="section" id="laboratorium">
+<section class="section" id="kampus">
   <div class="container">
-    <div class="sec-head reveal"><div><span class="label">Laboratorium</span><h2 class="h2">Praktikum teknik sipil</h2><p class="lead">Praktikum mendampingi mata kuliah inti agar mahasiswa memahami perilaku material, tanah, dan air secara langsung.</p></div></div>
-    <div class="grid g3" id="lab"></div>
-    <p class="note"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Rincian laboratorium dan peralatan akan diperbarui sesuai data resmi program studi.</p>
+    <div class="sec-head sec-c reveal"><div><span class="label">Lingkungan Kampus</span><h2 class="h2">Ruang belajar yang <em class="ac dk">mendukung.</em></h2><p class="lead">Gedung perkuliahan, laboratorium, dan ruang terbuka tempat mahasiswa Teknik Sipil belajar dan berkegiatan.</p></div></div>
+    <div class="fx-mosaic reveal" id="mosaic"></div>
+    <div class="fx-stats reveal" id="fx-stats"></div>
+  </div>
+</section>
+
+<section class="section soft" id="laboratorium">
+  <div class="container">
+    <div class="sec-head sec-c reveal"><div><span class="label">Laboratorium</span><h2 class="h2">Praktikum teknik <em class="ac dk">sipil.</em></h2><p class="lead">Praktikum mendampingi mata kuliah inti agar mahasiswa memahami perilaku material, tanah, dan air secara langsung.</p></div></div>
+    <div class="lx-tabs reveal" id="lx-tabs" role="tablist" aria-label="Laboratorium"></div>
+    <div class="lx-panel reveal" id="lx-panel" role="tabpanel" aria-live="polite"></div>
+    <p class="note"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Foto laboratorium saat ini adalah foto ilustrasi berlisensi bebas dari Wikimedia Commons, bukan foto laboratorium UNMEKA. Foto asli dapat diunggah admin melalui menu Galeri (kategori Fasilitas, judul memuat nama laboratorium, misalnya "Laboratorium Mekanika Tanah") dan otomatis menggantikan ilustrasi.</p>
   </div>
 </section>
 
@@ -55,24 +64,55 @@
   </div>
 </section>
 
-<section class="section" id="galeri">
-  <div class="container">
-    <div class="sec-head reveal"><div><span class="label">Galeri</span><h2 class="h2">Foto fasilitas</h2></div>
-      <a class="link" href="galeri.html?kategori=Fasilitas">Semua album fasilitas <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <div class="grid g3" id="gal"></div>
-  </div>
-</section>
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js?v=20261116z"></script>
+<script src="assets/js/data.js?v=20261116zz9"></script>
 <script src="assets/js/app.js?v=20261116zz3"></script>
 <script src="assets/js/fx.js?v=20261116i" defer></script>
 <script src="assets/js/flair.js?v=20261102n" defer></script>
 <script>
 window.pageInit = function () {
-  $("#lab").innerHTML = D.lab.map(l => `<div class="card lab reveal" id="${l.id}"><div class="ci">${ic(l.icon)}</div><h3>${l.nama}</h3><p>${l.desk}</p><ul>${l.praktikum.map(p => `<li>${ic("check")}${p}</li>`).join("")}</ul></div>`).join("");
-  const fas = getAlbum().filter(a => a.kategori === "Fasilitas");
-  if (fas.length) $("#gal").innerHTML = fas.slice(0, 3).map(albumCard).join(""); else $("#galeri").hidden = true;
+  const albums = getAlbum().filter(a => a.kategori === "Fasilitas");
+  const labAlbum = l => albums.find(a => a.judul.toLowerCase().includes(l.nama.toLowerCase().replace(/&/g, "dan").split(" ")[0]) && /lab/i.test(a.judul));
+  const labIds = new Set(D.lab.map(labAlbum).filter(Boolean).map(a => a.id));
+
+  /* mosaik foto kampus dari album fasilitas umum */
+  const foto = albums.filter(a => !labIds.has(a.id)).flatMap(a => a.foto).slice(0, 5);
+  if (foto.length) {
+    $("#mosaic").classList.add("n" + Math.min(foto.length, 5));
+    $("#mosaic").innerHTML = foto.map(([f, cap], i) => `<button class="fx-tile" data-i="${i}" aria-label="Perbesar foto: ${esc(cap)}"><img src="${SRC(f)}" alt="${esc(cap)}" loading="lazy"><span class="fx-cap">${esc(cap)}</span></button>`).join("");
+    $("#mosaic").addEventListener("click", e => { const t = e.target.closest(".fx-tile"); if (t) lightbox(foto, +t.dataset.i); });
+  } else $("#mosaic").hidden = true;
+  const modul = D.lab.reduce((n, l) => n + l.praktikum.length, 0);
+  $("#fx-stats").innerHTML = [[D.lab.length, "Laboratorium"], [modul, "Modul praktikum"], [albums.reduce((n, a) => n + a.foto.length, 0), "Foto fasilitas"]]
+    .map(([n, t]) => `<div><b>${n}</b><small>${t}</small></div>`).join("") + `<a href="galeri.html?kategori=Fasilitas">Lihat semua album ${ic("arrow")}</a>`;
+
+  /* laboratorium interaktif */
+  $("#lx-tabs").innerHTML = D.lab.map((l, i) => `<button role="tab" data-i="${i}" aria-selected="false"><span class="lx-ic">${ic(l.icon)}</span><span><small>Lab 0${i + 1}</small><b>${l.nama}</b></span></button>`).join("");
+  const showLab = i => {
+    const l = D.lab[i], al = labAlbum(l), fotos = al ? al.foto : (l.foto || []);
+    $$("#lx-tabs button").forEach((t, k) => { t.classList.toggle("on", k === i); t.setAttribute("aria-selected", k === i); });
+    const p = $("#lx-panel");
+    p.innerHTML = `<div class="lx-media">${fotos.length ? `<button class="lx-photo" aria-label="Perbesar foto ${esc(l.nama)}"><img src="${SRC(fotos[0][0])}" alt="${esc(fotos[0][1])}">${al ? "" : '<span class="lx-ilus">Foto ilustrasi</span>'}${fotos.length > 1 ? `<span class="lx-count">${ic("image")}${fotos.length} foto</span>` : ""}</button>`
+        : `<div class="lx-ph"><span class="lx-ph-ic">${ic(l.icon)}</span><b>${l.nama}</b><small>Foto laboratorium segera ditambahkan</small></div>`}</div>
+      <div class="lx-body"><span class="lx-step">Laboratorium 0${i + 1} / 0${D.lab.length}</span><h3>${l.nama}</h3><p>${l.desk}</p>
+        <span class="lx-sub">Modul praktikum</span>
+        <ol class="lx-mod">${l.praktikum.map((m, k) => `<li><span>${String(k + 1).padStart(2, "0")}</span>${m}</li>`).join("")}</ol>
+        <div class="lx-nav"><button class="lx-prev" aria-label="Laboratorium sebelumnya">${ic("arrow")}</button><button class="lx-next" aria-label="Laboratorium berikutnya">${ic("arrow")}</button></div>
+      </div>`;
+    p.classList.remove("swap"); void p.offsetWidth; p.classList.add("swap");
+    $(".lx-photo", p)?.addEventListener("click", () => lightbox(fotos, 0));
+    $(".lx-prev", p).addEventListener("click", () => showLab((i - 1 + D.lab.length) % D.lab.length));
+    $(".lx-next", p).addEventListener("click", () => showLab((i + 1) % D.lab.length));
+  };
+  $("#lx-tabs").addEventListener("click", e => { const t = e.target.closest("button"); if (t) showLab(+t.dataset.i); });
+  $("#lx-tabs").addEventListener("keydown", e => {
+    const bs = $$("#lx-tabs button"), i = bs.indexOf(document.activeElement);
+    if (i < 0 || !["ArrowRight", "ArrowLeft"].includes(e.key)) return;
+    e.preventDefault(); const n = (i + (e.key === "ArrowRight" ? 1 : -1) + bs.length) % bs.length; bs[n].focus(); showLab(n);
+  });
+  const h = D.lab.findIndex(l => "#" + l.id === location.hash);
+  showLab(h < 0 ? 0 : h);
 };
 </script>
 </body>

@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261116zz3">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zz9">
 </head>
 <body>
 <div id="site-header"></div>
@@ -112,9 +112,19 @@
   </div>
 </section>
 
+<section class="section soft" id="mitra">
+  <div class="container">
+    <div class="sec-head sec-c reveal"><div><span class="label">Mitra</span><h2 class="h2">Mitra dan ekosistem <em class="ac dk">universitas.</em></h2><p class="lead">Lembaga dan perusahaan yang bekerja sama dengan Universitas Nusa Megarkencana.</p></div></div>
+  </div>
+  <div class="mt-wrap reveal" aria-label="Logo mitra">
+    <div class="mt-row"><div class="mt-track" id="partners"></div></div>
+    <div class="mt-row"><div class="mt-track rev" id="partners2"></div></div>
+  </div>
+</section>
+
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js?v=20261116z"></script>
+<script src="assets/js/data.js?v=20261116zz9"></script>
 <script src="assets/js/app.js?v=20261116zz3"></script>
 <script src="assets/js/fx.js?v=20261116i" defer></script>
 <script>
@@ -214,6 +224,13 @@ window.pageInit = function () {
 
   $("#ic-main").innerHTML = ic("hardhat"); $("#ic-rps").innerHTML = ic("book"); $("#ic-ta").innerHTML = ic("clipboard");
 
+  /* mitra universitas */
+  /* logo diulang agar pita bergeser tanpa putus; salinan kedua disembunyikan dari pembaca layar */
+  const pt = (m, hide) => `<div class="pt" title="${m[1]}"${hide ? ' aria-hidden="true"' : ""}><img src="assets/img/partner/${m[0].replace("partner-", "trim-")}" alt="${hide ? "" : m[1]}"></div>`;
+  const half = Math.ceil(D.mitra.length / 2);
+  const baris = (list, hideAll) => { const set = [...list, ...list, ...list]; return set.map((m, i) => pt(m, hideAll || i >= list.length)).join("") + set.map(m => pt(m, true)).join(""); };
+  $("#partners").innerHTML = baris(D.mitra, false);
+  $("#partners2").innerHTML = baris([...D.mitra.slice(half), ...D.mitra.slice(0, half)], true);
   /* album galeri: kartu digeser dengan panah, penunjuk posisi "1 / n" */
   const albums = getAlbum(), tr = $("#albums");
   tr.innerHTML = albums.map(albumCard).join("");

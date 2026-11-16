@@ -50,12 +50,14 @@ window.UNMEKA = {
   },
 
   /* contoh — menunggu data laboratorium resmi */
+  /* foto laboratorium: ilustrasi berlisensi bebas dari Wikimedia Commons sampai foto asli tersedia.
+     Foto asli diunggah admin lewat Galeri (kategori Fasilitas, judul memuat nama lab) dan otomatis menggantikan ilustrasi. */
   lab: [
-    { id: "bahan", nama: "Bahan & Beton", icon: "flask", desk: "Pengujian agregat, rancangan campuran, dan kuat tekan beton.", praktikum: ["Analisis saringan agregat", "Rancangan campuran beton", "Uji slump", "Uji kuat tekan"] },
-    { id: "tanah", nama: "Mekanika Tanah", icon: "layers", desk: "Pengujian sifat fisik dan mekanik tanah untuk perencanaan pondasi.", praktikum: ["Kadar air & berat jenis", "Batas Atterberg", "Uji pemadatan", "Uji geser langsung"] },
-    { id: "hidro", nama: "Hidrolika", icon: "droplet", desk: "Pengamatan aliran pada saluran terbuka dan pipa dengan model fisik.", praktikum: ["Aliran saluran terbuka", "Ambang dan pelimpah", "Kehilangan energi pada pipa"] },
-    { id: "survei", nama: "Survei & Pemetaan", icon: "ruler", desk: "Pengukuran lapangan dan pemetaan topografi.", praktikum: ["Pengukuran sipat datar", "Pengukuran poligon", "Pemetaan situasi"] },
-    { id: "komputer", nama: "Komputasi & CAD", icon: "monitor", desk: "Penggambaran teknik dan analisis struktur berbantuan perangkat lunak.", praktikum: ["Gambar teknik dengan CAD", "Pemodelan struktur", "Pengenalan BIM"] },
+    { id: "bahan", nama: "Bahan & Beton", icon: "flask", desk: "Pengujian agregat, rancangan campuran, dan kuat tekan beton.", praktikum: ["Analisis saringan agregat", "Rancangan campuran beton", "Uji slump", "Uji kuat tekan"], foto: [["lab/bahan-1.jpg", "Ilustrasi: mesin uji tekan (Cjp24, Wikimedia Commons, CC BY-SA 3.0)"], ["lab/bahan-2.jpg", "Ilustrasi: uji kuat tekan silinder beton (Xb-70, Wikimedia Commons, domain publik)"]] },
+    { id: "tanah", nama: "Mekanika Tanah", icon: "layers", desk: "Pengujian sifat fisik dan mekanik tanah untuk perencanaan pondasi.", praktikum: ["Kadar air & berat jenis", "Batas Atterberg", "Uji pemadatan", "Uji geser langsung"], foto: [["lab/tanah-1.jpg", "Ilustrasi: alat uji triaksial tanah (TomasSab, Wikimedia Commons, CC BY-SA 4.0)"], ["lab/tanah-2.jpg", "Ilustrasi: rangkaian alat uji triaksial (BAW, Wikimedia Commons, CC BY 2.0)"]] },
+    { id: "hidro", nama: "Hidrolika", icon: "droplet", desk: "Pengamatan aliran pada saluran terbuka dan pipa dengan model fisik.", praktikum: ["Aliran saluran terbuka", "Ambang dan pelimpah", "Kehilangan energi pada pipa"], foto: [["lab/hidro-1.jpg", "Ilustrasi: ruang laboratorium hidrolika (Wasiul Bahar, Wikimedia Commons, CC BY-SA 4.0)"], ["lab/hidro-2.jpg", "Ilustrasi: saluran uji aliran (Christophe Finot dan Kamal Hammani, Wikimedia Commons, CC BY-SA 2.5)"]] },
+    { id: "survei", nama: "Survei & Pemetaan", icon: "ruler", desk: "Pengukuran lapangan dan pemetaan topografi.", praktikum: ["Pengukuran sipat datar", "Pengukuran poligon", "Pemetaan situasi"], foto: [["lab/survei-1.jpg", "Ilustrasi: total station pada pengukuran jembatan (FedericaGaspari, Wikimedia Commons, CC BY-SA 4.0)"]] },
+    { id: "komputer", nama: "Komputasi & CAD", icon: "monitor", desk: "Penggambaran teknik dan analisis struktur berbantuan perangkat lunak.", praktikum: ["Gambar teknik dengan CAD", "Pemodelan struktur", "Pengenalan BIM"], foto: [["lab/komputer-1.jpg", "Ilustrasi: ruang komputer (Mike1024, Wikimedia Commons, domain publik)"]] },
   ],
 
   berita: [
@@ -139,10 +141,10 @@ window.UNMEKA = {
   mitra: [["partner-kampus-merdeka.webp", "Kampus Merdeka"], ["partner-google.webp", "Google"], ["partner-microsoft.webp", "Microsoft"], ["partner-nvidia.webp", "NVIDIA"]],
 
   prestasi: [
-    { tahun: 2026, juara: "Juara 1", lomba: "GAMA CUP UGM 2026, Bola Voli Putra", tim: "Tim Bola Voli UNMEKA" },
-    { tahun: 2026, juara: "Juara 1", lomba: "GAMA CUP UGM 2026, Bola Voli Putri", tim: "Tim Bola Voli UNMEKA" },
-    { tahun: 2026, juara: "MVP Putra Terbaik", lomba: "GAMA CUP UGM 2026", tim: "Landung Ramadani" },
-    { tahun: 2026, juara: "MVP Putri Terbaik", lomba: "GAMA CUP UGM 2026", tim: "Siti Rachmi" },
+    { tahun: 2026, juara: "Juara 1", lomba: "GAMA CUP UGM 2026, Bola Voli Putra", tim: "Tim Bola Voli UNMEKA", foto: "berita/gama-cup-2026-juara.webp" },
+    { tahun: 2026, juara: "Juara 1", lomba: "GAMA CUP UGM 2026, Bola Voli Putri", tim: "Tim Bola Voli UNMEKA", foto: "berita/gama-cup-2026-juara.webp" },
+    { tahun: 2026, juara: "MVP Putra Terbaik", lomba: "GAMA CUP UGM 2026", tim: "Landung Ramadani", foto: "berita/gama-cup-2026-mvp-putra.webp" },
+    { tahun: 2026, juara: "MVP Putri Terbaik", lomba: "GAMA CUP UGM 2026", tim: "Siti Rachmi", foto: "berita/gama-cup-2026-mvp-putri.webp" },
   ],
 
   /* Biaya resmi belum tersedia. Isi daftar, spp, dan gedung (dalam Rupiah) pada setiap jalur
