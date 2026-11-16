@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261116zu">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zx">
 </head>
 <body>
 <div id="site-header"></div>
@@ -57,7 +57,7 @@
 </main>
 <div id="site-footer"></div>
 <script src="assets/js/data.js?v=20261116z"></script>
-<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="assets/js/app.js?v=20261116zx"></script>
 <script src="assets/js/fx.js?v=20261116i" defer></script>
 <script src="assets/js/flair.js?v=20261102n" defer></script>
 <script>
@@ -102,7 +102,7 @@ window.pageInit = function () {
     $("#title").textContent = r.nama;
     $("#sub").textContent = `Rencana Pembelajaran Semester · Semester ${r.semester} · ${r.sks} SKS`;
     const lain = all.filter(x => x.semester === r.semester && x.id !== r.id);
-    const fname = r.file ? r.file.nama : r.url ? (r.contoh ? "Contoh-RPS-Statika.pdf" : (/drive\.google/.test(r.url) ? "RPS di Google Drive" : r.url.split(/[/?#]/).filter(Boolean).pop())) : "";
+    const fname = r.file ? r.file.nama : r.url ? (r.contoh ? r.url.split("/").pop() : (/drive\.google/.test(r.url) ? "RPS di Google Drive" : r.url.split(/[/?#]/).filter(Boolean).pop())) : "";
     const dlAttr = r.file ? `href="${r.file.data}" download="${esc(r.file.nama)}"` : r.url ? (/^https?:/i.test(r.url) ? `href="${esc(r.url)}" target="_blank" rel="noopener"` : `href="${esc(r.url)}" download="${esc(fname)}"`) : "";
     $("#view").innerHTML = `<div class="jd">
       <section class="jd-card">
@@ -140,7 +140,7 @@ window.pageInit = function () {
   let sem = Math.min(8, Math.max(0, +qs.get("sem") || 0)), page = 1;
   const ada = all.filter(r => r.file || r.url).length;
   const fileCell = r => `<span class="rps-fc">${eye(r)}` + (r.file ? `<a class="rps-f" href="${r.file.data}" download="${esc(r.file.nama)}">${ic("download")}${esc(r.file.nama)}</a>`
-    : r.url ? `<a class="rps-f" href="${esc(r.url)}" target="_blank" rel="noopener">${ic(r.contoh ? "download" : "external")}${r.contoh ? "Contoh-RPS-Statika.pdf" : "Lihat RPS"}</a>`
+    : r.url ? `<a class="rps-f" href="${esc(r.url)}" target="_blank" rel="noopener">${ic(r.contoh ? "download" : "external")}${r.contoh ? r.url.split("/").pop() : "Lihat RPS"}</a>`
     : `<span class="na">Belum tersedia</span>`) + "</span>";
 
   /* filter semester seperti ikon corong pada tabel Gunadarma */

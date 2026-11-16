@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261116zu">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zx">
 </head>
 <body>
 <div id="site-header"></div>
@@ -34,7 +34,7 @@
 <section class="section" id="bidang">
   <div class="container">
     <div class="sec-head reveal"><div><span class="label">Bidang Kajian</span><h2 class="h2">Cakupan keilmuan teknik sipil</h2><p class="lead">Mahasiswa mempelajari lima bidang utama yang menjadi dasar pekerjaan perencanaan dan konstruksi infrastruktur.</p></div></div>
-    <div class="grid g3" id="bidang-list"></div>
+    <div class="bk2 reveal" id="bidang-list"><div class="bk2-nav" id="bk2-nav" role="tablist" aria-label="Bidang kajian"></div><div class="bk2-panel" id="bk2-panel" role="tabpanel" aria-live="polite"></div></div>
   </div>
 </section>
 
@@ -65,12 +65,34 @@
 </main>
 <div id="site-footer"></div>
 <script src="assets/js/data.js?v=20261116z"></script>
-<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="assets/js/app.js?v=20261116zx"></script>
 <script src="assets/js/fx.js?v=20261116i" defer></script>
 <script src="assets/js/flair.js?v=20261102n" defer></script>
 <script>
 window.pageInit = function () {
-  $("#bidang-list").innerHTML = D.bidang.map(b => `<div class="card reveal"><div class="ci">${ic(b.icon)}</div><h3>${b.nama}</h3><p>${b.desk}</p><p style="margin-top:14px;font-size:.84rem"><b style="color:var(--ink)">Mata kuliah terkait:</b> ${b.mk.join(", ")}</p></div>`).join("");
+  /* bidang kajian: daftar bernomor di kiri, panel rincian di kanan dengan mata kuliah dari data admin */
+  const MKALL = getRps();
+  $("#bk2-nav").innerHTML = D.bidang.map((b, i) => `<button role="tab" data-i="${i}" aria-selected="false"><span class="bk2-no">0${i + 1}</span><span class="bk2-ic">${ic(b.icon)}</span><span class="bk2-n">${b.nama}</span>${ic("arrow")}</button>`).join("");
+  const showBidang = i => {
+    const b = D.bidang[i], mk = MKALL.filter(m => m.bidang === b.nama), sks = mk.reduce((a, m) => a + m.sks, 0);
+    $$("#bk2-nav button").forEach((t, k) => { t.classList.toggle("on", k === i); t.setAttribute("aria-selected", k === i); });
+    const p = $("#bk2-panel");
+    p.innerHTML = `<div class="bk2-head"><span class="bk2-big">${ic(b.icon)}</span><span class="bk2-step">Bidang 0${i + 1} / 0${D.bidang.length}</span></div>
+      <h3>${b.nama}</h3><p class="bk2-desk">${b.desk}</p>
+      <div class="bk2-stats"><div><b>${mk.length}</b><small>Mata kuliah</small></div><div><b>${sks}</b><small>Total SKS</small></div><div><b>${mk.length ? `${Math.min(...mk.map(m => m.semester))}–${Math.max(...mk.map(m => m.semester))}` : "-"}</b><small>Semester</small></div></div>
+      <div class="bk2-mk">${mk.map(m => `<a href="rps.html?id=${m.id}"><span>${esc(m.nama)}</span><small>Smt ${m.semester} · ${m.sks} SKS</small></a>`).join("") || '<p class="meta">Belum ada mata kuliah pada bidang ini.</p>'}</div>
+      <button class="bk2-go" data-b="${b.id}">Sorot di sebaran kurikulum ${ic("arrow")}</button>`;
+    p.classList.remove("swap"); void p.offsetWidth; p.classList.add("swap");
+  };
+  $("#bk2-nav").addEventListener("click", e => { const t = e.target.closest("button"); if (t) showBidang(+t.dataset.i); });
+  $("#bk2-nav").addEventListener("keydown", e => {
+    const bs = $$("#bk2-nav button"), i = bs.indexOf(document.activeElement);
+    if (i < 0 || !["ArrowDown", "ArrowUp"].includes(e.key)) return;
+    e.preventDefault(); const n = (i + (e.key === "ArrowDown" ? 1 : -1) + bs.length) % bs.length; bs[n].focus(); showBidang(n);
+  });
+  /* tombol sorot: aktifkan bidang yang sama di penjelajah kurikulum lalu gulir ke sana */
+  $("#bk2-panel").addEventListener("click", e => { const g = e.target.closest(".bk2-go"); if (!g) return; $(`#kx .chip[data-b="${g.dataset.b}"]`)?.click(); $("#kurikulum").scrollIntoView({ behavior: "smooth" }); });
+  showBidang(0);
 
   /* ---- penjelajah kurikulum: data dari menu Mata Kuliah dan RPS di panel admin ---- */
   const K = {};

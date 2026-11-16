@@ -31,12 +31,15 @@ const getAlbum = () => (store.get("admin_galeri", null) || D.album).filter(a => 
 const BIDANG_RE = [["Struktur", /struktur|statika|mekanika bahan|gempa|dinamika|bim/i], ["Geoteknik", /mekanika tanah|pondasi/i], ["Transportasi", /transportasi|lalu lintas|jalan|perkerasan/i], ["Keairan", /fluida|hidrolika|hidrologi|bangunan air|lingkungan/i], ["Manajemen Konstruksi", /manajemen|biaya|k3|kewirausahaan/i]];
 const bidangDari = n => (BIDANG_RE.find(([, re]) => re.test(n)) || ["Umum"])[0];
 const jenisDari = n => /pilihan/i.test(n) ? "Pilihan" : "Wajib";
-/* satu RPS contoh (Statika) untuk demonstrasi pratinjau; diganti RPS resmi oleh admin */
-const RPS_CONTOH = { nama: "Statika", url: "assets/docs/contoh-rps-statika.pdf" };
+/* RPS contoh untuk demonstrasi pratinjau (kode dan berkas bukan resmi); diganti RPS resmi oleh admin */
+const RPS_CONTOH = [
+  { nama: "Bahasa Indonesia", kode: "TS101", url: "assets/docs/contoh-rps-bahasa-indonesia.pdf" },
+  { nama: "Statika", kode: "TS202", url: "assets/docs/contoh-rps-statika.pdf" },
+];
 const rpsSeed = () => Object.entries(D.kurikulum).flatMap(([s, list]) => list.map(([nama, sks], i) => ({ id: +s * 100 + i + 1, kode: "", nama, semester: +s, sks, bidang: bidangDari(nama), jenis: jenisDari(nama), prasyarat: "", url: "", file: null })))
-  .map(r => r.nama === RPS_CONTOH.nama ? { ...r, url: RPS_CONTOH.url, contoh: true } : r);
-/* data RPS yang sudah tersimpan sebelum contoh ditambahkan ikut mendapat contoh, sekali saja */
-try { const st = store.get("admin_rps", null); if (st && !store.get("rps_contoh_v1", false)) { const r = st.find(x => x.nama === RPS_CONTOH.nama && !x.url && !x.file); if (r) { r.url = RPS_CONTOH.url; r.contoh = true; store.set("admin_rps", st); } store.set("rps_contoh_v1", true); } } catch {}
+  .map(r => { const c = RPS_CONTOH.find(x => x.nama === r.nama); return c ? { ...r, kode: c.kode, url: c.url, contoh: true } : r; });
+/* data RPS yang sudah tersimpan ikut mendapat contoh yang belum ada, sekali saja */
+try { const st = store.get("admin_rps", null); if (st && !store.get("rps_contoh_v2", false)) { RPS_CONTOH.forEach(c => { const r = st.find(x => x.nama === c.nama); if (r && !r.file && (!r.url || r.contoh)) { r.url = c.url; r.contoh = true; if (!r.kode) r.kode = c.kode; } }); store.set("admin_rps", st); store.set("rps_contoh_v2", true); } } catch {}
 /* data mata kuliah: dipakai halaman Kurikulum dan RPS, dikelola di menu Mata Kuliah dan RPS */
 const getRps = () => (store.get("admin_rps", null) || rpsSeed()).map(r => ({ ...r, semester: +r.semester, sks: +r.sks, bidang: r.bidang || bidangDari(r.nama), jenis: r.jenis || jenisDari(r.nama) })).sort((a, b) => a.semester - b.semester || a.nama.localeCompare(b.nama));
 /* gambar bisa berupa berkas di assets/img atau hasil unggahan (data URL) */

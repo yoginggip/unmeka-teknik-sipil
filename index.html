@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261116zu">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zx">
 </head>
 <body>
 <div id="site-header"></div>
@@ -93,7 +93,7 @@
 <section class="section soft" id="karier">
   <div class="container">
     <div class="sec-head sec-c reveal"><div><span class="label">Karier dan Lowongan</span><h2 class="h2">Lowongan kerja dan <em class="ac dk">magang.</em></h2><p class="lead">Peluang kerja dan magang bidang teknik sipil untuk mahasiswa dan alumni.</p></div></div>
-    <div class="grid g3" id="jobs"></div>
+    <div class="tk-grid reveal" id="jobs"></div>
     <p class="ir-note" id="jobs-note" hidden>Lowongan di atas adalah data peraga; lowongan resmi diunggah oleh admin program studi.</p>
     <div class="sc-more"><a class="btn btn-outline btn-pill" href="karier.html">Semua lowongan <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </div>
@@ -115,7 +115,7 @@
 </main>
 <div id="site-footer"></div>
 <script src="assets/js/data.js?v=20261116z"></script>
-<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="assets/js/app.js?v=20261116zx"></script>
 <script src="assets/js/fx.js?v=20261116i" defer></script>
 <script>
 window.pageInit = function () {
@@ -207,8 +207,24 @@ window.pageInit = function () {
   $("#news").innerHTML = getBerita().slice(0, 3).map(b => `<a class="card album-card reveal" href="berita.html?id=${b.id}"><div class="ac-cover">${thumb(b)}</div><div class="ac-body"><span class="tag">${esc(b.kategori)}</span><h3>${esc(b.judul)}</h3><small class="meta">${fmtDate(b.tanggal)}</small></div></a>`).join("");
 
   /* lowongan kerja dan magang yang masih dibuka */
-  const jobs = getLowongan().slice(0, 3);
-  if (jobs.length) $("#jobs").innerHTML = jobs.map(jobCard).join(""); else $("#karier").hidden = true;
+  /* tampil seperti tiket: info lowongan di kiri, sisa hari pendaftaran di potongan tiket kanan */
+  const jobs = getLowongan().slice(0, 4);
+  const BLS = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+  const mono = t => t.split(/\s+/).filter(w => /^[A-Za-z]/.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join("") || "TS";
+  const ticket = l => {
+    const end = new Date(l.batas + "T00:00:00"), left = Math.max(0, Math.ceil((end - new Date(today() + "T00:00:00")) / 864e5)), urgent = left <= 7;
+    return `<a class="tk${urgent ? " urgent" : ""}" href="karier.html?id=${l.id}">
+      <span class="tk-main">
+        <span class="tk-top"><span class="tk-logo">${l.poster ? `<img src="${SRC(l.poster)}" alt="">` : esc(mono(l.instansi))}</span>
+          <span><span class="tk-org">${esc(l.instansi)}</span><span class="tk-tags"><i class="tk-j${l.jenis === "Magang" ? " mg" : ""}">${esc(l.jenis)}</i><i>${ic("pin")}${esc(l.lokasi)}</i></span></span></span>
+        <b class="tk-pos">${esc(l.posisi)}</b>
+        <span class="tk-desc">${esc(l.ringkas)}</span>
+        <span class="tk-cta">Lihat lowongan ${ic("arrow")}</span>
+      </span>
+      <span class="tk-stub"><b>${left}</b><small>${left === 0 ? "hari terakhir" : "hari lagi"}</small><span>${urgent ? "Segera ditutup" : `Tutup ${end.getDate()} ${BLS[end.getMonth()]}`}</span></span>
+    </a>`;
+  };
+  if (jobs.length) $("#jobs").innerHTML = jobs.map(ticket).join(""); else $("#karier").hidden = true;
   $("#jobs-note").hidden = !jobs.some(l => l.contoh);
 
   $("#ic-main").innerHTML = ic("hardhat"); $("#ic-rps").innerHTML = ic("book"); $("#ic-ta").innerHTML = ic("clipboard");
