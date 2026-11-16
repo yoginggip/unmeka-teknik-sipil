@@ -19,8 +19,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261102n">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zr">
 </head>
 <body>
 <div id="site-header"></div>
@@ -33,9 +33,9 @@
 <section class="section"><div class="container" id="view"></div></section>
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js?v=20261102n"></script>
-<script src="assets/js/app.js?v=20261102n"></script>
-<script src="assets/js/fx.js" defer></script>
+<script src="assets/js/data.js?v=20261116z"></script>
+<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="assets/js/fx.js?v=20261116i" defer></script>
 <script src="assets/js/flair.js?v=20261102n" defer></script>
 <script>
 window.pageInit = function () {
@@ -54,6 +54,7 @@ window.pageInit = function () {
     $("#sub").textContent = l.instansi;
     v.innerHTML = `${l.contoh ? note : ""}<div class="job-detail">
       <article class="article" style="margin:0">
+        ${l.poster ? `<button class="job-poster" id="poster" aria-label="Perbesar poster"><img src="${esc(l.poster)}" alt="Poster ${esc(l.posisi)}"></button><small class="job-poster-note">Klik poster untuk memperbesar</small>` : ""}
         <h2 class="h2" style="font-size:1.3rem">Deskripsi</h2><p>${esc(l.ringkas)}</p>
         ${l.syarat ? `<h2 class="h2" style="font-size:1.3rem;margin-top:28px">Persyaratan</h2><ul>${l.syarat.split("\n").filter(Boolean).map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
         <div class="article-foot"><a class="link" href="karier.html" id="back">${ic("arrow")} Semua lowongan</a></div>
@@ -64,6 +65,7 @@ window.pageInit = function () {
           : `<a class="btn btn-navy" style="width:100%" href="kontak.html">Tanya program studi</a>`}
       </aside></div>`;
     $("#back .icon").style.transform = "rotate(180deg)";
+    $("#poster")?.addEventListener("click", () => { openModal(`<figure><img src="${esc(l.poster)}" alt="Poster ${esc(l.posisi)}"></figure>`); $("#gmodal").classList.add("lb"); });
     return;
   }
 

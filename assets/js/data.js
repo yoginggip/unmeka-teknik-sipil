@@ -123,6 +123,19 @@ window.UNMEKA = {
     ["web/article-04.jpg", "Pelepasan mahasiswa program MBKM Kampus Mengajar 7"],
   ],
 
+  /* album galeri: foto[0] menjadi sampul. Foto dari unmeka.ac.id; tanggal kosong bila tidak diketahui */
+  album: [
+    { id: 1, judul: "GAMA CUP UGM 2026", kategori: "Kegiatan", tanggal: "2026-10-09", ket: "Tim bola voli UNMEKA meraih juara 1 kategori putra dan putri pada GAMA CUP UGM 2026.",
+      foto: [["berita/gama-cup-2026-juara.webp", "Tim bola voli UNMEKA juara GAMA CUP UGM 2026"], ["berita/gama-cup-2026-mvp-putra.webp", "Landung Ramadani, MVP Putra Terbaik"], ["berita/gama-cup-2026-mvp-putri.webp", "Siti Rachmi, MVP Putri Terbaik"]] },
+    { id: 2, judul: "GAMACUP 2024", kategori: "Kegiatan", tanggal: "2024-09-17", ket: "Tim bola voli UNMEKA mengikuti kompetisi GAMACUP 2024.", foto: [["web/article-01.jpg", "Tim bola voli UNMEKA pada GAMACUP 2024"]] },
+    { id: 3, judul: "Pembekalan dan Pelepasan MBKM Kampus Mengajar Angkatan 8", kategori: "Kegiatan", tanggal: "2024-09-02", ket: "", foto: [["web/article-02.jpg", "Pembekalan dan pelepasan mahasiswa MBKM Kampus Mengajar Angkatan 8"]] },
+    { id: 4, judul: "Peresmian Universitas Nusa Megarkencana", kategori: "Kegiatan", tanggal: "2024-08-22", ket: "STIE Nusa Megarkencana bertransformasi menjadi Universitas Nusa Megarkencana.", foto: [["web/article-03.jpg", "Penyerahan surat keputusan perubahan bentuk menjadi universitas"]] },
+    { id: 5, judul: "Pelepasan MBKM Kampus Mengajar 7", kategori: "Kegiatan", tanggal: "", ket: "", foto: [["web/article-04.jpg", "Pelepasan mahasiswa program MBKM Kampus Mengajar 7"]] },
+    { id: 6, judul: "Sidang Terbuka Wisuda", kategori: "Kegiatan", tanggal: "", ket: "", foto: [["web/article-05.jpg", "Sidang terbuka wisuda"]] },
+    { id: 7, judul: "Lingkungan Kampus", kategori: "Fasilitas", tanggal: "", ket: "Gedung dan suasana kampus Universitas Nusa Megarkencana.",
+      foto: [["web/home-pic-1.jpg", "Mahasiswa di depan gedung Universitas Nusa Megarkencana"], ["slider-2.jpg", "Diskusi mahasiswa di lingkungan kampus"], ["web/home-pic-2.jpg", "Kegiatan mahasiswa di halaman kampus"], ["slider-3.jpg", "Belajar bersama"]] },
+  ],
+
   mitra: [["partner-kampus-merdeka.webp", "Kampus Merdeka"], ["partner-google.webp", "Google"], ["partner-microsoft.webp", "Microsoft"], ["partner-nvidia.webp", "NVIDIA"]],
 
   prestasi: [

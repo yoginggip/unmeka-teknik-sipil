@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Pengaturan | Admin Teknik Sipil UNMEKA</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css?v=20261116zr"><link rel="stylesheet" href="admin.css?v=20261116zo">
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/js/data.js?v=20261116z"></script>
+<script src="../assets/js/app.js?v=20261116zp"></script>
+<script src="admin.js?v=20261116zo"></script>
+<script>
+window.pageInit = function () {
+  if (!shell("Pengaturan Website", `<div class="card" style="max-width:820px"><form id="ps" novalidate><div id="perr"></div><div class="form-grid" id="pf"></div>
+    <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn btn-navy" type="submit">Simpan pengaturan</button></div></form></div>`)) return;
+  const s = Object.assign({}, D.site, store.get("admin_pengaturan", {}));
+  const F = [["prodi", "Nama program studi"], ["fakultas", "Fakultas"], ["kaprodi", "Ketua program studi"], ["akreditasi", "Akreditasi"], ["telp", "Telepon"], ["email", "Email", "email"],
+    ["wa", "WhatsApp PMB (format 62812...)"], ["daftar", "Tautan situs PMB", "url"], ["alamat", "Alamat", "textarea"]];
+  $("#pf").innerHTML = F.map(([k, l, t]) => `<div class="field${t === "textarea" || t === "url" ? " full" : ""}"><label for="p_${k}">${l}</label>${t === "textarea" ? `<textarea class="input" id="p_${k}" rows="2">${esc(s[k] || "")}</textarea>` : `<input class="input" id="p_${k}" type="${t || "text"}" value="${esc(s[k] || "")}">`}</div>`).join("");
+  $("#ps").addEventListener("submit", e => {
+    e.preventDefault();
+    const v = {}; F.forEach(([k]) => v[k] = $("#p_" + k).value.trim());
+    if (v.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email)) { $("#perr").innerHTML = '<div class="alert err">Format email tidak valid.</div>'; return; }
+    if (v.daftar && !/^https?:\/\//.test(v.daftar)) { $("#perr").innerHTML = '<div class="alert err">Tautan PMB harus diawali http:// atau https://.</div>'; return; }
+    $("#perr").innerHTML = ""; store.set("admin_pengaturan", v); logAct("Mengubah", "Pengaturan", "Pengaturan website"); toast("Pengaturan disimpan.");
+  });
+};
+</script>
+</body>
+</html>

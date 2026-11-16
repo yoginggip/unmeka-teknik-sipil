@@ -7,14 +7,14 @@
 <title>Berita | Admin Teknik Sipil UNMEKA</title>
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="admin.css?v=20261116zo">
 </head>
 <body>
 <div id="app"></div>
-<script src="../assets/js/data.js?v=20261102n"></script>
-<script src="../assets/js/app.js?v=20261102n"></script>
-<script src="admin.js?v=20261102n"></script>
+<script src="../assets/js/data.js?v=20261116z"></script>
+<script src="../assets/js/app.js?v=20261116zp"></script>
+<script src="admin.js?v=20261116zo"></script>
 <script>
 window.pageInit = function () {
   if (!shell("Berita", "")) return;
@@ -31,6 +31,8 @@ window.pageInit = function () {
       { k: "tanggal", label: "Tanggal terbit", type: "date", req: true, def: new Date().toISOString().slice(0, 10) },
       { k: "ringkas", label: "Ringkasan", type: "textarea", rows: 2, full: true, req: true, help: "Ditampilkan pada kartu berita." },
       { k: "isi", label: "Isi berita", type: "textarea", rows: 8, full: true, req: true, help: "Pisahkan paragraf dengan baris baru." },
+      { k: "gambar", label: "Foto utama", type: "image", ratio: 16 / 9, max: 1200, full: true, help: "Otomatis dipotong 16:9. Tampil sebagai sampul di kartu berita dan di atas isi berita." },
+      { k: "galeri", label: "Foto tambahan", type: "images", ratio: 4 / 3, max: 1200, maxCount: 8, full: true, help: "Opsional, maksimal 8 foto. Tampil di bawah isi berita." },
     ],
   });
 };

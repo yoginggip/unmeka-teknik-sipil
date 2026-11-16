@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rencana Pembelajaran Semester | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Daftar Rencana Pembelajaran Semester (RPS) mata kuliah Program Studi Teknik Sipil UNMEKA.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teknik Sipil UNMEKA">
+<meta property="og:title" content="Rencana Pembelajaran Semester | Program Studi Teknik Sipil UNMEKA">
+<meta property="og:description" content="Daftar Rencana Pembelajaran Semester (RPS) mata kuliah Program Studi Teknik Sipil UNMEKA.">
+<meta property="og:url" content="https://yoginggip.github.io/unmeka-teknik-sipil/rps.html">
+<meta property="og:image" content="https://yoginggip.github.io/unmeka-teknik-sipil/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="id_ID">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://yoginggip.github.io/unmeka-teknik-sipil/rps.html">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zr">
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head center"><div class="bg" style="background-image:url(assets/img/web/page-title-bg-sipil.jpg)"></div><div class="container">
+  <nav class="crumb" aria-label="Breadcrumb" id="crumb"><a href="index.html">Beranda</a><span aria-hidden="true">/</span><span>Akademik</span><span aria-hidden="true">/</span><span>RPS</span></nav>
+  <h1 id="title">Silabus dan Rencana Pembelajaran Semester</h1>
+  <p id="sub">Program Studi Teknik Sipil, Universitas Nusa Megarkencana</p>
+</div></section>
+<section class="section rps-sec">
+  <div class="container" id="view">
+    <label class="rps-search"><span class="sr-only">Cari mata kuliah</span><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Cari berdasarkan nama mata kuliah"></label>
+    <p class="rps-sum" id="sum"></p>
+    <div class="rps-wrap">
+      <table class="rps-t">
+        <thead><tr>
+          <th style="width:64px">No</th>
+          <th style="width:140px"><span class="th">Semester<button class="th-btn" id="f-sem" aria-label="Saring semester" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24"><path d="M3 5h18l-7 8.5V19l-4 2v-7.5z"/></svg></button></span>
+            <div class="th-pop" id="p-sem" hidden></div></th>
+          <th style="width:170px"><span class="th">Kode Matkul<button class="th-btn" id="f-kode" aria-label="Cari kode mata kuliah" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></span>
+            <div class="th-pop" id="p-kode" hidden><input class="input" id="q-kode" type="search" placeholder="Cari kode"></div></th>
+          <th><span class="th">Nama Mata Kuliah<button class="th-btn" id="f-nama" aria-label="Cari nama mata kuliah"><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></span></th>
+          <th style="width:70px" class="num">SKS</th>
+          <th style="width:230px">File</th>
+        </tr></thead>
+        <tbody id="tb"></tbody>
+      </table>
+      <p class="empty" id="e" hidden>Tidak ada mata kuliah yang sesuai.</p>
+    </div>
+    <nav class="pager" id="pg" aria-label="Halaman tabel"></nav>
+    <p class="note"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Daftar mata kuliah mengikuti sebaran kurikulum sementara. Kode mata kuliah dan berkas RPS diisi oleh admin program studi.</p>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=20261116z"></script>
+<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="assets/js/fx.js?v=20261116i" defer></script>
+<script src="assets/js/flair.js?v=20261102n" defer></script>
+<script>
+window.pageInit = function () {
+  const all = getRps(), PER = 10, qs = new URLSearchParams(location.search);
+  const unduhBtn = r => r.file ? `<a class="btn btn-primary" href="${r.file.data}" download="${esc(r.file.nama)}">${ic("download")} Unduh ${esc(r.file.nama)}</a>`
+    : r.url ? `<a class="btn btn-primary" href="${esc(r.url)}" target="_blank" rel="noopener">${ic("external")} Lihat RPS</a>` : "";
+
+  /* pratinjau: PDF unggahan dibuka di jendela; tautan Google Drive memakai mode pratinjau Drive; tautan lain dibuka di tab baru */
+  const canPv = r => r.file ? /\.pdf$/i.test(r.file.nama) : !!r.url;
+  const preview = async r => {
+    if (!r.file && !r.url) {
+      openModal(`<div class="pv"><div class="pv-h"><b>RPS ${esc(r.nama)}</b></div><p class="pv-na">${ic("file")}<span>RPS mata kuliah ini belum diunggah oleh program studi.<br>Silakan periksa kembali nanti atau hubungi program studi.</span></p></div>`, "pv-small");
+      return;
+    }
+    let src = "";
+    if (r.file) { if (/\.pdf$/i.test(r.file.nama)) src = URL.createObjectURL(await (await fetch(r.file.data)).blob()); }
+    else if (r.url) {
+      const m = r.url.match(/drive\.google\.com\/file\/d\/([^/?#]+)/);
+      if (m) src = `https://drive.google.com/file/d/${m[1]}/preview`;
+      else if (!/^https?:/i.test(r.url) && /\.pdf$/i.test(r.url)) src = r.url; /* PDF yang tersimpan di situs ini */
+      else { open(r.url, "_blank", "noopener"); return; }
+    }
+    openModal(`<div class="pv"><div class="pv-h"><b>RPS ${esc(r.nama)}</b>${unduhBtn(r).replace("btn btn-primary", "btn btn-outline btn-sm")}</div>
+      ${src ? `<iframe src="${src}" title="Pratinjau RPS ${esc(r.nama)}"></iframe>` : `<p class="pv-na">Pratinjau hanya tersedia untuk berkas PDF. Unduh berkas untuk membukanya.</p>`}</div>`, "wide");
+  };
+  /* ikon mata selalu tampil; pudar bila RPS belum dapat dipratinjau */
+  /* dapat ditampilkan di penampil: PDF unggahan, PDF di situs ini, atau tautan Google Drive */
+  const viewable = r => (r.file && /\.pdf$/i.test(r.file.nama)) || (r.url && (/drive\.google\.com\/file\/d\//.test(r.url) || (!/^https?:/i.test(r.url) && /\.pdf$/i.test(r.url))));
+  const eye = r => viewable(r) ? `<a class="rps-eye" href="rps-view.html?id=${r.id}" title="Pratinjau" aria-label="Pratinjau RPS ${esc(r.nama)}">${ic("eye")}</a>`
+    : r.url ? `<a class="rps-eye" href="${esc(r.url)}" target="_blank" rel="noopener" title="Buka RPS" aria-label="Buka RPS ${esc(r.nama)}">${ic("eye")}</a>`
+    : `<button class="rps-eye off" data-pv="${r.id}" title="${r.file ? "Pratinjau hanya untuk PDF" : "RPS belum tersedia"}" aria-label="Pratinjau RPS ${esc(r.nama)}">${ic("eye")}</button>`;
+  document.addEventListener("click", e => { const b = e.target.closest("[data-pv]"); if (b) preview(all.find(x => x.id === +b.dataset.pv)); });
+
+  /* ---- detail satu mata kuliah: rps.html?id= ---- */
+  const id = +qs.get("id");
+  if (id) {
+    const r = all.find(x => x.id === id);
+    if (!r) { $("#view").innerHTML = `<p class="empty">Mata kuliah tidak ditemukan. <a class="link" href="rps.html">Kembali ke daftar RPS</a></p>`; return; }
+    document.title = `RPS ${r.nama} | Program Studi Teknik Sipil UNMEKA`;
+    $("#crumb").innerHTML = `<a href="index.html">Beranda</a><span aria-hidden="true">/</span><a href="rps.html">RPS</a><span aria-hidden="true">/</span><span>Semester ${r.semester}</span>`;
+    $("#title").textContent = r.nama;
+    $("#sub").textContent = `Rencana Pembelajaran Semester · Semester ${r.semester} · ${r.sks} SKS`;
+    const lain = all.filter(x => x.semester === r.semester && x.id !== r.id);
+    const fname = r.file ? r.file.nama : r.url ? (r.contoh ? "Contoh-RPS-Statika.pdf" : (/drive\.google/.test(r.url) ? "RPS di Google Drive" : r.url.split(/[/?#]/).filter(Boolean).pop())) : "";
+    const dlAttr = r.file ? `href="${r.file.data}" download="${esc(r.file.nama)}"` : r.url ? (/^https?:/i.test(r.url) ? `href="${esc(r.url)}" target="_blank" rel="noopener"` : `href="${esc(r.url)}" download="${esc(fname)}"`) : "";
+    $("#view").innerHTML = `<div class="jd">
+      <section class="jd-card">
+        <div class="jd-h"><h2>${ic("book")}<span>Identitas <em>Mata Kuliah</em></span></h2>${r.contoh ? '<span class="tag tag-y">Contoh</span>' : ""}</div>
+        <dl class="jd-dl">
+          <div><dt>Kode mata kuliah</dt><dd>${esc(r.kode || "Belum dicantumkan")}</dd></div>
+          <div><dt>Nama mata kuliah</dt><dd>${esc(r.nama)}</dd></div>
+          <div><dt>Semester</dt><dd><a href="rps.html?sem=${r.semester}">Semester ${r.semester}</a></dd></div>
+          <div><dt>Bobot</dt><dd>${r.sks} SKS</dd></div>
+          <div><dt>Bidang kajian</dt><dd>${esc(r.bidang)}</dd></div>
+          <div><dt>Jenis</dt><dd>${esc(r.jenis)}</dd></div>
+          ${r.prasyarat ? `<div><dt>Prasyarat</dt><dd>${esc(r.prasyarat)}</dd></div>` : ""}
+          <div><dt>Status RPS</dt><dd>${r.contoh ? "Contoh, bukan RPS resmi" : r.file || r.url ? "Tersedia" : "Belum tersedia"}</dd></div>
+        </dl>
+        <a class="link jd-kur" href="akademik.html?sem=${r.semester}#kurikulum">Lihat di kurikulum semester ${r.semester} ${ic("arrow")}</a>
+      </section>
+      <section class="jd-card">
+        <div class="jd-h"><h2>${ic("file")}<span>Berkas <em>RPS</em></span></h2></div>
+        ${r.file || r.url ? `<p class="jd-fn">${esc(fname)}</p>
+          <div class="jd-btns">${viewable(r) ? `<a class="jd-pv" href="rps-view.html?id=${r.id}">${ic("eye")} Preview</a>` : r.url ? `<a class="jd-pv" href="${esc(r.url)}" target="_blank" rel="noopener">${ic("eye")} Buka</a>` : ""}<a class="jd-dlb" ${dlAttr}>${ic("download")} Download</a></div>`
+          : `<p class="jd-na">Berkas RPS mata kuliah ini belum diunggah oleh program studi.</p>`}
+      </section>
+      <section class="jd-card jd-wide">
+        <div class="jd-h"><h2>${ic("layers")}<span>Mata kuliah lain di <em>semester ${r.semester}</em></span></h2></div>
+        <ul class="jd-list">${lain.map(x => `<li><a href="rps.html?id=${x.id}">${esc(x.nama)}</a><small>${x.sks} SKS</small></li>`).join("")}</ul>
+      </section>
+    </div>
+    <div class="article-foot"><a class="link" href="rps.html" id="back">${ic("arrow")} Semua RPS</a></div>`;
+    $("#back .icon").style.transform = "rotate(180deg)";
+    return;
+  }
+
+  const q = $("#q"), qk = $("#q-kode");
+  q.value = qs.get("q") || "";
+  let sem = Math.min(8, Math.max(0, +qs.get("sem") || 0)), page = 1;
+  const ada = all.filter(r => r.file || r.url).length;
+  const fileCell = r => `<span class="rps-fc">${eye(r)}` + (r.file ? `<a class="rps-f" href="${r.file.data}" download="${esc(r.file.nama)}">${ic("download")}${esc(r.file.nama)}</a>`
+    : r.url ? `<a class="rps-f" href="${esc(r.url)}" target="_blank" rel="noopener">${ic(r.contoh ? "download" : "external")}${r.contoh ? "Contoh-RPS-Statika.pdf" : "Lihat RPS"}</a>`
+    : `<span class="na">Belum tersedia</span>`) + "</span>";
+
+  /* filter semester seperti ikon corong pada tabel Gunadarma */
+  $("#p-sem").innerHTML = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(n => `<button data-s="${n}">${n ? "Semester " + n : "Semua semester"}</button>`).join("");
+  const pops = [["#f-sem", "#p-sem"], ["#f-kode", "#p-kode"]];
+  const closePops = except => pops.forEach(([b, p]) => { if (p !== except) { $(p).hidden = true; $(b).setAttribute("aria-expanded", "false"); } });
+  pops.forEach(([b, p]) => $(b).addEventListener("click", e => {
+    e.stopPropagation(); closePops(p);
+    const open = $(p).hidden; $(p).hidden = !open; $(b).setAttribute("aria-expanded", String(open));
+    if (open && p === "#p-kode") qk.focus();
+  }));
+  document.addEventListener("click", e => { if (!e.target.closest(".th-pop")) closePops(); });
+  $("#f-nama").addEventListener("click", () => q.focus());
+  $("#p-sem").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; sem = +b.dataset.s; page = 1; closePops(); render(); });
+
+  const render = () => {
+    const k = q.value.trim().toLowerCase(), kk = qk.value.trim().toLowerCase();
+    const list = all.filter(r => (!sem || r.semester === sem) && r.nama.toLowerCase().includes(k) && (r.kode || "").toLowerCase().includes(kk));
+    const pages = Math.max(1, Math.ceil(list.length / PER)); page = Math.min(page, pages);
+    const rows = list.slice((page - 1) * PER, page * PER);
+    $("#f-sem").classList.toggle("on", !!sem); $("#f-kode").classList.toggle("on", !!kk);
+    $$("#p-sem button").forEach(b => b.classList.toggle("on", +b.dataset.s === sem));
+    $("#sum").innerHTML = `Terdapat <b>${list.length}</b> mata kuliah${sem ? ` pada semester ${sem}` : ""}. <b>${ada}</b> dari ${all.length} mata kuliah sudah memiliki RPS.`;
+    $("#e").hidden = list.length > 0;
+    $("#tb").innerHTML = rows.map((r, i) => `<tr><td>${(page - 1) * PER + i + 1}</td><td><button class="sem-l" data-sem="${r.semester}">Semester ${r.semester}</button></td><td class="kd"><a href="rps.html?id=${r.id}">${esc(r.kode || "-")}</a></td><td class="nm"><a href="rps.html?id=${r.id}">${esc(r.nama)}</a></td><td class="num">${r.sks}</td><td>${fileCell(r)}</td></tr>`).join("");
+    $("#pg").innerHTML = pages > 1 ? `<button data-p="${page - 1}" aria-label="Halaman sebelumnya"${page === 1 ? " disabled" : ""}>${ic("chevron")}</button>`
+      + Array.from({ length: pages }, (_, i) => `<button data-p="${i + 1}"${i + 1 === page ? ' class="on" aria-current="page"' : ""}>${i + 1}</button>`).join("")
+      + `<button data-p="${page + 1}" aria-label="Halaman berikutnya"${page === pages ? " disabled" : ""}>${ic("chevron")}</button>` : "";
+  };
+  $("#pg").addEventListener("click", e => { const b = e.target.closest("button"); if (b && !b.disabled) { page = +b.dataset.p; render(); $(".rps-wrap").scrollIntoView({ block: "nearest" }); } });
+  $("#tb").addEventListener("click", e => { const b = e.target.closest(".sem-l"); if (b) { sem = +b.dataset.sem; page = 1; render(); } });
+  q.addEventListener("input", () => { page = 1; render(); });
+  qk.addEventListener("input", () => { page = 1; render(); });
+  render();
+};
+</script>
+</body>
+</html>

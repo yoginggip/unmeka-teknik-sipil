@@ -19,8 +19,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261102n">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zr">
 </head>
 <body>
 <div id="site-header"></div>
@@ -57,22 +57,22 @@
 
 <section class="section" id="galeri">
   <div class="container">
-    <div class="sec-head reveal"><div><span class="label">Galeri</span><h2 class="h2">Suasana kampus</h2></div></div>
-    <div class="mosaic even reveal" id="gal"></div>
+    <div class="sec-head reveal"><div><span class="label">Galeri</span><h2 class="h2">Foto fasilitas</h2></div>
+      <a class="link" href="galeri.html?kategori=Fasilitas">Semua album fasilitas <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    <div class="grid g3" id="gal"></div>
   </div>
 </section>
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js?v=20261102n"></script>
-<script src="assets/js/app.js?v=20261102n"></script>
-<script src="assets/js/fx.js" defer></script>
+<script src="assets/js/data.js?v=20261116z"></script>
+<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="assets/js/fx.js?v=20261116i" defer></script>
 <script src="assets/js/flair.js?v=20261102n" defer></script>
 <script>
 window.pageInit = function () {
   $("#lab").innerHTML = D.lab.map(l => `<div class="card lab reveal" id="${l.id}"><div class="ci">${ic(l.icon)}</div><h3>${l.nama}</h3><p>${l.desk}</p><ul>${l.praktikum.map(p => `<li>${ic("check")}${p}</li>`).join("")}</ul></div>`).join("");
-  const G = D.galeri;
-  $("#gal").innerHTML = G.map((g, i) => `<button data-i="${i}" aria-label="Perbesar foto: ${esc(g[1])}"><img src="assets/img/${g[0]}" alt="${esc(g[1])}" loading="lazy"><span>${esc(g[1])}</span></button>`).join("");
-  $("#gal").addEventListener("click", e => { const b = e.target.closest("button"); if (b) lightbox(G, +b.dataset.i); });
+  const fas = getAlbum().filter(a => a.kategori === "Fasilitas");
+  if (fas.length) $("#gal").innerHTML = fas.slice(0, 3).map(albumCard).join(""); else $("#galeri").hidden = true;
 };
 </script>
 </body>

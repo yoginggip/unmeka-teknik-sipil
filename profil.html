@@ -19,8 +19,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261102n">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zr">
 </head>
 <body>
 <div id="site-header"></div>
@@ -35,13 +35,17 @@
   <div class="container about" style="align-items:start">
     <div class="reveal prose">
       <span class="label">Sekilas</span>
-      <h2 class="h2" style="margin-bottom:18px">Tentang Teknik Sipil UNMEKA</h2>
-      <p>Program Studi Teknik Sipil mempersiapkan lulusan yang mampu merencanakan, merancang, dan membangun infrastruktur. Pembelajaran memadukan teori dengan praktik lapangan untuk menghasilkan solusi inovatif bagi pembangunan berkelanjutan.</p>
+      <h2 class="h2" style="margin-bottom:18px">Tentang Teknik Sipil <em class="ac dk">UNMEKA.</em></h2>
+      <p class="sk-lead">Program Studi Teknik Sipil mempersiapkan lulusan yang mampu merencanakan, merancang, dan membangun infrastruktur. Pembelajaran memadukan teori dengan praktik lapangan untuk menghasilkan solusi inovatif bagi pembangunan berkelanjutan.</p>
       <p>Universitas Nusa Megarkencana (UNMEKA) adalah perguruan tinggi swasta di Yogyakarta yang bernaung di bawah Yayasan Pendidikan Nusa Megarkencana. Berawal dari STIE Nusa Megarkencana, institusi ini memperoleh izin perubahan bentuk menjadi universitas pada 23 Juli 2024 dan kini memiliki dua fakultas dengan lima program studi sarjana.</p>
       <p>Teknik Sipil merupakan salah satu dari tiga program studi di Fakultas Teknik dan Informatika, bersama Sistem Informasi dan Informatika.</p>
     </div>
     <div class="reveal">
-      <div class="table-wrap"><table><tbody id="identitas"></tbody></table></div>
+      <div class="id-card">
+        <div class="id-h"><img src="assets/img/logo-white-330.png" alt="Universitas Nusa Megarkencana" width="150" height="45"><div><small>Identitas</small><b>Program Studi Teknik Sipil</b></div></div>
+        <dl class="id-grid" id="identitas"></dl>
+      </div>
+      <div class="sk-stats"><div><b>1998</b><small>Yayasan didirikan</small></div><div><b>2024</b><small>Menjadi universitas</small></div><div><b>3</b><small>Program studi di FTI</small></div></div>
     </div>
   </div>
 </section>
@@ -76,6 +80,11 @@
       <span class="label">Sejarah</span>
       <h2 class="h2">Perjalanan institusi</h2>
       <p class="lead">Dari sekolah tinggi ekonomi menjadi universitas dengan fakultas teknik.</p>
+      <div class="hist-fig">
+        <img class="hf-main" src="assets/img/web/home-pic-1.jpg" alt="Mahasiswa di depan gedung Universitas Nusa Megarkencana" width="480" height="720" loading="lazy">
+        <span class="hf-badge"><small>Sejak</small><b>1998</b></span>
+        <figure class="hf-inset"><img src="assets/img/web/article-03.jpg" alt="Penyerahan surat keputusan perubahan bentuk menjadi universitas" loading="lazy"><figcaption>Penyerahan SK perubahan bentuk menjadi universitas, 2024</figcaption></figure>
+      </div>
     </div>
     <ol class="timeline reveal" id="timeline"></ol>
   </div>
@@ -84,7 +93,7 @@
 <section class="section soft" id="struktur">
   <div class="container">
     <div class="sec-head reveal"><div><span class="label">Organisasi</span><h2 class="h2">Struktur Organisasi</h2></div></div>
-    <div class="org reveal" id="org"></div>
+    <div class="pim reveal" id="org"></div>
     <div style="text-align:center;margin-top:36px" class="reveal">
       <button class="btn btn-outline" id="bagan">Lihat bagan struktur universitas</button>
     </div>
@@ -92,15 +101,16 @@
 </section>
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js?v=20261102n"></script>
-<script src="assets/js/app.js?v=20261102n"></script>
-<script src="assets/js/fx.js" defer></script>
+<script src="assets/js/data.js?v=20261116z"></script>
+<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="assets/js/fx.js?v=20261116i" defer></script>
 <script src="assets/js/flair.js?v=20261102n" defer></script>
 <script>
 window.pageInit = function () {
   const s = D.site;
-  $("#identitas").innerHTML = [["Program Studi", "Teknik Sipil"], ["Jenjang", "Sarjana (S1)"], ["Gelar Lulusan", "Sarjana Teknik (S.T.)"], ["Fakultas", s.fakultas], ["Akreditasi", s.akreditasi], ["Ketua Program Studi", s.kaprodi], ["Alamat", s.alamat]]
-    .map(r => `<tr><th scope="row" style="width:40%;text-transform:none;letter-spacing:0;font-size:.88rem">${r[0]}</th><td>${esc(r[1])}</td></tr>`).join("");
+  /* identitas program studi: ikon, label, dan isi; alamat memakai lebar penuh */
+  $("#identitas").innerHTML = [["cap", "Jenjang", "Sarjana (S1)"], ["award", "Gelar lulusan", "Sarjana Teknik (S.T.)"], ["building", "Fakultas", s.fakultas], ["shield", "Akreditasi", s.akreditasi], ["user", "Ketua program studi", s.kaprodi], ["calendar", "Lama studi", "8 semester"], ["pin", "Alamat", s.alamat]]
+    .map((r, i, a) => `<div class="id-it${i === a.length - 1 ? " full" : ""}"><span class="id-ic">${ic(r[0])}</span><div><dt>${r[1]}</dt><dd>${esc(r[2])}</dd></div></div>`).join("");
 
   $("#timeline").innerHTML = [
     ["5 Maret 1998", "Yayasan Pendidikan Nusa Megarkencana", "Yayasan didirikan berdasarkan akta notaris RM. Surjanto Partaningrat, SH. Nomor 7."],
@@ -108,14 +118,24 @@ window.pageInit = function () {
     ["23 Juli 2024", "Izin perubahan bentuk", "SK Mendikbudristek No. 502/E/O/2024 tentang izin perubahan bentuk STIE Nusa Megarkencana menjadi Universitas Nusa Megarkencana."],
     ["22 Agustus 2024", "Resmi bertransformasi", "UNMEKA hadir dengan Fakultas Ekonomi dan Bisnis serta Fakultas Teknik dan Informatika, termasuk Program Studi Teknik Sipil."],
     ["2028", "Target visi program studi", "Menjadi program studi berorientasi global yang berkontribusi pada pembangunan berkelanjutan."],
-  ].map(t => `<li><span class="yr">${t[0]}</span><h3>${t[1]}</h3><p>${t[2]}</p></li>`).join("");
+  ].map((t, i, all) => {
+    /* tanggal dipecah: tahun besar di kolom kiri, tanggal dan bulan di bawahnya */
+    const yr = t[0].slice(-4), dm = t[0].slice(0, -4).trim();
+    return `<li${i === all.length - 1 ? ' class="goal"' : ""}><div class="tl-d"><b>${yr}</b><small>${dm || "Target"}</small></div><div class="tl-c"><h3>${t[1]}</h3><p>${t[2]}</p></div></li>`;
+  }).join("");
 
-  const dosen = getDosen().filter(d => d.jabatan !== "Ketua Program Studi");
-  $("#org").innerHTML = `
-    <div class="node hi"><small>Rektor</small><b>${s.rektor}</b></div><div class="v"></div>
-    <div class="node"><small>Dekan Fakultas Teknik dan Informatika</small><b>${s.dekan}</b></div><div class="v"></div>
-    <div class="node hi"><small>Ketua Program Studi Teknik Sipil</small><b>${s.kaprodi}</b></div>
-    <div class="row">${dosen.map(d => `<div class="node"><small>Dosen</small><b>${esc(d.nama)}</b></div>`).join("")}</div>`;
+  /* struktur organisasi berjenjang seperti halaman Profil Pimpinan; foto dari menu Dosen di panel admin */
+  const SIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4.2"/><path d="M3.5 22c.7-5 4.2-7.6 8.5-7.6s7.8 2.6 8.5 7.6z"/></svg>';
+  const all = getDosen(), byJab = j => all.filter(d => d.jabatan === j);
+  const card = (jab, nama, foto, cls = "") => `<figure class="pj ${cls}"><span class="pj-ph">${foto ? `<img src="${SRC(foto)}" alt="Foto ${esc(nama)}">` : SIL}</span><figcaption><small>${jab}</small><b>${esc(nama)}</b></figcaption></figure>`;
+  const kaprodi = byJab("Ketua Program Studi")[0], sekprodi = byJab("Sekretaris Program Studi")[0];
+  const lv = cards => `<div class="pim-lv"><div class="pim-row">${cards}</div></div>`;
+  $("#org").className = "pim reveal";
+  $("#org").innerHTML = lv(card("Rektor", s.rektor))
+    + lv(card("Dekan " + s.fakultas, s.dekan))
+    + lv(card("Ketua Program Studi", kaprodi ? kaprodi.nama : s.kaprodi, kaprodi?.foto, "lead"))
+    + lv(sekprodi ? card("Sekretaris Program Studi", sekprodi.nama, sekprodi.foto) : card("Sekretaris Program Studi", "Menunggu data", "", "wait"))
+    + lv(all.filter(d => ["Dosen Tetap", "Kepala Laboratorium"].includes(d.jabatan)).map(d => card(d.jabatan, d.nama, d.foto)).join(""));
 
   $("#bagan").onclick = () => openModal(`<img src="assets/img/struktur-organisasi.svg" alt="Bagan Struktur Organisasi Universitas Nusa Megarkencana" style="background:#fff">`, "wide");
 };

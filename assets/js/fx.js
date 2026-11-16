@@ -1,25 +1,8 @@
-/* Efek interaksi: progres scroll, parallax, penghitung angka, teks hero, CTA mobile.
+/* Efek ringan: penghitung angka, jeda muncul item grid, dan garis linimasa.
+   Sengaja dibuat minimal agar tampilan bersih (tanpa parallax, bar progres, atau teks beranimasi).
    Dimuat setelah app.js sehingga konten dari pageInit sudah tersedia. */
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
-
-  /* Teks hero muncul per kata */
-  function splitWords(el) {
-    let i = 0;
-    const walk = node => [...node.childNodes].forEach(n => {
-      if (n.nodeType === 3) {
-        const frag = document.createDocumentFragment();
-        n.textContent.split(/(\s+)/).forEach(part => {
-          if (!part) return;
-          if (/^\s+$/.test(part)) { frag.append(part); return; }
-          const s = document.createElement("span"); s.className = "w"; s.style.animationDelay = (0.15 + i++ * 0.09) + "s"; s.textContent = part; frag.append(s);
-        });
-        n.replaceWith(frag);
-      } else if (n.nodeType === 1 && n.tagName !== "BR") walk(n);
-    });
-    walk(el); el.classList.add("split");
-  }
 
   /* Penghitung angka */
   function countUp(el) {
@@ -29,28 +12,13 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    const bar = document.createElement("div"); bar.className = "scroll-progress"; bar.setAttribute("aria-hidden", "true"); document.body.prepend(bar);
-
-    const h1 = document.querySelector(".hero h1");
-    if (h1 && !reduce) splitWords(h1);
-
-    /* stagger untuk item di dalam grid */
+    /* jeda kecil untuk item di dalam grid saat muncul */
     document.querySelectorAll(".grid, .routes, .mosaic, .bk-tabs").forEach(g => [...g.children].forEach((c, i) => c.style.setProperty("--stagger", (i % 6) * 70 + "ms")));
-
 
     const counters = document.querySelectorAll("[data-count]");
     if (counters.length) {
       if (reduce || !("IntersectionObserver" in window)) counters.forEach(c => c.textContent = (+c.dataset.count).toLocaleString("id-ID"));
       else { const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { countUp(e.target); io.unobserve(e.target); } }), { threshold: .6 }); counters.forEach(c => io.observe(c)); }
-    }
-
-    /* CTA pendaftaran melayang di layar kecil */
-    const onPmb = location.pathname.endsWith("pmb.html");
-    let cta = null;
-    if (!onPmb && document.querySelector(".header")) {
-      cta = document.createElement("div"); cta.className = "m-cta";
-      cta.innerHTML = `<span><b>Pendaftaran 2026 dibuka</b>Enam jalur, termasuk KIP-Kuliah</span><a class="btn btn-primary btn-sm" href="pmb.html">Daftar</a>`;
-      document.body.append(cta);
     }
 
     /* sembunyikan tombol melayang saat bagian interaktif menempati tengah layar, agar tidak menutupi kontrolnya */
@@ -64,25 +32,16 @@
       tools.forEach(t => io.observe(t));
     }
 
-    const px = [...document.querySelectorAll(".hero-slides, .band > .bg, .blueprint > .bg, .page-head .bg")];
+    /* garis linimasa di halaman Profil terisi mengikuti posisi gulir */
     const lines = [...document.querySelectorAll(".timeline")];
-    let ticking = false;
-    const frame = () => {
-      const doc = document.documentElement, max = doc.scrollHeight - innerHeight;
-      bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
-      if (!reduce) px.forEach(el => {
-        const r = el.parentElement.getBoundingClientRect();
-        if (r.bottom < 0 || r.top > innerHeight) return;
-        /* geser relatif ke tengah layar, dibatasi agar tepi gambar tidak terlihat */
-        const lim = r.height * 0.08, off = Math.max(-lim, Math.min(lim, ((r.top + r.height / 2) - innerHeight / 2) * -0.12));
-        el.style.transform = `translate3d(0, ${off.toFixed(1)}px, 0) scale(1.2)`;
-      });
-      lines.forEach(t => { const r = t.getBoundingClientRect(); const p = Math.min(Math.max((innerHeight * .65 - r.top) / r.height, 0), 1); t.style.setProperty("--p", p); });
-      if (cta) cta.classList.toggle("show", scrollY > innerHeight * .8 && scrollY < max - 500);
-      ticking = false;
-    };
-    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
-    addEventListener("resize", frame);
-    frame();
+    if (lines.length) {
+      let ticking = false;
+      const frame = () => {
+        lines.forEach(t => { const r = t.getBoundingClientRect(); const p = Math.min(Math.max((innerHeight * .65 - r.top) / r.height, 0), 1); t.style.setProperty("--p", p); });
+        ticking = false;
+      };
+      addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+      frame();
+    }
   });
 })();

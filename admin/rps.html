@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mata Kuliah dan RPS | Admin Teknik Sipil UNMEKA</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css?v=20261116zr"><link rel="stylesheet" href="admin.css?v=20261116zo">
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/js/data.js?v=20261116z"></script>
+<script src="../assets/js/app.js?v=20261116zp"></script>
+<script src="admin.js?v=20261116zo"></script>
+<script>
+window.pageInit = function () {
+  if (!shell("Mata Kuliah dan RPS", "")) return;
+  const status = r => r.file ? '<span class="tag tag-ok">Berkas diunggah</span>' : r.url ? '<span class="tag tag-ok">Tautan</span>' : '<span class="tag">Belum ada</span>';
+  crud({
+    key: "admin_rps", noun: "Mata kuliah",
+    rowClass: r => r.file || r.url ? "" : "muted",
+    cols: [
+      { label: "Kode", render: r => esc(r.kode || "-") },
+      { label: "Mata kuliah", render: r => `<b style="color:var(--ink)">${esc(r.nama)}</b>` },
+      { label: "Smt", render: r => esc(r.semester) },
+      { label: "SKS", render: r => esc(r.sks) },
+      { label: "Bidang", render: r => esc(r.bidang || bidangDari(r.nama)) },
+      { label: "Jenis", render: r => `<span class="tag">${esc(r.jenis || jenisDari(r.nama))}</span>` },
+      { label: "RPS", render: status },
+    ],
+    fields: [
+      { k: "nama", label: "Nama mata kuliah", req: true, full: true },
+      { k: "kode", label: "Kode mata kuliah", help: "Sesuai dokumen kurikulum resmi." },
+      { k: "semester", label: "Semester", type: "select", options: ["1", "2", "3", "4", "5", "6", "7", "8"] },
+      { k: "sks", label: "SKS", type: "number", req: true },
+      { k: "bidang", label: "Bidang kajian", type: "select", options: ["Umum", "Struktur", "Geoteknik", "Transportasi", "Keairan", "Manajemen Konstruksi"] },
+      { k: "jenis", label: "Jenis", type: "select", options: ["Wajib", "Pilihan"] },
+      { k: "prasyarat", label: "Prasyarat", full: true, help: "Opsional. Pisahkan dengan koma, misalnya: Statika, Mekanika Bahan." },
+      { k: "url", label: "Tautan RPS", type: "url", full: true, help: "Tautan Google Drive atau situs lain. Pastikan aksesnya dibuka untuk umum." },
+      { k: "file", label: "Atau unggah berkas RPS", type: "file", accept: ".pdf,.doc,.docx", maxMB: 2, full: true, help: "PDF, DOC, atau DOCX, maksimal 2 MB. Bila tautan dan berkas sama-sama diisi, pengunjung mengunduh berkas." },
+    ],
+  });
+};
+</script>
+</body>
+</html>

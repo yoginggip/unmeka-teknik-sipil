@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Log Aktivitas | Admin Teknik Sipil UNMEKA</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css?v=20261116zr"><link rel="stylesheet" href="admin.css?v=20261116zo">
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/js/data.js?v=20261116z"></script>
+<script src="../assets/js/app.js?v=20261116zp"></script>
+<script src="admin.js?v=20261116zo"></script>
+<script>
+window.pageInit = function () {
+  if (!shell("Log Aktivitas Admin", `<div class="toolbar"><label class="search"><span class="sr-only">Cari</span>${ic("search")}<input class="input" id="lq" type="search" placeholder="Cari aktivitas"></label>
+    <select class="input" id="lm" style="max-width:220px"><option value="">Semua modul</option></select></div>
+    <div class="table-wrap"><table><thead><tr><th>Waktu</th><th>Pengguna</th><th>Aksi</th><th>Modul</th><th>Konten</th></tr></thead><tbody id="lt"></tbody></table></div>`)) return;
+  const all = db.all("admin_log");
+  $("#lm").insertAdjacentHTML("beforeend", [...new Set(all.map(l => l.modul))].map(m => `<option>${esc(m)}</option>`).join(""));
+  const fmtT = w => { const d = new Date(w); return `${fmtDate(w.slice(0, 10))}, ${String(d.getHours()).padStart(2, "0")}.${String(d.getMinutes()).padStart(2, "0")}`; };
+  const draw = () => {
+    const q = $("#lq").value.trim().toLowerCase(), m = $("#lm").value;
+    const rows = all.filter(l => (!m || l.modul === m) && JSON.stringify(l).toLowerCase().includes(q));
+    $("#lt").innerHTML = rows.length ? rows.map(l => `<tr><td style="white-space:nowrap">${fmtT(l.waktu)}</td><td>${esc(l.pengguna)}</td><td><span class="tag">${esc(l.aksi)}</span></td><td>${esc(l.modul)}</td><td>${esc(l.judul)}</td></tr>`).join("")
+      : `<tr><td colspan="5" class="empty">Belum ada aktivitas. Setiap penambahan, perubahan, dan penghapusan konten oleh admin tercatat di sini.</td></tr>`;
+  };
+  $("#lq").addEventListener("input", draw); $("#lm").addEventListener("change", draw); draw();
+};
+</script>
+</body>
+</html>

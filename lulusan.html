@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Profil Lulusan dan CPL | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Profil lulusan dan capaian pembelajaran lulusan Program Studi Teknik Sipil UNMEKA.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teknik Sipil UNMEKA">
+<meta property="og:title" content="Profil Lulusan dan CPL | Program Studi Teknik Sipil UNMEKA">
+<meta property="og:description" content="Profil lulusan dan capaian pembelajaran lulusan Program Studi Teknik Sipil UNMEKA.">
+<meta property="og:url" content="https://yoginggip.github.io/unmeka-teknik-sipil/lulusan.html">
+<meta property="og:image" content="https://yoginggip.github.io/unmeka-teknik-sipil/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="id_ID">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://yoginggip.github.io/unmeka-teknik-sipil/lulusan.html">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zr">
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head"><div class="bg" style="background-image:url(assets/img/web/page-title-bg-sipil.jpg)"></div><div class="container">
+  <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Beranda</a><span aria-hidden="true">/</span><span>Akademik</span><span aria-hidden="true">/</span><span>Profil Lulusan dan CPL</span></nav>
+  <h1>Profil Lulusan dan Capaian Pembelajaran</h1>
+  <p>Peran lulusan di dunia kerja dan kemampuan yang dicapai setelah menyelesaikan studi.</p>
+</div></section>
+<section class="section" id="lulusan">
+  <div class="container">
+    <div class="sec-head reveal"><div><span class="label">Profil Lulusan</span><h2 class="h2">Peran lulusan di dunia kerja</h2><p class="lead">Lulusan Sarjana Teknik Sipil disiapkan untuk berkarier pada peran berikut.</p></div></div>
+    <div class="grid g3" id="pl-list"></div>
+    <div class="sec-head reveal" style="margin-top:64px"><div><span class="label">Capaian Pembelajaran Lulusan</span><h2 class="h2">Kemampuan yang dicapai lulusan</h2><p class="lead">Capaian pembelajaran lulusan (CPL) dikelompokkan dalam empat aspek sesuai Standar Nasional Pendidikan Tinggi.</p></div></div>
+    <p class="job-note" id="cpl-note"></p>
+    <div class="cpl" id="cpl"></div>
+  </div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=20261116z"></script>
+<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="assets/js/fx.js?v=20261116i" defer></script>
+<script src="assets/js/flair.js?v=20261102n" defer></script>
+<script>
+window.pageInit = function () {
+  $("#pl-list").innerHTML = D.profilLulusan.map(p => `<div class="card reveal"><div class="ci">${ic(p.icon)}</div><h3>${p.t}</h3><p>${p.d}</p></div>`).join("");
+  $("#cpl-note").innerHTML = `${ic("info")}<span>Profil lulusan dan rumusan CPL berikut merupakan contoh rumusan umum. Rumusan resmi mengikuti dokumen kurikulum program studi.</span>`;
+  let n = 0;
+  $("#cpl").innerHTML = D.cpl.map(g => `<div class="card reveal"><h3>${ic("check")}${g.a}</h3><ol>${g.items.map(t => `<li><code>CPL-${String(++n).padStart(2, "0")}</code><span>${t}</span></li>`).join("")}</ol></div>`).join("");
+};
+</script>
+</body>
+</html>

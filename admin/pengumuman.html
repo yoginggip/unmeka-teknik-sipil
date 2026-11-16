@@ -7,21 +7,21 @@
 <title>Pengumuman | Admin Teknik Sipil UNMEKA</title>
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css?v=20261102n"><link rel="stylesheet" href="admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css?v=20261116zr"><link rel="stylesheet" href="admin.css?v=20261116zo">
 </head>
 <body>
 <div id="app"></div>
-<script src="../assets/js/data.js?v=20261102n"></script>
-<script src="../assets/js/app.js?v=20261102n"></script>
-<script src="admin.js?v=20261102n"></script>
+<script src="../assets/js/data.js?v=20261116z"></script>
+<script src="../assets/js/app.js?v=20261116zp"></script>
+<script src="admin.js?v=20261116zo"></script>
 <script>
 window.pageInit = function () {
   if (!shell("Pengumuman", "")) return;
   crud({
     key: "admin_pengumuman", noun: "Pengumuman",
     cols: [
-      { label: "Judul", render: r => `<b style="color:var(--ink)">${esc(r.judul)}</b>${r.penting === "Ya" || r.penting === true ? ' <span class="tag">Penting</span>' : ""}` },
+      { label: "Judul", render: r => `<b style="color:var(--ink)">${esc(r.judul)}</b>${r.penting === "Ya" || r.penting === true ? ' <span class="tag tag-hot">Penting</span>' : ""}` },
       { label: "Kategori", render: r => `<span class="tag">${esc(r.kategori)}</span>` },
       { label: "Tanggal", render: r => `<span style="white-space:nowrap">${fmtDate(r.tanggal)}</span>` },
     ],
@@ -29,6 +29,7 @@ window.pageInit = function () {
       { k: "judul", label: "Judul", req: true, full: true },
       { k: "kategori", label: "Kategori", type: "select", options: ["Akademik", "KRS", "Tugas Akhir", "Ujian", "Kegiatan", "PMB"] },
       { k: "tanggal", label: "Tanggal terbit", type: "date", req: true, def: new Date().toISOString().slice(0, 10) },
+      { k: "penting", label: "Tandai penting", type: "check", text: "Pengumuman penting", full: true, help: "Diberi label merah Penting dan garis merah di beranda serta halaman Pengumuman." },
       { k: "isi", label: "Isi pengumuman", type: "textarea", rows: 6, full: true, req: true, help: "Pisahkan paragraf dengan baris baru." },
     ],
   });

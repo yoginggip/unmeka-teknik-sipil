@@ -19,193 +19,106 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261102n">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zr">
 </head>
 <body>
-<div class="preload" id="preload" aria-hidden="true">
-  <svg viewBox="0 0 420 150"><path pathLength="1" style="animation-delay:0.00s" d="M10 118H410"/><path pathLength="1" style="animation-delay:0.04s" d="M60 132V22"/><path pathLength="1" style="animation-delay:0.07s" d="M360 132V22"/><path pathLength="1" style="animation-delay:0.10s" d="M60 30L18 118"/><path pathLength="1" style="animation-delay:0.14s" d="M60 30L102 118"/><path pathLength="1" style="animation-delay:0.17s" d="M60 30L144 118"/><path pathLength="1" style="animation-delay:0.21s" d="M60 30L186 118"/><path pathLength="1" style="animation-delay:0.24s" d="M360 30L402 118"/><path pathLength="1" style="animation-delay:0.28s" d="M360 30L318 118"/><path pathLength="1" style="animation-delay:0.32s" d="M360 30L276 118"/><path pathLength="1" style="animation-delay:0.35s" d="M360 30L234 118"/></svg>
-  <div class="pl-txt"><b>Teknik Sipil</b><span>Universitas Nusa Megarkencana</span></div>
-  <div class="pl-num" id="pl-num">0%</div>
-</div>
-<script>
-(function () {
-  var el = document.getElementById("preload");
-  try { if (sessionStorage.getItem("unmeka_intro") || matchMedia("(prefers-reduced-motion: reduce)").matches) { el.remove(); return; } sessionStorage.setItem("unmeka_intro", "1"); } catch (e) { el.remove(); return; }
-  var n = document.getElementById("pl-num"), t0 = performance.now();
-  (function tick(now) { var k = Math.min((now - t0) / 650, 1); n.textContent = Math.round(k * k * (3 - 2 * k) * 100) + "%"; if (k < 1) requestAnimationFrame(tick); })(t0);
-  setTimeout(function () { el.remove(); }, 1300);
-})();
-</script>
 <div id="site-header"></div>
 <main id="main">
 
-<section class="hero" id="hero" aria-roledescription="carousel" aria-label="Foto kampus">
+<section class="hero hero-clean hero-x" id="hero" aria-roledescription="carousel" aria-label="Foto kampus">
   <div class="hero-slides" id="slides"></div>
-  <div class="container">
-    <div class="hero-logo">
-      <img src="assets/img/logo-white-659.png" alt="Universitas Nusa Megarkencana" width="178" height="54">
-      <span><b>Fakultas Teknik dan Informatika</b>Yogyakarta</span>
-    </div>
-    <h1>Program Studi<br>Teknik Sipil</h1>
-    <p>Menyiapkan sarjana teknik yang terampil dan profesional dalam merencanakan, merancang, dan membangun infrastruktur untuk pembangunan berkelanjutan.</p>
-    <div class="actions">
-      <a class="btn btn-primary" href="pmb.html">Informasi Pendaftaran <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="btn btn-light" href="profil.html">Profil Program Studi</a>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <div class="hero-main">
+      <div class="hero-logo"><img src="assets/img/logo-white-659.png" alt="Universitas Nusa Megarkencana" width="178" height="54"><span><b>Fakultas Teknik dan Informatika</b>Program Studi Sarjana Teknik Sipil</span></div>
+      <h1><span class="sr-only">Program Studi Teknik Sipil Universitas Nusa Megarkencana</span><span aria-hidden="true">Teknik Sipil membangun<br><span class="flip" id="flip"><span class="flip-w" id="flip-w">masa depan.</span></span></span></h1>
+      <p>Menyiapkan sarjana teknik yang terampil dan profesional dalam merencanakan, merancang, dan membangun infrastruktur untuk pembangunan berkelanjutan.</p>
+      <form class="hero-search" id="hs" role="search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="hs-in" type="search" placeholder="Cari mata kuliah, dosen, atau berita" aria-label="Cari di situs Teknik Sipil" autocomplete="off" readonly>
+        <button type="submit">Telusuri</button>
+      </form>
+      <div class="actions">
+        <a class="btn btn-primary" href="pmb.html">Informasi Pendaftaran <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-light" href="profil.html">Profil Program Studi</a>
+      </div>
     </div>
   </div>
-  <div class="hero-nav"><div class="container"><div class="hero-dots" id="dots"></div><span class="hero-cap" id="cap"></span></div></div>
+  <div class="hero-nav"><div class="container"><span class="hero-num" id="hnum">01 / 03</span><div class="hero-dots" id="dots"></div><span class="hero-cap" id="cap"></span></div></div>
 </section>
 
 <div class="facts"><div class="container"><ul id="facts"></ul></div></div>
 
-<div class="marquee" aria-hidden="true">
-  <div class="mq-track"><span>Struktur</span><i>✦</i><span class="f">Geoteknik</span><i>✦</i><span>Transportasi</span><i>✦</i><span class="f">Keairan</span><i>✦</i><span>Manajemen Konstruksi</span><i>✦</i></div>
-  <div class="mq-track rev"><span class="f">Rancang</span><i>●</i><span>Hitung</span><i>●</i><span class="f">Bangun</span><i>●</i><span>Uji</span><i>●</i><span class="f">Lestarikan</span><i>●</i></div>
-</div>
-
-<section class="band" id="pmb">
-  <div class="bg" style="background-image:url(assets/img/slider-1.jpg)"></div>
+<section class="section" id="tentang">
   <div class="container">
-    <div class="reveal">
-      <span class="label" style="color:var(--yellow)">Penerimaan Mahasiswa Baru 2026</span>
-      <h2>Pendaftaran dibuka melalui enam jalur</h2>
-      <p>Tersedia bantuan biaya KIP-Kuliah hingga 100% dan beasiswa Prestasi Raport hingga 50%. Jalur Transfer, Ekstensi, dan Karyawan juga tersedia.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:26px">
-        <a class="btn btn-primary" href="pmb.html">Informasi Pendaftaran</a>
-        <a class="btn btn-light" id="portal" target="_blank" rel="noopener">Portal Pendaftaran</a>
+    <div class="sec-head sec-c reveal"><div><span class="label">Tentang Program Studi</span><h2 class="h2">Belajar teknik sipil dari teori hingga <em class="ac dk">praktik lapangan.</em></h2><p class="lead">Program Studi Teknik Sipil UNMEKA mempersiapkan lulusan yang mampu merencanakan, merancang, dan membangun infrastruktur.</p></div></div>
+    <div class="bento">
+      <div class="bn bn-main reveal">
+        <span class="bn-ic" id="ic-main"></span>
+        <h3>Profil Program Studi</h3>
+        <p>Pembelajaran memadukan teori dan praktik lapangan pada lima bidang utama teknik sipil, dibimbing dosen bergelar Magister Teknik.</p>
+        <div class="bidang-chips" id="bidang"></div>
+        <div class="bn-stats"><div><b>Baik</b><small>Akreditasi</small></div><div><b>S.T.</b><small>Gelar lulusan</small></div><div><b>5</b><small>Bidang kajian</small></div></div>
+        <a class="bn-link" href="profil.html">Selengkapnya <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
+      <a class="bn bn-photo reveal" href="galeri.html" style="background-image:url(assets/img/slider-3-m.jpg)">
+        <span class="bn-ov"><small>Kehidupan kampus</small><b>Belajar, berdiskusi, dan berkarya bersama</b></span>
+      </a>
+      <a class="bn bn-sm bn-rps reveal" href="rps.html"><span class="bn-ic sm" id="ic-rps"></span><h3>RPS Mata Kuliah</h3><p>Rencana pembelajaran setiap mata kuliah.</p><span class="bn-link">Lihat RPS <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="bn bn-sm bn-ta reveal" href="tugas-akhir.html"><span class="bn-ic sm" id="ic-ta"></span><h3>Kerja Praktik dan Tugas Akhir</h3><p>Alur, syarat sidang, dan dosen pembimbing.</p><span class="bn-link">Selengkapnya <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
     </div>
-    <div class="routes reveal" id="routes"></div>
   </div>
 </section>
 
-<section class="section" id="pengumuman">
-  <div class="container ann-home">
-    <div>
-      <div class="sec-head reveal"><div><span class="label">Pengumuman</span><h2 class="h2">Informasi akademik terbaru</h2></div>
-        <a class="link" href="pengumuman.html">Semua pengumuman <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-      <div class="ann-list" id="ann"></div>
-    </div>
-    <aside class="ann-side reveal">
-      <h3>Dokumen dan formulir</h3>
-      <p>Pedoman akademik, pedoman tugas akhir, formulir, dan dokumen akreditasi dalam satu halaman.</p>
-      <a class="btn btn-primary" href="unduhan.html">Buka halaman unduhan</a>
-    </aside>
-  </div>
-</section>
-
-<section class="section soft" id="berita">
+<section class="section soft" id="info">
   <div class="container">
-    <div class="sec-head reveal">
-      <div><span class="label">Kabar Kampus</span><h2 class="h2">Berita terbaru</h2></div>
-      <a class="link" href="berita.html">Semua berita <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </div>
+    <div class="sec-head sec-c reveal"><div><span class="label">Pengumuman</span><h2 class="h2">Informasi akademik <em class="ac dk">terbaru.</em></h2><p class="lead">Informasi seputar perkuliahan, tugas akhir, dan penerimaan mahasiswa baru.</p></div></div>
+    <div class="grid g4" id="ann"></div>
+    <p class="ir-note" id="ann-note" hidden>Pengumuman di atas adalah data peraga; pengumuman resmi diunggah oleh admin program studi.</p>
+    <div class="sc-more"><a class="btn btn-outline btn-pill" href="pengumuman.html">Semua pengumuman <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  </div>
+</section>
+
+<section class="section" id="berita">
+  <div class="container">
+    <div class="sec-head sec-c reveal"><div><span class="label">Kabar Kampus</span><h2 class="h2">Berita <em class="ac dk">terbaru.</em></h2><p class="lead">Kegiatan, prestasi, dan kabar terbaru dari Program Studi Teknik Sipil.</p></div></div>
     <div class="grid g3" id="news"></div>
+    <div class="sc-more"><a class="btn btn-outline btn-pill" href="berita.html">Semua berita <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </div>
 </section>
 
-<section class="section" id="karier">
+<section class="section soft" id="karier">
   <div class="container">
-    <div class="sec-head reveal">
-      <div><span class="label">Karier &amp; Lowongan</span><h2 class="h2">Peluang kerja dan magang</h2><p class="lead">Informasi lowongan kerja dan magang di bidang teknik sipil untuk mahasiswa dan alumni.</p></div>
-      <a class="link" href="karier.html">Semua lowongan <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </div>
+    <div class="sec-head sec-c reveal"><div><span class="label">Karier dan Lowongan</span><h2 class="h2">Lowongan kerja dan <em class="ac dk">magang.</em></h2><p class="lead">Peluang kerja dan magang bidang teknik sipil untuk mahasiswa dan alumni.</p></div></div>
     <div class="grid g3" id="jobs"></div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container about">
-    <div class="collage reveal">
-      <figure class="c1"><img src="assets/img/web/home-pic-1.jpg" alt="Mahasiswa di depan gedung Universitas Nusa Megarkencana" width="480" height="720" loading="lazy"></figure>
-      <figure class="c2"><img src="assets/img/slider-3-m.jpg" alt="Mahasiswa UNMEKA belajar bersama" width="800" height="533" loading="lazy"></figure>
-      <figure class="c3"><img src="assets/img/web/article-05.jpg" alt="Sidang terbuka wisuda UNMEKA" width="640" height="462" loading="lazy"></figure>
-      <div class="badge"><svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg><div><small>Akreditasi Program Studi</small><b>Baik</b></div></div>
-    </div>
-    <div class="reveal">
-      <span class="label">Tentang Program Studi</span>
-      <h2 class="h2">Belajar teknik sipil dari teori hingga praktik lapangan</h2>
-      <p class="lead">Program Studi Teknik Sipil UNMEKA mempersiapkan lulusan yang mampu merencanakan, merancang, dan membangun infrastruktur. Pembelajaran memadukan teori dengan praktik lapangan untuk menghasilkan solusi inovatif bagi pembangunan berkelanjutan.</p>
-      <ul class="check" id="about-list"></ul>
-      <a class="link" href="profil.html">Selengkapnya tentang program studi <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </div>
-  </div>
-</section>
-
-<section class="section blueprint" id="bidang">
-  <div class="bg" style="background-image:url(assets/img/web/page-title-bg-sipil.jpg)"></div>
-  <div class="container">
-    <div class="sec-head reveal">
-      <div><span class="label">Bidang Kajian</span><h2 class="h2">Lima bidang utama teknik sipil</h2><p class="lead">Pilih bidang untuk melihat cakupan dan mata kuliah yang terkait.</p></div>
-      <a class="link" href="akademik.html">Lihat kurikulum <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </div>
-    <div class="bk reveal">
-      <div class="bk-tabs" id="bk-tabs" role="tablist" aria-label="Bidang kajian"></div>
-      <div class="bk-panel" id="bk-panel" role="tabpanel"></div>
-    </div>
-  </div>
-</section>
-
-<section class="section soft" id="dosen-sec">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div><span class="label">Tenaga Pengajar</span><h2 class="h2">Dosen Program Studi</h2></div>
-      <a class="link" href="dosen.html">Profil dosen <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </div>
-    <div class="grid g5" id="dosen"></div>
+    <p class="ir-note" id="jobs-note" hidden>Lowongan di atas adalah data peraga; lowongan resmi diunggah oleh admin program studi.</p>
+    <div class="sc-more"><a class="btn btn-outline btn-pill" href="karier.html">Semua lowongan <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </div>
 </section>
 
 <section class="section" id="galeri">
   <div class="container">
-    <div class="sec-head reveal">
-      <div><span class="label">Galeri</span><h2 class="h2">Kehidupan kampus</h2></div>
-      <a class="link" href="fasilitas.html#galeri">Lihat semua foto <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <div class="sec-head sec-c reveal"><div><span class="label">Galeri</span><h2 class="h2">Album <em class="ac dk">kegiatan.</em></h2><p class="lead">Dokumentasi kegiatan dan fasilitas kampus.</p></div></div>
+    <div class="crsl reveal">
+      <button class="crsl-btn prev" id="alb-prev" aria-label="Album sebelumnya"><svg class="icon" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+      <div class="crsl-track" id="albums"></div>
+      <button class="crsl-btn next" id="alb-next" aria-label="Album berikutnya"><svg class="icon" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
-    <div class="mosaic reveal" id="mosaic"></div>
-  </div>
-</section>
-
-<section class="section soft" id="identitas">
-  <div class="container">
-    <div class="identity reveal">
-      <div class="crest">
-        <img src="assets/img/web/logo-659.png" alt="Logo Universitas Nusa Megarkencana" width="300" height="91">
-        <small>Yogyakarta</small>
-      </div>
-      <div>
-        <p class="tl">Unggul <em>&middot;</em> Mandiri <em>&middot;</em> Berdaya Saing</p>
-        <p>Universitas Nusa Megarkencana bernaung di bawah Yayasan Pendidikan Nusa Megarkencana dan memperoleh izin perubahan bentuk menjadi universitas pada 23 Juli 2024. Program Studi Teknik Sipil hadir sebagai bagian dari Fakultas Teknik dan Informatika.</p>
-        <div class="numbers">
-          <div><b data-count="2">2</b><small>Fakultas</small></div>
-          <div><b data-count="5">5</b><small>Program studi sarjana</small></div>
-          <div><b data-count="30">30</b><small>Dosen di lima prodi</small></div>
-          <div><b data-count="6">6</b><small>Jalur pendaftaran</small></div>
-        </div>
-      </div>
-      <div class="partners" id="partners"><small>Mitra dan ekosistem universitas</small></div>
-    </div>
-  </div>
-</section>
-
-<section class="section tight soft">
-  <div class="container">
-    <div class="grid g4" id="quick"></div>
+    <p class="crsl-n" id="alb-n"></p>
+    <div class="sc-more"><a class="btn btn-outline btn-pill" href="galeri.html">Semua album <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </div>
 </section>
 
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js?v=20261102n"></script>
-<script src="assets/js/app.js?v=20261102n"></script>
-<script src="assets/js/fx.js" defer></script>
-<script src="assets/js/flair.js?v=20261102n" defer></script>
+<script src="assets/js/data.js?v=20261116z"></script>
+<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="assets/js/fx.js?v=20261116i" defer></script>
 <script>
 window.pageInit = function () {
   const s = D.site;
 
-  /* hero slideshow */
+  /* foto hero berganti otomatis; berhenti saat kursor di atas hero atau bila pengguna memilih kurangi gerakan */
   const SL = [["slider-2.jpg", "Mahasiswa Universitas Nusa Megarkencana"], ["slider-3.jpg", "Belajar dan berdiskusi bersama"], ["slider-1.jpg", "Menuju wisuda"]];
   const hero = $("#hero");
   $("#slides").innerHTML = SL.map((x, i) => `<div class="slide${i ? "" : " on"}" style="background-image:url(assets/img/${x[0]})" role="group" aria-roledescription="slide" aria-label="${i + 1} dari ${SL.length}"></div>`).join("");
@@ -216,6 +129,7 @@ window.pageInit = function () {
     $$("#slides .slide").forEach((el, k) => el.classList.toggle("on", k === cur));
     $$("#dots button").forEach((b, k) => { b.classList.remove("on"); if (k === cur) { void b.offsetWidth; b.classList.add("on"); } });
     $("#cap").textContent = SL[cur][1];
+    $("#hnum").textContent = `${String(cur + 1).padStart(2, "0")} / ${String(SL.length).padStart(2, "0")}`;
     clearTimeout(timer); if (!hero.classList.contains("paused")) timer = setTimeout(() => go(cur + 1), 6000);
   };
   $$("#dots button").forEach((b, i) => b.addEventListener("click", () => go(i)));
@@ -223,45 +137,72 @@ window.pageInit = function () {
   hero.addEventListener("mouseleave", () => { hero.classList.remove("paused"); go(cur); });
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) hero.classList.add("paused");
   go(0);
+  /* judul hero: kata terakhir berganti huruf demi huruf */
+  const WORDS = ["masa depan.", "jembatan.", "gedung.", "jalan raya.", "bendungan.", "kota."];
+  const fw = $("#flip-w"), still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const spell = (w, cls) => [...w].map((ch, i) => `<span class="fl ${cls}" style="--i:${i}">${ch === " " ? "&nbsp;" : esc(ch)}</span>`).join("");
+  let wi = 0;
+  if (!still) {
+    fw.innerHTML = spell(WORDS[0], "in");
+    setInterval(() => {
+      fw.innerHTML = spell(WORDS[wi], "out");
+      setTimeout(() => { wi = (wi + 1) % WORDS.length; fw.innerHTML = spell(WORDS[wi], "in"); }, 520);
+    }, 3200);
+  }
+
+  /* kolom cari hero: placeholder mengetik sendiri, klik membuka pencarian situs */
+  const hs = $("#hs"), hin = $("#hs-in");
+  const HINTS = ["Cari mata kuliah Statika", "Cari dosen pembimbing", "Cari RPS mata kuliah", "Cari berita kampus", "Cari lowongan magang"];
+  if (!still) {
+    let hi = 0, ci = 0, del = false;
+    const type = () => {
+      const t = HINTS[hi];
+      ci += del ? -1 : 1; hin.placeholder = t.slice(0, ci) + (ci < t.length || del ? "|" : "");
+      let wait = del ? 35 : 70;
+      if (!del && ci === t.length) { del = true; wait = 1600; }
+      else if (del && ci === 0) { del = false; hi = (hi + 1) % HINTS.length; wait = 300; }
+      setTimeout(type, wait);
+    };
+    type();
+  }
+  const openS = e => { e?.preventDefault(); window.openSiteSearch?.(""); };
+  hs.addEventListener("submit", openS); hin.addEventListener("click", openS); hin.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") openS(e); });
 
   $("#facts").innerHTML = [["shield", "Akreditasi", s.akreditasi], ["cap", "Jenjang", "Sarjana (S1)"], ["award", "Gelar Lulusan", "Sarjana Teknik (S.T.)"], ["pin", "Kampus", "Kota Yogyakarta"]]
     .map(f => `<li><span class="fi">${ic(f[0])}</span><div><small>${f[1]}</small><b>${f[2]}</b></div></li>`).join("");
 
-  $("#about-list").innerHTML = [`Dipimpin oleh Ketua Program Studi ${s.kaprodi}`, "Diajar oleh dosen bergelar Magister Teknik", "Bagian dari Fakultas Teknik dan Informatika", "Dosen dapat mengakses koleksi e-book melalui kerja sama dengan Universitas Gunadarma"]
-    .map(t => `<li>${ic("check")}<span>${esc(t)}</span></li>`).join("");
+  $("#bidang").innerHTML = D.bidang.map(b => `<a class="bchip" href="akademik.html#bidang">${ic(b.icon)}${b.nama}</a>`).join("");
 
-  /* bidang kajian */
-  $("#bk-tabs").innerHTML = D.bidang.map((b, i) => `<button role="tab" data-i="${i}">${ic(b.icon)}${b.nama}</button>`).join("");
-  const showB = i => {
-    const b = D.bidang[i];
-    $$("#bk-tabs button").forEach((t, k) => { t.classList.toggle("on", k === i); t.setAttribute("aria-selected", k === i); });
-    $("#bk-panel").innerHTML = `<div class="img" style="background-image:url(assets/img/web/prodi-sipil.jpg)"></div>
-      <div class="txt"><span class="num">BIDANG ${String(i + 1).padStart(2, "0")} / 0${D.bidang.length}</span><h3>${b.nama}</h3><p>${b.desk}</p>
-      <ul>${b.mk.map(m => `<li>${ic("check")}${m}</li>`).join("")}</ul></div>`;
-  };
-  $("#bk-tabs").addEventListener("click", e => { const t = e.target.closest("button"); if (t) showB(+t.dataset.i); });
-  showB(0);
+  /* pengumuman: kartu dengan tanggal, kategori, judul, dan cuplikan isi */
+  const ann = getPengumuman().slice(0, 4);
+  $("#ann").innerHTML = ann.map(p => { const d = new Date(p.tanggal + "T00:00:00"); const cup = (p.isi || "").split("\n")[0]; return `<a class="card ann-card reveal${p.penting ? " hot" : ""}" href="pengumuman.html?id=${p.id}">
+      <div class="anc-top"><span class="anc-date"><b>${d.getDate()}</b><small>${BULAN[d.getMonth()].slice(0, 3)} ${d.getFullYear()}</small></span>${p.penting ? '<span class="anc-hot">Penting</span>' : ""}</div>
+      <span class="anc-k">${esc(p.kategori)}</span><h3>${esc(p.judul)}</h3><p>${esc(cup)}</p><span class="link">Baca pengumuman ${ic("arrow")}</span></a>`; }).join("");
+  $("#ann-note").hidden = !ann.some(p => p.contoh);
+  /* berita: kartu bersampul seperti album galeri */
+  $("#news").innerHTML = getBerita().slice(0, 3).map(b => `<a class="card album-card reveal" href="berita.html?id=${b.id}"><div class="ac-cover">${thumb(b)}</div><div class="ac-body"><span class="tag">${esc(b.kategori)}</span><h3>${esc(b.judul)}</h3><small class="meta">${fmtDate(b.tanggal)}</small></div></a>`).join("");
 
-  $("#ann").innerHTML = getPengumuman().slice(0, 4).map(annItem).join("");
-  if (getPengumuman().slice(0, 4).some(p => p.contoh)) $("#ann").insertAdjacentHTML("afterend", '<p class="ann-note">Pengumuman di atas adalah data peraga; pengumuman resmi diunggah oleh admin program studi.</p>');
-  $("#news").innerHTML = getBerita().slice(0, 3).map(newsCard).join("");
+  /* lowongan kerja dan magang yang masih dibuka */
   const jobs = getLowongan().slice(0, 3);
   if (jobs.length) $("#jobs").innerHTML = jobs.map(jobCard).join(""); else $("#karier").hidden = true;
-  if (jobs.some(l => l.contoh)) $("#jobs").insertAdjacentHTML("afterend", '<p class="ann-note">Lowongan di atas adalah data peraga; lowongan resmi diunggah oleh admin program studi.</p>');
+  $("#jobs-note").hidden = !jobs.some(l => l.contoh);
 
-  $("#partners").insertAdjacentHTML("beforeend", D.mitra.map(m => `<div class="pt-logo" title="${m[1]}"><img src="assets/img/partner/${m[0].replace("partner-", "trim-")}" alt="${m[1]}" loading="lazy"></div>`).join(""));
+  $("#ic-main").innerHTML = ic("hardhat"); $("#ic-rps").innerHTML = ic("book"); $("#ic-ta").innerHTML = ic("clipboard");
 
-  const G = D.galeri.slice(0, 6);
-  $("#mosaic").innerHTML = G.map((g, i) => `<button data-i="${i}" aria-label="Perbesar foto: ${esc(g[1])}"><img src="assets/img/${g[0]}" alt="${esc(g[1])}" loading="lazy"><span>${esc(g[1])}</span></button>`).join("");
-  $("#mosaic").addEventListener("click", e => { const b = e.target.closest("button"); if (b) lightbox(G, +b.dataset.i); });
-
-  $("#dosen").innerHTML = getDosen().map((d, i) => `<a class="card person reveal${i === 0 ? " lead-p" : ""}" href="dosen.html?id=${d.id}">${avatar(d.nama)}<h3>${esc(d.nama)}</h3><div class="role">${esc(d.jabatan)}</div></a>`).join("");
-
-  $("#portal").href = s.daftar;
-  $("#routes").innerHTML = D.jalur.filter(j => j.foto).map(j => `<a class="card route" href="${s.daftar}Registrasi/${j.path}" target="_blank" rel="noopener"><div class="ph"><img src="assets/img/${j.foto}" alt="" loading="lazy"></div><div class="bd"><h3>${j.nama}</h3><p>${j.desk}</p></div></a>`).join("");
-
-  $("#quick").innerHTML = [["calendar", "Kalender Akademik", "Jadwal perkuliahan dan ujian", s.kalender], ["file", "E-Journal UNMEKA", "Publikasi ilmiah", s.ejournal], ["book", "Perpustakaan", "Koleksi elektronik", s.perpustakaan], ["globe", "Situs Universitas", "unmeka.ac.id", s.web]]
-    .map(q => `<a class="qlink reveal" href="${q[3]}" target="_blank" rel="noopener"><span class="ci">${ic(q[0])}</span><div><b>${q[1]}</b><small>${q[2]}</small></div>${ic("external")}</a>`).join("");
+  /* album galeri: kartu digeser dengan panah, penunjuk posisi "1 / n" */
+  const albums = getAlbum(), tr = $("#albums");
+  tr.innerHTML = albums.map(albumCard).join("");
+  const step = () => (tr.firstElementChild?.getBoundingClientRect().width || 300) + parseFloat(getComputedStyle(tr).columnGap || 24);
+  const upd = () => {
+    const i = Math.round(tr.scrollLeft / step()), vis = Math.max(1, Math.round(tr.clientWidth / step()));
+    $("#alb-n").textContent = `${Math.min(albums.length, i + 1)} / ${albums.length}`;
+    $("#alb-prev").disabled = tr.scrollLeft <= 4; $("#alb-next").disabled = tr.scrollLeft + tr.clientWidth >= tr.scrollWidth - 4;
+    $(".crsl").classList.toggle("static", albums.length <= vis);
+  };
+  $("#alb-prev").addEventListener("click", () => tr.scrollBy({ left: -step(), behavior: "smooth" }));
+  $("#alb-next").addEventListener("click", () => tr.scrollBy({ left: step(), behavior: "smooth" }));
+  tr.addEventListener("scroll", () => requestAnimationFrame(upd), { passive: true });
+  addEventListener("resize", upd); upd();
 };
 </script>
 </body>

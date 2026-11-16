@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Galeri | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Album foto kegiatan dan fasilitas Program Studi Teknik Sipil Universitas Nusa Megarkencana.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teknik Sipil UNMEKA">
+<meta property="og:title" content="Galeri | Program Studi Teknik Sipil UNMEKA">
+<meta property="og:description" content="Album foto kegiatan dan fasilitas Program Studi Teknik Sipil Universitas Nusa Megarkencana.">
+<meta property="og:url" content="https://yoginggip.github.io/unmeka-teknik-sipil/galeri.html">
+<meta property="og:image" content="https://yoginggip.github.io/unmeka-teknik-sipil/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="id_ID">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://yoginggip.github.io/unmeka-teknik-sipil/galeri.html">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zr">
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head"><div class="bg" style="background-image:url(assets/img/web/page-title-bg-sipil.jpg)"></div><div class="container">
+  <nav class="crumb" aria-label="Breadcrumb" id="crumb"><a href="index.html">Beranda</a><span aria-hidden="true">/</span><span>Galeri</span></nav>
+  <h1 id="title">Galeri</h1>
+  <p id="sub">Album foto kegiatan dan fasilitas Program Studi Teknik Sipil.</p>
+</div></section>
+<section class="section"><div class="container" id="view"></div></section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/data.js?v=20261116z"></script>
+<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="assets/js/fx.js?v=20261116i" defer></script>
+<script src="assets/js/flair.js?v=20261102n" defer></script>
+<script>
+window.pageInit = function () {
+  const all = getAlbum();
+  const qs = new URLSearchParams(location.search), id = +qs.get("id");
+  const v = $("#view");
+
+  if (id) {
+    const a = all.find(x => x.id === id);
+    if (!a) { v.innerHTML = `<p class="empty">Album tidak ditemukan. <a class="link" href="galeri.html">Kembali ke galeri</a></p>`; return; }
+    document.title = `${a.judul} | Galeri Teknik Sipil UNMEKA`;
+    $("#crumb").innerHTML = `<a href="index.html">Beranda</a><span aria-hidden="true">/</span><a href="galeri.html">Galeri</a><span aria-hidden="true">/</span><span>${esc(a.kategori)}</span>`;
+    $("#title").textContent = a.judul;
+    $("#sub").textContent = [a.kategori, a.tanggal ? fmtDate(a.tanggal) : "", a.foto.length + " foto"].filter(Boolean).join(" · ");
+    /* kiri: susunan foto menurut jumlahnya (n1 sampai n4, lalu kisi 3 kolom); kanan: informasi album */
+    const items = a.foto.map(p => [p[0], p[1] || a.judul]), n = items.length;
+    v.innerHTML = `<div class="album-layout">
+      <div class="album-grid n${Math.min(n, 5)}" id="ag">${items.map((p, i) => `<button data-i="${i}" aria-label="Perbesar foto: ${esc(p[1])}"><img src="${SRC(p[0])}" alt="${esc(p[1])}" loading="lazy"></button>`).join("")}</div>
+      <aside class="album-info">
+        <header class="ig-head"><img src="assets/img/apple-touch-icon.png" alt=""><div><b>Teknik Sipil UNMEKA</b><small>${esc(a.kategori)}</small></div></header>
+        <div class="ig-body">
+          <h2>${esc(a.judul)}</h2>
+          ${a.ket ? `<p>${esc(a.ket)}</p>` : ""}
+          <p class="ig-hint">Klik foto untuk melihat ukuran penuh beserta keterangannya.</p>
+        </div>
+        <footer class="ig-foot"><small>${a.tanggal ? fmtDate(a.tanggal) : "Tanggal belum dicantumkan"} · ${n} foto</small><a class="link" href="galeri.html" id="back">${ic("arrow")} Semua album</a></footer>
+      </aside></div>`;
+    $("#ag").addEventListener("click", e => { const b = e.target.closest("button"); if (b) lightbox(items, +b.dataset.i); });
+    $("#back .icon").style.transform = "rotate(180deg)";
+    return;
+  }
+
+  let f = ["Kegiatan", "Fasilitas"].includes(qs.get("kategori")) ? qs.get("kategori") : "Semua";
+  v.innerHTML = `<div class="toolbar"><div class="chips" id="k">${["Semua", "Kegiatan", "Fasilitas"].map(k => `<button class="chip" data-k="${k}">${k}</button>`).join("")}</div></div>
+    <div class="grid g3" id="g"></div><p class="empty" id="e" hidden>Belum ada album pada kategori ini.</p>`;
+  const render = () => {
+    $$("#k .chip").forEach(c => c.classList.toggle("on", c.dataset.k === f));
+    const list = all.filter(a => f === "Semua" || a.kategori === f);
+    $("#e").hidden = list.length > 0;
+    $("#g").innerHTML = list.map(albumCard).join("");
+    $$("#g .reveal").forEach(el => el.classList.add("in"));
+  };
+  $("#k").addEventListener("click", e => { const c = e.target.closest(".chip"); if (c) { f = c.dataset.k; render(); } });
+  render();
+};
+</script>
+</body>
+</html>

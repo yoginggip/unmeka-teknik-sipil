@@ -7,38 +7,43 @@
 <title>Masuk Administrator | Teknik Sipil UNMEKA</title>
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="admin.css?v=20261116zo">
 </head>
 <body>
 <div class="login">
   <div class="login-art">
     <img src="../assets/img/logo-white-330.png" alt="Universitas Nusa Megarkencana">
-    <div><h2>Panel Administrator Program Studi Teknik Sipil</h2><p>Kelola berita, data dosen, dan pesan dari pengunjung situs.</p></div>
+    <div><h2>Panel Administrator Program Studi Teknik Sipil</h2><p>Kelola berita, pengumuman, lowongan, halaman program studi, dan akun admin.</p></div>
     <small style="color:#9fabc7">Universitas Nusa Megarkencana</small>
   </div>
   <div class="login-form">
     <form id="f" novalidate>
       <h1 style="font-size:1.6rem">Masuk</h1>
       <p class="meta" style="margin:6px 0 24px">Gunakan akun administrator program studi.</p>
-      <div class="hint"><b>Akun demo prototipe</b><br>Email <code>admin@unmeka.ac.id</code>, kata sandi <code>admin123</code></div>
+      <div class="hint"><b>Akun demo prototipe</b><br>Super Admin: <code>kaprodi.ts@unmeka.ac.id</code>, kata sandi <code>super123</code><br>Admin: <code>admin@unmeka.ac.id</code>, kata sandi <code>admin123</code></div>
       <div id="err" role="alert"></div>
-      <div class="field"><label for="em">Email</label><input class="input" id="em" type="email" autocomplete="username" value="admin@unmeka.ac.id"></div>
+      <div class="field"><label for="em">Email</label><input class="input" id="em" type="email" autocomplete="username"></div>
       <div class="field"><label for="pw">Kata sandi</label><input class="input" id="pw" type="password" autocomplete="current-password"></div>
       <button class="btn btn-navy" style="width:100%;justify-content:center;margin-top:6px" type="submit">Masuk</button>
       <p style="text-align:center;margin-top:20px;font-size:.88rem"><a class="link" href="../index.html">Kembali ke situs</a></p>
     </form>
   </div>
 </div>
-<script src="../assets/js/data.js?v=20261102n"></script>
-<script src="../assets/js/app.js?v=20261102n"></script>
+<script src="../assets/js/data.js?v=20261116z"></script>
+<script src="../assets/js/app.js?v=20261116zp"></script>
 <script>
 window.pageInit = function () {
-  try { if (sessionStorage.getItem("unmeka_admin") === "1") location.replace("dashboard.html"); } catch {}
+  const AKUN = [
+    { email: "kaprodi.ts@unmeka.ac.id", sandi: "super123", nama: "Aep Saepuloh, ST., MT.", peran: "Super Admin" },
+    { email: "admin@unmeka.ac.id", sandi: "admin123", nama: "Admin Program Studi", peran: "Admin" },
+  ];
+  try { if (sessionStorage.getItem("unmeka_sesi")) location.replace("dashboard.html"); } catch {}
   $("#f").addEventListener("submit", e => {
     e.preventDefault();
-    if ($("#em").value.trim() === "admin@unmeka.ac.id" && $("#pw").value === "admin123") {
-      try { sessionStorage.setItem("unmeka_admin", "1"); } catch {}
+    const a = AKUN.find(x => x.email === $("#em").value.trim().toLowerCase() && x.sandi === $("#pw").value);
+    if (a) {
+      try { sessionStorage.setItem("unmeka_sesi", JSON.stringify({ nama: a.nama, peran: a.peran })); } catch {}
       location.href = "dashboard.html";
     } else $("#err").innerHTML = `<div class="alert err">Email atau kata sandi tidak sesuai.</div>`;
   });

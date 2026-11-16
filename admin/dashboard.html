@@ -7,14 +7,14 @@
 <title>Dasbor | Admin Teknik Sipil UNMEKA</title>
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css"><link rel="stylesheet" href="admin.css?v=20261116zo">
 </head>
 <body>
 <div id="app"></div>
-<script src="../assets/js/data.js?v=20261102n"></script>
-<script src="../assets/js/app.js?v=20261102n"></script>
-<script src="admin.js?v=20261102n"></script>
+<script src="../assets/js/data.js?v=20261116z"></script>
+<script src="../assets/js/app.js?v=20261116zp"></script>
+<script src="admin.js?v=20261116zo"></script>
 <script>
 window.pageInit = function () {
   if (!shell("Dasbor", `<div class="kpi" id="kpi"></div>
@@ -22,8 +22,8 @@ window.pageInit = function () {
       <div class="card"><div class="card-h"><h2>Berita terbaru</h2><a class="link" href="berita.html">Kelola</a></div><div class="table-wrap" style="border:0"><table><tbody id="recent"></tbody></table></div></div>
       <div class="card"><div class="card-h"><h2>Pesan masuk</h2><a class="link" href="pesan.html">Semua pesan</a></div><div class="list-msg" id="msgs"></div></div>
     </div>`)) return;
-  const b = db.all("admin_berita"), d = db.all("admin_dosen"), p = db.all("admin_pesan");
-  $("#kpi").innerHTML = [["news", b.length, "Berita"], ["users", d.length, "Dosen"], ["inbox", p.filter(x => !x.baca).length, "Pesan belum dibaca"], ["calendar", b.filter(x => x.tanggal.startsWith(String(new Date().getFullYear()))).length, "Berita tahun ini"]]
+  const b = db.all("admin_berita"), d = db.all("admin_dosen"), p = db.all("admin_pesan"), pg = db.all("admin_pengumuman"), lw = db.all("admin_lowongan");
+  $("#kpi").innerHTML = [["news", b.length, "Berita"], ["bell", pg.length, "Pengumuman"], ["briefcase", lw.length, "Lowongan"], ["inbox", p.filter(x => !x.baca).length, "Pesan belum dibaca"]]
     .map(k => `<div class="card"><span class="ci">${ic(k[0])}</span><div><b>${k[1]}</b><span>${k[2]}</span></div></div>`).join("");
   $("#recent").innerHTML = b.slice().sort((x, y) => y.tanggal.localeCompare(x.tanggal)).slice(0, 5)
     .map(x => `<tr><td style="padding-left:0">${esc(x.judul)}</td><td class="meta" style="white-space:nowrap;padding-right:0">${fmtDate(x.tanggal)}</td></tr>`).join("");

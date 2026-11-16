@@ -19,8 +19,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261102n">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zr">
 </head>
 <body>
 <div id="site-header"></div>
@@ -33,9 +33,9 @@
 <section class="section"><div class="container" id="view"></div></section>
 </main>
 <div id="site-footer"></div>
-<script src="assets/js/data.js?v=20261102n"></script>
-<script src="assets/js/app.js?v=20261102n"></script>
-<script src="assets/js/fx.js" defer></script>
+<script src="assets/js/data.js?v=20261116z"></script>
+<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="assets/js/fx.js?v=20261116i" defer></script>
 <script src="assets/js/flair.js?v=20261102n" defer></script>
 <script>
 window.pageInit = function () {
@@ -53,9 +53,9 @@ window.pageInit = function () {
     const poster = b.gambar && b.gambar.startsWith("berita/");
     const others = all.filter(x => x.id !== id).slice(0, 3);
     v.innerHTML = `<article class="article">
-      ${b.gambar ? `<img class="cover${poster ? " poster" : ""}" src="${IMG(b.gambar)}" alt="${esc(b.judul)}">` : ""}
+      ${b.gambar ? `<img class="cover${poster ? " poster" : ""}" src="${SRC(b.gambar)}" alt="${esc(b.judul)}">` : ""}
       ${b.isi.split("\n").filter(Boolean).map(p => `<p>${esc(p)}</p>`).join("")}
-      ${b.galeri ? `<div class="figs">${b.galeri.map(g => `<figure><img src="${IMG(g[0])}" alt="${esc(g[1])}" loading="lazy"><figcaption>${esc(g[1])}</figcaption></figure>`).join("")}</div>` : ""}
+      ${b.galeri?.length ? `<div class="figs">${b.galeri.map(g => `<figure><img src="${SRC(g[0])}" alt="${esc(g[1] || b.judul)}" loading="lazy">${g[1] ? `<figcaption>${esc(g[1])}</figcaption>` : ""}</figure>`).join("")}</div>` : ""}
       <div class="article-foot"><a class="link" href="berita.html">${ic("arrow")} Semua berita</a><button class="btn btn-outline btn-sm" id="copy">Salin tautan</button></div>
     </article>
     ${others.length ? `<div style="margin-top:72px"><h2 class="h2" style="font-size:1.4rem;margin-bottom:24px">Berita lainnya</h2><div class="grid g3">${others.map(newsCard).join("")}</div></div>` : ""}`;

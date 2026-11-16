@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Halaman | Admin Teknik Sipil UNMEKA</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css?v=20261116zr"><link rel="stylesheet" href="admin.css?v=20261116zo">
+</head>
+<body>
+<div id="app"></div>
+<script src="../assets/js/data.js?v=20261116z"></script>
+<script src="../assets/js/app.js?v=20261116zp"></script>
+<script src="admin.js?v=20261116zo"></script>
+<script>
+window.pageInit = function () {
+  if (!shell("Kelola Halaman", "")) return;
+  crud({
+    key: "admin_halaman", noun: "Halaman", defaults: { diubah: new Date().toISOString().slice(0, 10) },
+    cols: [
+      { label: "Judul halaman", render: r => `<b style="color:var(--ink)">${esc(r.judul)}</b>` },
+      { label: "Bagian menu", render: r => `<span class="tag">${esc(r.bagian)}</span>` },
+      { label: "Terakhir diubah", render: r => `<span style="white-space:nowrap">${fmtDate(r.diubah)}</span>` },
+    ],
+    fields: [
+      { k: "judul", label: "Judul halaman", req: true },
+      { k: "bagian", label: "Bagian menu", type: "select", options: ["Profil", "Akademik", "Fasilitas"] },
+      { k: "isi", label: "Isi halaman", type: "textarea", rows: 10, full: true, req: true, help: "Pisahkan paragraf dengan baris baru." },
+    ],
+  });
+};
+</script>
+</body>
+</html>

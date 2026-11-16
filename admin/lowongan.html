@@ -7,14 +7,14 @@
 <title>Lowongan | Admin Teknik Sipil UNMEKA</title>
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css?v=20261102n"><link rel="stylesheet" href="admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css?v=20261116zr"><link rel="stylesheet" href="admin.css?v=20261116zo">
 </head>
 <body>
 <div id="app"></div>
-<script src="../assets/js/data.js?v=20261102n"></script>
-<script src="../assets/js/app.js?v=20261102n"></script>
-<script src="admin.js?v=20261102n"></script>
+<script src="../assets/js/data.js?v=20261116z"></script>
+<script src="../assets/js/app.js?v=20261116zp"></script>
+<script src="admin.js?v=20261116zo"></script>
 <script>
 window.pageInit = function () {
   if (!shell("Lowongan Kerja & Magang", "")) return;
@@ -22,6 +22,7 @@ window.pageInit = function () {
     key: "admin_lowongan", noun: "Lowongan",
     rowClass: r => r.batas && r.batas < today() ? "muted" : "",
     cols: [
+      { label: "Poster", render: r => r.poster ? `<img class="thumb" src="${esc(r.poster)}" alt="Poster ${esc(r.posisi)}">` : '<small class="meta">Belum ada</small>' },
       { label: "Posisi", render: r => `<b style="color:var(--ink)">${esc(r.posisi)}</b><br><small class="meta">${esc(r.instansi)}</small>` },
       { label: "Jenis", render: r => `<span class="tag">${esc(r.jenis)}</span>` },
       { label: "Batas lamaran", render: r => `<span style="white-space:nowrap">${fmtDate(r.batas)}</span>${r.batas && r.batas < today() ? '<br><small class="meta">Ditutup, tidak tampil</small>' : ""}` },
@@ -36,6 +37,7 @@ window.pageInit = function () {
       { k: "ringkas", label: "Deskripsi", type: "textarea", rows: 3, full: true, req: true },
       { k: "syarat", label: "Persyaratan", type: "textarea", rows: 4, full: true, help: "Satu persyaratan per baris." },
       { k: "tautan", label: "Tautan pendaftaran", type: "url", full: true, help: "Kosongkan bila pelamar diarahkan menghubungi program studi." },
+      { k: "poster", label: "Poster lowongan", type: "image", full: true, help: "Opsional. JPG, PNG, atau WebP, maksimal 8 MB." },
     ],
   });
 };

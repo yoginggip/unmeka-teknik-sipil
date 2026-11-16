@@ -23,9 +23,28 @@ const getDosen = () => store.get("admin_dosen", null) || D.dosen;
 const today = () => new Date().toISOString().slice(0, 10);
 const getPengumuman = () => (store.get("admin_pengumuman", null) || D.pengumuman).slice().sort((a, b) => b.tanggal.localeCompare(a.tanggal));
 const getLowongan = (all = false) => (store.get("admin_lowongan", null) || D.lowongan).filter(l => all || !l.batas || l.batas >= today()).sort((a, b) => (b.tanggal || "").localeCompare(a.tanggal || ""));
+/* album galeri, terbaru di atas; album tanpa tanggal di akhir */
+const getAlbum = () => (store.get("admin_galeri", null) || D.album).filter(a => a.foto?.length).sort((a, b) => (b.tanggal || "").localeCompare(a.tanggal || ""));
+/* RPS per mata kuliah; awalnya dibentuk dari sebaran kurikulum, kode dan berkas diisi admin.
+   Berkas: tautan (url) atau unggahan { nama, data } */
+/* bidang kajian ditebak dari nama mata kuliah bila admin belum mengisinya */
+const BIDANG_RE = [["Struktur", /struktur|statika|mekanika bahan|gempa|dinamika|bim/i], ["Geoteknik", /mekanika tanah|pondasi/i], ["Transportasi", /transportasi|lalu lintas|jalan|perkerasan/i], ["Keairan", /fluida|hidrolika|hidrologi|bangunan air|lingkungan/i], ["Manajemen Konstruksi", /manajemen|biaya|k3|kewirausahaan/i]];
+const bidangDari = n => (BIDANG_RE.find(([, re]) => re.test(n)) || ["Umum"])[0];
+const jenisDari = n => /pilihan/i.test(n) ? "Pilihan" : "Wajib";
+/* satu RPS contoh (Statika) untuk demonstrasi pratinjau; diganti RPS resmi oleh admin */
+const RPS_CONTOH = { nama: "Statika", url: "assets/docs/contoh-rps-statika.pdf" };
+const rpsSeed = () => Object.entries(D.kurikulum).flatMap(([s, list]) => list.map(([nama, sks], i) => ({ id: +s * 100 + i + 1, kode: "", nama, semester: +s, sks, bidang: bidangDari(nama), jenis: jenisDari(nama), prasyarat: "", url: "", file: null })))
+  .map(r => r.nama === RPS_CONTOH.nama ? { ...r, url: RPS_CONTOH.url, contoh: true } : r);
+/* data RPS yang sudah tersimpan sebelum contoh ditambahkan ikut mendapat contoh, sekali saja */
+try { const st = store.get("admin_rps", null); if (st && !store.get("rps_contoh_v1", false)) { const r = st.find(x => x.nama === RPS_CONTOH.nama && !x.url && !x.file); if (r) { r.url = RPS_CONTOH.url; r.contoh = true; store.set("admin_rps", st); } store.set("rps_contoh_v1", true); } } catch {}
+/* data mata kuliah: dipakai halaman Kurikulum dan RPS, dikelola di menu Mata Kuliah dan RPS */
+const getRps = () => (store.get("admin_rps", null) || rpsSeed()).map(r => ({ ...r, semester: +r.semester, sks: +r.sks, bidang: r.bidang || bidangDari(r.nama), jenis: r.jenis || jenisDari(r.nama) })).sort((a, b) => a.semester - b.semester || a.nama.localeCompare(b.nama));
+/* gambar bisa berupa berkas di assets/img atau hasil unggahan (data URL) */
+const SRC = f => /^data:/.test(f) ? f : IMG(f);
 
 /* ---------- Ikon (garis, 24px) ---------- */
 const P = {
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
   bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
   chat: '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"/>',
   hardhat: '<path d="M2 18h20v2H2zM4 18v-3a8 8 0 0 1 16 0v3"/><path d="M10 7V4h4v3"/>',
@@ -42,6 +61,7 @@ const P = {
   cap: '<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/>',
   award: '<circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/>',
   file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>',
+  image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5-9 9"/>',
   building: '<rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22v-4h6v4M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01"/>',
   flask: '<path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M7 15h10"/>',
   bridge: '<path d="M2 18h20M4 18V8M20 18V8M4 8c4 0 6 5 8 5s4-5 8-5M8 18v-6M12 18v-5M16 18v-6"/>',
@@ -66,19 +86,25 @@ const P = {
   edit: '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>', trash: '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>',
 };
 const ic = (n, cls = "") => `<svg class="icon ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n] || ""}</svg>`;
-const avatar = (nama, size = 84) => `<span class="avatar" style="width:${size}px;height:${size}px;font-size:${size / 3.2}px">${esc(initials(nama))}</span>`;
+/* foto dosen bila sudah diunggah admin, selain itu inisial nama */
+const avatar = (nama, size = 84) => {
+  const foto = getDosen().find(d => d.nama === nama)?.foto;
+  return foto ? `<img class="avatar" src="${SRC(foto)}" alt="" style="width:${size}px;height:${size}px;object-fit:cover">`
+    : `<span class="avatar" style="width:${size}px;height:${size}px;font-size:${size / 3.2}px">${esc(initials(nama))}</span>`;
+};
 
 /* menu utama: tautan tunggal atau grup dropdown */
 const MENU = [
   ["index.html", "Beranda"],
   { t: "Profil", items: [["profil.html", "Profil Program Studi"], ["dosen.html", "Dosen"], ["fasilitas.html", "Fasilitas"], ["penelitian.html", "Penelitian"]] },
-  { t: "Akademik", items: [["akademik.html", "Kurikulum dan Lulusan"], ["unduhan.html", "Unduhan Dokumen"]] },
-  { t: "Informasi", items: [["pengumuman.html", "Pengumuman"], ["berita.html", "Berita"], ["karier.html", "Karier dan Lowongan"]] },
+  { t: "Akademik", items: [["akademik.html", "Kurikulum"], ["lulusan.html", "Profil Lulusan dan CPL"], ["rps.html", "Rencana Pembelajaran Semester (RPS)"], ["tugas-akhir.html", "Kerja Praktik dan Tugas Akhir"], [D.site.kalender, "Kalender Akademik"], ["unduhan.html", "Unduhan Dokumen"]] },
+  { t: "Informasi", items: [["pengumuman.html", "Pengumuman"], ["berita.html", "Berita"], ["karier.html", "Karier dan Lowongan"], ["galeri.html", "Galeri"]] },
   ["kontak.html", "Kontak"],
 ];
 function navHTML(cur) {
   const on = h => cur === h || (h === "minigame.html" && cur === "jembatan.html");
-  const link = ([h, t]) => `<a href="${h}"${on(h) ? ' class="active" aria-current="page"' : ""}>${t}</a>`;
+  const link = ([h, t]) => /^https?:/.test(h) ? `<a href="${h}" target="_blank" rel="noopener">${t}${ic("external")}</a>`
+    : `<a href="${h}"${on(h) ? ' class="active" aria-current="page"' : ""}>${t}</a>`;
   return MENU.map((m, i) => Array.isArray(m) ? link(m)
     : `<div class="dd"><button class="dd-t${m.items.some(([h]) => on(h)) ? " active" : ""}" aria-expanded="false" aria-controls="dd-${i}">${m.t}${ic("chevron")}</button><div class="dd-m" id="dd-${i}">${m.items.map(link).join("")}</div></div>`).join("");
 }
@@ -117,13 +143,18 @@ function mountLayout() {
   if (ftr) ftr.outerHTML = `
   <footer class="footer"><div class="container">
     <div class="f-grid">
-      <div><a class="brand" href="index.html"><img src="${IMG("logo-white-659.png")}" alt="Universitas Nusa Megarkencana" width="165" height="50"></a><p style="margin-top:14px;color:var(--yellow);font-weight:600;font-size:.86rem;letter-spacing:.04em">${s.tagline}</p>
-        <p style="margin-top:18px">Program Studi Sarjana Teknik Sipil, ${s.fakultas}, ${s.univ}.</p></div>
-      <div><h4>Program Studi</h4><ul>${PAGES.slice(1, 5).map(([h, t]) => `<li><a href="${h}">${t}</a></li>`).join("")}<li><a href="penelitian.html">Penelitian</a></li></ul></div>
-      <div><h4>Informasi</h4><ul><li><a href="pmb.html">Pendaftaran</a></li><li><a href="berita.html">Berita</a></li><li><a href="pengumuman.html">Pengumuman</a></li><li><a href="unduhan.html">Unduhan Dokumen</a></li><li><a href="karier.html">Karier &amp; Lowongan</a></li><li><a href="minigame.html">Mini Game</a></li><li><a href="${s.kalender}" target="_blank" rel="noopener">Kalender Akademik</a></li><li><a href="${s.ejournal}" target="_blank" rel="noopener">E-Journal</a></li><li><a href="${s.web}" target="_blank" rel="noopener">unmeka.ac.id</a></li></ul></div>
-      <div><h4>Kontak</h4><ul class="f-contact"><li>${ic("pin")}<span>${s.alamat}</span></li><li>${ic("phone")}<a href="tel:+62274518987">${s.telp}</a></li><li>${ic("mail")}<a href="mailto:${s.email}">${s.email}</a></li></ul></div>
+      <div class="f-about">
+        <a class="brand" href="${BASE}index.html"><img src="${IMG("logo-white-659.png")}" alt="Universitas Nusa Megarkencana" width="165" height="50"></a>
+        <p class="f-tag">${s.tagline}</p>
+        <p>Program Studi Sarjana Teknik Sipil, ${s.fakultas}, ${s.univ}. Menyiapkan sarjana teknik yang terampil merencanakan, merancang, dan membangun infrastruktur.</p>
+        <ul class="f-contact"><li>${ic("pin")}<span>${s.alamat}</span></li><li>${ic("phone")}<a href="tel:+62274518987">${s.telp}</a></li><li>${ic("mail")}<a href="mailto:${s.email}">${s.email}</a></li></ul>
+        <div class="f-soc"><a href="${s.web}" target="_blank" rel="noopener" aria-label="Situs Universitas Nusa Megarkencana">${ic("globe")}</a><a href="mailto:${s.email}" aria-label="Email">${ic("mail")}</a><a href="tel:+62274518987" aria-label="Telepon">${ic("phone")}</a></div>
+      </div>
+      <div><h4>Program Studi</h4><ul>${PAGES.slice(1, 5).map(([h, t]) => `<li><a href="${BASE}${h}">${t}</a></li>`).join("")}<li><a href="${BASE}penelitian.html">Penelitian</a></li><li><a href="${BASE}galeri.html">Galeri</a></li></ul></div>
+      <div><h4>Akademik</h4><ul><li><a href="${BASE}akademik.html">Kurikulum</a></li><li><a href="${BASE}rps.html">RPS Mata Kuliah</a></li><li><a href="${BASE}tugas-akhir.html">Kerja Praktik dan Tugas Akhir</a></li><li><a href="${s.kalender}" target="_blank" rel="noopener">Kalender Akademik</a></li><li><a href="${BASE}unduhan.html">Unduhan Dokumen</a></li></ul></div>
+      <div><h4>Informasi</h4><ul><li><a href="${BASE}pmb.html">Pendaftaran</a></li><li><a href="${BASE}pengumuman.html">Pengumuman</a></li><li><a href="${BASE}berita.html">Berita</a></li><li><a href="${BASE}karier.html">Karier dan Lowongan</a></li><li><a href="${BASE}minigame.html">Mini Game</a></li><li><a href="${s.ejournal}" target="_blank" rel="noopener">E-Journal</a></li><li><a href="${s.web}" target="_blank" rel="noopener">unmeka.ac.id</a></li></ul></div>
     </div>
-    <div class="f-bottom"><span>© ${new Date().getFullYear()} Program Studi Teknik Sipil, ${s.univ}</span><a href="${BASE}admin/index.html">Admin</a></div>
+    <div class="f-bottom"><span>&copy; ${new Date().getFullYear()} Program Studi Teknik Sipil, ${s.univ}. Seluruh hak cipta dilindungi.</span><a class="f-admin" href="${BASE}admin/index.html">${ic("user")}Masuk Admin</a><span class="f-mark">Universitas Nusa Megarkencana &middot; Yogyakarta</span></div>
   </div></footer>
   <button class="to-top" id="to-top" aria-label="Kembali ke atas">${ic("up")}</button>
   ${location.pathname.includes("/admin/") ? "" : `<a class="ask-fab" href="${s.wa ? `https://wa.me/${s.wa}?text=${encodeURIComponent("Halo, saya ingin bertanya tentang pendaftaran Program Studi Teknik Sipil UNMEKA.")}` : BASE + "kontak.html"}"${s.wa ? ' target="_blank" rel="noopener"' : ""} aria-label="Tanya seputar pendaftaran">${ic("chat")}<span>Tanya PMB</span></a>`}
@@ -156,6 +187,10 @@ function initSearch() {
     ...getPengumuman().map(p => ({ t: p.judul, s: "Pengumuman", h: "pengumuman.html?id=" + p.id, i: "bell" })),
     { t: "Unduhan dokumen", s: "Pedoman, formulir, akreditasi", h: "unduhan.html", i: "file" },
     ...getLowongan().map(l => ({ t: l.posisi, s: "Karier · " + l.jenis, h: "karier.html?id=" + l.id, i: "briefcase" })),
+    ...getAlbum().map(a => ({ t: a.judul, s: "Galeri · " + a.kategori, h: "galeri.html?id=" + a.id, i: "image" })),
+    ...getRps().map(r => ({ t: "RPS " + r.nama, s: "Akademik · Semester " + r.semester, h: "rps.html?q=" + encodeURIComponent(r.nama), i: "book" })),
+    { t: "Kerja Praktik dan Tugas Akhir", s: "Alur, syarat sidang, pembimbing", h: "tugas-akhir.html", i: "clipboard" },
+    { t: "Profil Lulusan dan CPL", s: "Akademik", h: "lulusan.html", i: "target" },
     ...D.bidang.map(b => ({ t: "Bidang " + b.nama, s: "Akademik", h: "akademik.html#bidang", i: b.icon })),
   ];
   let sel = 0, cur = [];
@@ -164,9 +199,10 @@ function initSearch() {
     cur = (q ? idx.filter(x => (x.t + " " + x.s).toLowerCase().includes(q)) : idx.slice(0, 8)).slice(0, 10); sel = 0;
     list.innerHTML = cur.length ? cur.map((x, i) => `<a class="sd-item${i ? "" : " sel"}" href="${x.h}">${ic(x.i)}<span>${esc(x.t)}</span><small>${x.s}</small></a>`).join("") : `<p class="empty">Tidak ada hasil untuk “${esc(q)}”.</p>`;
   };
-  const open = () => { box.classList.add("open"); inp.value = ""; render(); setTimeout(() => inp.focus(), 30); };
+  const open = (q = "") => { box.classList.add("open"); inp.value = q; render(); setTimeout(() => inp.focus(), 30); };
+  window.openSiteSearch = open;
   const close = () => box.classList.remove("open");
-  $("#btn-search")?.addEventListener("click", open);
+  $("#btn-search")?.addEventListener("click", () => open());
   box.addEventListener("click", e => { if (e.target === box) close(); });
   inp.addEventListener("input", render);
   inp.addEventListener("keydown", e => {
@@ -210,8 +246,8 @@ function accordion(root = document) {
 
 /* ---------- Komponen berita ---------- */
 function thumb(b) {
-  const src = b.thumb || b.gambar;
-  return src ? `<img src="${IMG(src)}" alt="" loading="lazy">`
+  const src = /^data:/.test(b.gambar || "") ? b.gambar : b.thumb || b.gambar;
+  return src ? `<img src="${SRC(src)}" alt="" loading="lazy">`
     : `<div class="thumb-ph"><img src="${IMG("logo-white-330.png")}" alt=""></div>`;
 }
 
@@ -220,7 +256,7 @@ function lightbox(items, i) {
   let cur = i;
   const show = () => {
     const [f, cap] = items[cur];
-    openModal(`<figure><img src="${IMG(f)}" alt="${esc(cap)}"><figcaption>${esc(cap)}<small>${cur + 1} / ${items.length}</small></figcaption></figure>
+    openModal(`<figure><img src="${SRC(f)}" alt="${esc(cap)}"><figcaption>${esc(cap)}<small>${cur + 1} / ${items.length}</small></figcaption></figure>
       ${items.length > 1 ? `<button class="lb-nav prev" aria-label="Foto sebelumnya">${ic("arrow")}</button><button class="lb-nav next" aria-label="Foto berikutnya">${ic("arrow")}</button>` : ""}`, "");
     const m = $("#gmodal"); m.classList.add("lb");
     $(".prev", m)?.addEventListener("click", () => { cur = (cur - 1 + items.length) % items.length; show(); });
@@ -233,7 +269,8 @@ function lightbox(items, i) {
   };
   show(); addEventListener("keydown", key);
 }
-const jobCard = l => `<a class="card job-card reveal" href="karier.html?id=${l.id}"><div class="jc-top"><span class="ci">${ic("briefcase")}</span><span class="tag${l.jenis === "Magang" ? " tag-y" : ""}">${esc(l.jenis)}</span></div><h3>${esc(l.posisi)}</h3><div class="jc-org">${esc(l.instansi)}</div><p>${esc(l.ringkas)}</p><div class="jc-meta"><span>${ic("pin")}${esc(l.lokasi)}</span><span>${ic("clock")}Hingga ${fmtDate(l.batas)}</span></div></a>`;
+const albumCard = a => `<a class="card album-card reveal" href="${BASE}galeri.html?id=${a.id}"><div class="ac-cover"><img src="${SRC(a.foto[0][0])}" alt="" loading="lazy"><span class="ac-n">${a.foto.length} foto</span></div><div class="ac-body"><span class="tag${a.kategori === "Fasilitas" ? " tag-y" : ""}">${esc(a.kategori)}</span><h3>${esc(a.judul)}</h3>${a.tanggal ? `<small class="meta">${fmtDate(a.tanggal)}</small>` : ""}</div></a>`;
+const jobCard = l => `<a class="card job-card reveal" href="karier.html?id=${l.id}">${l.poster ? `<div class="jc-poster"><img src="${esc(l.poster)}" alt="Poster ${esc(l.posisi)}" loading="lazy"></div>` : ""}<div class="jc-top"><span class="ci">${ic("briefcase")}</span><span class="tag${l.jenis === "Magang" ? " tag-y" : ""}">${esc(l.jenis)}</span></div><h3>${esc(l.posisi)}</h3><div class="jc-org">${esc(l.instansi)}</div><p>${esc(l.ringkas)}</p><div class="jc-meta"><span>${ic("pin")}${esc(l.lokasi)}</span><span>${ic("clock")}Hingga ${fmtDate(l.batas)}</span></div></a>`;
 const MINIGAMES = [
   { h: "jembatan.html", i: "bridge", t: "Uji Jembatan", d: "Rancang jembatan rangka batang dengan anggaran terbatas, lalu uji kekuatannya dengan truk.", tag: "Tiga level" },
   { h: "minigame.html#lab-balok", i: "layers", t: "Lab Balok", d: "Geser beban pada balok dan lihat reaksi tumpuan, gaya lintang, serta momen secara langsung.", tag: "Statika" },

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pratinjau RPS | Program Studi Teknik Sipil UNMEKA</title>
+<meta name="description" content="Pratinjau Rencana Pembelajaran Semester Program Studi Teknik Sipil UNMEKA.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zr">
+</head>
+<body class="pv-page">
+<header class="pvb">
+  <a class="pvb-back" id="back" href="rps.html"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Kembali</a>
+  <div class="pvb-t"><b id="t">Pratinjau RPS</b><small id="st">Program Studi Teknik Sipil UNMEKA</small></div>
+  <label class="pvb-search" id="fbox"><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="fq" type="search" placeholder="Cari dalam dokumen" aria-label="Cari dalam dokumen"></label>
+  <div class="pvb-pg" id="pgc">
+    <button id="pp" aria-label="Halaman sebelumnya"><svg class="icon" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+    <span>Hal. <input id="pn" inputmode="numeric" value="1" aria-label="Nomor halaman"> / <b id="pt">-</b></span>
+    <button id="np" aria-label="Halaman berikutnya"><svg class="icon" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+  </div>
+  <div class="pvb-zm" id="zmc"><button id="zo" aria-label="Perkecil">&minus;</button><span id="zv">100%</span><button id="zi" aria-label="Perbesar">+</button></div>
+  <a class="pvb-dl" id="dl" href="#">Unduh PDF</a>
+  <button class="pvb-cite" id="cite">Salin sitasi</button>
+  <button class="pvb-side" id="side-t" aria-label="Tampilkan panel" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+</header>
+<div class="pvw">
+  <aside class="pvs" id="side">
+    <div class="pvs-tabs" role="tablist">
+      <button role="tab" data-t="struktur" class="on" aria-selected="true">Struktur</button>
+      <button role="tab" data-t="cari" aria-selected="false">Pencarian</button>
+      <button role="tab" data-t="hal" aria-selected="false">Halaman</button>
+    </div>
+    <div class="pvs-body" id="sb-struktur"></div>
+    <div class="pvs-body" id="sb-cari" hidden><p class="pvs-na">Ketik kata di kolom "Cari dalam dokumen" lalu tekan Enter.</p></div>
+    <div class="pvs-body pvs-thumbs" id="sb-hal" hidden></div>
+  </aside>
+  <main class="pvm" id="main"><div class="pv-pages" id="pages"><p class="pv-msg">Memuat dokumen…</p></div></main>
+</div>
+<div class="pv-toast" id="toast" role="status" hidden></div>
+<script src="assets/js/data.js?v=20261116z"></script>
+<script src="assets/js/app.js?v=20261116zp"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+/* Penampil RPS satu layar penuh: halaman PDF, cari teks, zoom, daftar halaman, unduh, dan salin sitasi */
+window.pageInit = async function () {
+  const id = +new URLSearchParams(location.search).get("id");
+  const r = getRps().find(x => x.id === id);
+  const pagesEl = $("#pages"), main = $("#main");
+  const toast = m => { const t = $("#toast"); t.textContent = m; t.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(() => t.hidden = true, 2400); };
+  const lock = () => ["#fbox", "#pgc", "#zmc"].forEach(s => $(s).classList.add("off"));
+  if (!r) { $("#pages").innerHTML = `<p class="pv-msg">Mata kuliah tidak ditemukan. <a class="link" href="rps.html">Kembali ke daftar RPS</a></p>`; lock(); return; }
+
+  const nama = r.file ? r.file.nama : r.url ? (r.contoh ? "Contoh-RPS-Statika.pdf" : r.url.split(/[/?#]/).filter(Boolean).pop()) : "";
+  document.title = `RPS ${r.nama} | Program Studi Teknik Sipil UNMEKA`;
+  $("#t").textContent = `RPS ${r.nama}`;
+  $("#st").textContent = `Rencana Pembelajaran Semester · Semester ${r.semester} · ${r.sks} SKS${r.contoh ? " · Contoh, bukan RPS resmi" : ""}`;
+  $("#back").href = `rps.html?id=${r.id}`;
+  const dl = $("#dl");
+  if (r.file) { dl.href = r.file.data; dl.download = r.file.nama; }
+  else if (r.url) { dl.href = r.url; if (!/^https?:/i.test(r.url)) dl.download = nama; else { dl.target = "_blank"; dl.rel = "noopener"; } }
+  else dl.hidden = true;
+
+  $("#cite").addEventListener("click", async () => {
+    const txt = `Program Studi Teknik Sipil Universitas Nusa Megarkencana. (${new Date().getFullYear()}). Rencana Pembelajaran Semester: ${r.nama}${r.kode ? ` (${r.kode})` : ""}. Yogyakarta: Universitas Nusa Megarkencana. ${location.href}`;
+    try { await navigator.clipboard.writeText(txt); toast("Sitasi disalin."); } catch { prompt("Salin sitasi berikut:", txt); }
+  });
+
+  /* panel samping: tab dan tombol buka-tutup di layar kecil */
+  const tab = t => { $$(".pvs-tabs button").forEach(b => { const on = b.dataset.t === t; b.classList.toggle("on", on); b.setAttribute("aria-selected", on); }); ["struktur", "cari", "hal"].forEach(k => $("#sb-" + k).hidden = k !== t); };
+  $(".pvs-tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) tab(b.dataset.t); });
+  $("#side-t").addEventListener("click", () => { const o = $("#side").classList.toggle("open"); $("#side-t").setAttribute("aria-expanded", o); });
+
+  /* sumber dokumen */
+  const isPdfFile = r.file && /\.pdf$/i.test(r.file.nama);
+  const drive = r.url && r.url.match(/drive\.google\.com\/file\/d\/([^/?#]+)/);
+  const localPdf = r.url && !/^https?:/i.test(r.url) && /\.pdf$/i.test(r.url);
+  if (!r.file && !r.url) { pagesEl.innerHTML = `<p class="pv-msg">RPS mata kuliah ini belum diunggah oleh program studi.</p>`; lock(); $("#sb-struktur").innerHTML = '<p class="pvs-na">Belum ada berkas.</p>'; return; }
+  if (drive) {
+    pagesEl.innerHTML = `<iframe class="pv-frame" src="https://drive.google.com/file/d/${drive[1]}/preview" title="Pratinjau RPS ${esc(r.nama)}"></iframe>`;
+    lock(); $("#sb-struktur").innerHTML = '<p class="pvs-na">Berkas ditampilkan melalui Google Drive. Gunakan kontrol di dalam pratinjau Drive.</p>'; return;
+  }
+  if (!isPdfFile && !localPdf) {
+    pagesEl.innerHTML = `<p class="pv-msg">Pratinjau hanya tersedia untuk berkas PDF.<br>Gunakan tombol Unduh untuk membuka berkas ${esc(nama)}.</p>`;
+    lock(); $("#sb-struktur").innerHTML = '<p class="pvs-na">Pratinjau tidak tersedia.</p>'; return;
+  }
+  if (!window.pdfjsLib) { pagesEl.innerHTML = `<p class="pv-msg">Penampil PDF tidak dapat dimuat. Periksa koneksi internet, atau gunakan tombol Unduh PDF.</p>`; lock(); return; }
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  let pdf;
+  try {
+    const src = isPdfFile ? { data: Uint8Array.from(atob(r.file.data.split(",")[1]), c => c.charCodeAt(0)) } : { url: r.url };
+    pdf = await pdfjsLib.getDocument(src).promise;
+  } catch { pagesEl.innerHTML = `<p class="pv-msg">Berkas tidak dapat dibuka. Gunakan tombol Unduh PDF.</p>`; lock(); return; }
+
+  const N = pdf.numPages, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  $("#pt").textContent = N;
+  const first = await pdf.getPage(1), base = first.getViewport({ scale: 1 });
+  const fit = () => Math.min(1.25, Math.max(.5, (main.clientWidth - 48) / base.width));
+  let scale = fit(), cur = 1;
+  const ZOOMS = [.5, .67, .8, 1, 1.15, 1.3, 1.5, 1.75, 2, 2.5];
+
+  /* halaman dibuat sebagai wadah kosong lalu digambar saat terlihat */
+  let io;
+  const layout = () => {
+    io?.disconnect();
+    pagesEl.innerHTML = Array.from({ length: N }, (_, i) => `<div class="pv-pg" data-p="${i + 1}" style="width:${Math.floor(base.width * scale)}px;height:${Math.floor(base.height * scale)}px"><span class="pv-no">${i + 1}</span></div>`).join("");
+    $("#zv").textContent = Math.round(scale * 100) + "%";
+    io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) draw(e.target); }), { root: main, rootMargin: "400px 0px" });
+    $$(".pv-pg", pagesEl).forEach(p => io.observe(p));
+  };
+  const draw = async el => {
+    if (el.dataset.s === String(scale)) return;
+    el.dataset.s = String(scale);
+    const page = await pdf.getPage(+el.dataset.p), vp = page.getViewport({ scale: scale * dpr });
+    const c = document.createElement("canvas"); c.width = vp.width; c.height = vp.height;
+    await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+    el.querySelector("canvas")?.remove(); el.prepend(c);
+  };
+  const go = (n, flash) => {
+    n = Math.max(1, Math.min(N, n)); const el = $(`.pv-pg[data-p="${n}"]`, pagesEl);
+    main.scrollTo({ top: el.offsetTop - 16 });
+    cur = n; $("#pn").value = n; $("#pp").disabled = n <= 1; $("#np").disabled = n >= N;
+    if (flash) { el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); }
+    $("#side").classList.remove("open");
+  };
+  const sync = () => {
+    const mid = main.scrollTop + main.clientHeight * .35;
+    const p = $$(".pv-pg", pagesEl).find(el => el.offsetTop + el.offsetHeight > mid);
+    cur = p ? +p.dataset.p : N;
+    if (document.activeElement !== $("#pn")) $("#pn").value = cur;
+    $("#pp").disabled = cur <= 1; $("#np").disabled = cur >= N;
+    $$(".pv-th").forEach(t => t.classList.toggle("on", +t.dataset.p === cur));
+  };
+  main.addEventListener("scroll", () => requestAnimationFrame(sync), { passive: true });
+  $("#pp").addEventListener("click", () => go(cur - 1));
+  $("#np").addEventListener("click", () => go(cur + 1));
+  $("#pn").addEventListener("keydown", e => { if (e.key === "Enter") { go(parseInt($("#pn").value, 10) || 1); $("#pn").blur(); } });
+  const zoom = dir => {
+    const i = ZOOMS.findIndex(z => z >= scale - .001);
+    const next = dir > 0 ? ZOOMS.find(z => z > scale + .001) : [...ZOOMS].reverse().find(z => z < scale - .001);
+    if (!next) return;
+    const keep = cur; scale = next; layout(); go(keep);
+  };
+  $("#zi").addEventListener("click", () => zoom(1));
+  $("#zo").addEventListener("click", () => zoom(-1));
+  layout(); sync();
+
+  /* Struktur: daftar isi bawaan PDF bila ada */
+  const outline = await pdf.getOutline().catch(() => null);
+  if (outline?.length) {
+    const flat = (items, lv = 0) => items.flatMap(o => [{ o, lv }, ...flat(o.items || [], lv + 1)]);
+    const list = flat(outline);
+    $("#sb-struktur").innerHTML = `<ul class="pvs-ol">${list.map((x, i) => `<li style="padding-left:${x.lv * 14}px"><button data-i="${i}">${esc(x.o.title)}</button></li>`).join("")}</ul>`;
+    $("#sb-struktur").addEventListener("click", async e => {
+      const b = e.target.closest("button"); if (!b) return;
+      let d = list[+b.dataset.i].o.dest; if (typeof d === "string") d = await pdf.getDestination(d);
+      if (d) go((await pdf.getPageIndex(d[0])) + 1, true);
+    });
+  } else $("#sb-struktur").innerHTML = '<p class="pvs-na">Daftar isi tidak tersedia pada berkas ini.</p>';
+
+  /* Halaman: gambar kecil setiap halaman */
+  $("#sb-hal").innerHTML = Array.from({ length: N }, (_, i) => `<button class="pv-th${i ? "" : " on"}" data-p="${i + 1}" aria-label="Halaman ${i + 1}"><span class="pv-thc" style="aspect-ratio:${base.width}/${base.height}"></span><small>${i + 1}</small></button>`).join("");
+  $("#sb-hal").addEventListener("click", e => { const b = e.target.closest(".pv-th"); if (b) go(+b.dataset.p, true); });
+  const tio = new IntersectionObserver(es => es.forEach(async e => {
+    if (!e.isIntersecting || e.target.dataset.done) return; e.target.dataset.done = 1;
+    const page = await pdf.getPage(+e.target.dataset.p), vp = page.getViewport({ scale: 160 / base.width });
+    const c = document.createElement("canvas"); c.width = vp.width; c.height = vp.height;
+    await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+    e.target.querySelector(".pv-thc").append(c);
+  }), { root: $("#side") });
+  $$(".pv-th").forEach(t => tio.observe(t));
+
+  /* Pencarian: teks seluruh halaman, hasil berupa cuplikan dengan nomor halaman */
+  let texts = null;
+  const search = async () => {
+    const q = $("#fq").value.trim(); tab("cari"); $("#side").classList.add("open");
+    if (q.length < 2) { $("#sb-cari").innerHTML = '<p class="pvs-na">Ketik minimal dua huruf.</p>'; return; }
+    $("#sb-cari").innerHTML = '<p class="pvs-na">Mencari…</p>';
+    texts = texts || await Promise.all(Array.from({ length: N }, async (_, i) => (await (await pdf.getPage(i + 1)).getTextContent()).items.map(t => t.str).join(" ").replace(/\s+/g, " ")));
+    const ql = q.toLowerCase(), hits = [];
+    texts.forEach((t, i) => { let k = t.toLowerCase().indexOf(ql); while (k >= 0 && hits.length < 200) { hits.push({ p: i + 1, s: t.slice(Math.max(0, k - 40), k), m: t.substr(k, q.length), e: t.slice(k + q.length, k + q.length + 50) }); k = t.toLowerCase().indexOf(ql, k + ql.length); } });
+    $("#sb-cari").innerHTML = hits.length ? `<p class="pvs-sum">${hits.length} hasil untuk “${esc(q)}”</p>` + hits.map(h => `<button class="pvs-hit" data-p="${h.p}"><small>Halaman ${h.p}</small><span>…${esc(h.s)}<mark>${esc(h.m)}</mark>${esc(h.e)}…</span></button>`).join("")
+      : `<p class="pvs-na">Tidak ditemukan “${esc(q)}” di dokumen ini.</p>`;
+  };
+  $("#fq").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); search(); } });
+  $("#sb-cari").addEventListener("click", e => { const b = e.target.closest(".pvs-hit"); if (b) go(+b.dataset.p, true); });
+
+  addEventListener("keydown", e => {
+    if (e.target.matches("input")) return;
+    if (e.key === "ArrowRight" || e.key === "PageDown") go(cur + 1);
+    if (e.key === "ArrowLeft" || e.key === "PageUp") go(cur - 1);
+  });
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { const keep = cur; if (base.width * scale > main.clientWidth - 20) scale = fit(); layout(); go(keep); }, 200); });
+};
+</script>
+</body>
+</html>
