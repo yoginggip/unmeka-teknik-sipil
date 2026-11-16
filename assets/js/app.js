@@ -273,6 +273,22 @@ function lightbox(items, i) {
   show(); addEventListener("keydown", key);
 }
 const albumCard = a => `<a class="card album-card reveal" href="${BASE}galeri.html?id=${a.id}"><div class="ac-cover"><img src="${SRC(a.foto[0][0])}" alt="" loading="lazy"><span class="ac-n">${a.foto.length} foto</span></div><div class="ac-body"><span class="tag${a.kategori === "Fasilitas" ? " tag-y" : ""}">${esc(a.kategori)}</span><h3>${esc(a.judul)}</h3>${a.tanggal ? `<small class="meta">${fmtDate(a.tanggal)}</small>` : ""}</div></a>`;
+/* lowongan bergaya tiket: info di kiri, potongan kanan berisi sisa hari pendaftaran */
+const jobTicket = l => {
+  const BLS = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+  const mono = l.instansi.split(/\s+/).filter(w => /^[A-Za-z]/.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join("") || "TS";
+  const end = new Date(l.batas + "T00:00:00"), left = Math.ceil((end - new Date(today() + "T00:00:00")) / 864e5), tutup = left < 0, urgent = !tutup && left <= 7;
+  return `<a class="tk${urgent ? " urgent" : ""}${tutup ? " closed" : ""}" href="karier.html?id=${l.id}">
+    <span class="tk-main">
+      <span class="tk-top"><span class="tk-logo">${l.poster ? `<img src="${SRC(l.poster)}" alt="">` : esc(mono)}</span>
+        <span><span class="tk-org">${esc(l.instansi)}</span><span class="tk-tags"><i class="tk-j${l.jenis === "Magang" ? " mg" : ""}">${esc(l.jenis)}</i><i>${ic("pin")}${esc(l.lokasi)}</i></span></span></span>
+      <b class="tk-pos">${esc(l.posisi)}</b>
+      <span class="tk-desc">${esc(l.ringkas)}</span>
+      <span class="tk-cta">Lihat lowongan ${ic("arrow")}</span>
+    </span>
+    <span class="tk-stub">${tutup ? `<b>&times;</b><small>Ditutup</small>` : `<b>${left}</b><small>${left === 0 ? "hari terakhir" : "hari lagi"}</small>`}<span>${urgent ? "Segera ditutup" : `Tutup ${end.getDate()} ${BLS[end.getMonth()]}`}</span></span>
+  </a>`;
+};
 const jobCard = l => `<a class="card job-card reveal" href="karier.html?id=${l.id}">${l.poster ? `<div class="jc-poster"><img src="${esc(l.poster)}" alt="Poster ${esc(l.posisi)}" loading="lazy"></div>` : ""}<div class="jc-top"><span class="ci">${ic("briefcase")}</span><span class="tag${l.jenis === "Magang" ? " tag-y" : ""}">${esc(l.jenis)}</span></div><h3>${esc(l.posisi)}</h3><div class="jc-org">${esc(l.instansi)}</div><p>${esc(l.ringkas)}</p><div class="jc-meta"><span>${ic("pin")}${esc(l.lokasi)}</span><span>${ic("clock")}Hingga ${fmtDate(l.batas)}</span></div></a>`;
 const MINIGAMES = [
   { h: "jembatan.html", i: "bridge", t: "Uji Jembatan", d: "Rancang jembatan rangka batang dengan anggaran terbatas, lalu uji kekuatannya dengan truk.", tag: "Tiga level" },

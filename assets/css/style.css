@@ -1528,7 +1528,8 @@ a.bn:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
 .tk-cta .icon{width:15px;height:15px;transition:transform .2s}.tk:hover .tk-cta .icon{transform:translateX(4px)}
 .tk-stub{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:18px 10px;text-align:center;color:#fff;
   background-color:#0f2557;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:16px 16px}
-.tk-stub::before,.tk-stub::after{content:"";position:absolute;left:-12px;width:24px;height:24px;border-radius:50%;background:var(--bg-soft)}
+.tk-stub::before,.tk-stub::after{content:"";position:absolute;left:-12px;width:24px;height:24px;border-radius:50%;background:#fff}
+.soft .tk-stub::before,.soft .tk-stub::after{background:var(--bg-soft)}
 .tk-stub::before{top:-12px}.tk-stub::after{bottom:-12px}
 .tk-stub b{font-family:var(--serif);font-size:2.9rem;font-weight:700;line-height:.9;color:var(--yellow)}
 .tk-stub small{font-size:.74rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#c9d2e6}
@@ -1536,4 +1537,6 @@ a.bn:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
 .tk.urgent .tk-stub b{color:#ff9b9b}.tk.urgent .tk-stub>span{color:#ffc2c2;font-weight:700}
 @media(max-width:820px){.tk-grid{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:420px){.tk{grid-template-columns:minmax(0,1fr) 98px}.tk-main{padding:18px 16px}.tk-stub b{font-size:2.2rem}}
+.tk-page{max-width:none}
+.tk.closed{opacity:.6}.tk.closed .tk-stub{background-color:#4a5468}.tk.closed .tk-stub b{color:#fff}
 
