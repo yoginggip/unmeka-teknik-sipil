@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261116zr">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zu">
 </head>
 <body>
 <div id="site-header"></div>
@@ -73,7 +73,10 @@
 <section class="section soft" id="info">
   <div class="container">
     <div class="sec-head sec-c reveal"><div><span class="label">Pengumuman</span><h2 class="h2">Informasi akademik <em class="ac dk">terbaru.</em></h2><p class="lead">Informasi seputar perkuliahan, tugas akhir, dan penerimaan mahasiswa baru.</p></div></div>
-    <div class="grid g4" id="ann"></div>
+    <div class="ab reveal" id="ann">
+      <a class="ab-feat" id="ab-feat" href="pengumuman.html"></a>
+      <ol class="ab-list" id="ab-list"></ol>
+    </div>
     <p class="ir-note" id="ann-note" hidden>Pengumuman di atas adalah data peraga; pengumuman resmi diunggah oleh admin program studi.</p>
     <div class="sc-more"><a class="btn btn-outline btn-pill" href="pengumuman.html">Semua pengumuman <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </div>
@@ -175,9 +178,30 @@ window.pageInit = function () {
 
   /* pengumuman: kartu dengan tanggal, kategori, judul, dan cuplikan isi */
   const ann = getPengumuman().slice(0, 4);
-  $("#ann").innerHTML = ann.map(p => { const d = new Date(p.tanggal + "T00:00:00"); const cup = (p.isi || "").split("\n")[0]; return `<a class="card ann-card reveal${p.penting ? " hot" : ""}" href="pengumuman.html?id=${p.id}">
-      <div class="anc-top"><span class="anc-date"><b>${d.getDate()}</b><small>${BULAN[d.getMonth()].slice(0, 3)} ${d.getFullYear()}</small></span>${p.penting ? '<span class="anc-hot">Penting</span>' : ""}</div>
-      <span class="anc-k">${esc(p.kategori)}</span><h3>${esc(p.judul)}</h3><p>${esc(cup)}</p><span class="link">Baca pengumuman ${ic("arrow")}</span></a>`; }).join("");
+  /* pengumuman: panel sorotan berganti saat baris disorot, dan berputar otomatis */
+  const BLN = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+  const rel = t => { const n = Math.round((new Date(today() + "T00:00:00") - new Date(t + "T00:00:00")) / 864e5);
+    return n <= 0 ? "Hari ini" : n === 1 ? "Kemarin" : n < 7 ? `${n} hari lalu` : n < 30 ? `${Math.round(n / 7)} minggu lalu` : n < 365 ? `${Math.round(n / 30)} bulan lalu` : `${Math.round(n / 365)} tahun lalu`; };
+  const feat = $("#ab-feat"), list = $("#ab-list");
+  const showFeat = p => {
+    const d = new Date(p.tanggal + "T00:00:00"), par = (p.isi || "").split("\n")[0];
+    feat.href = `pengumuman.html?id=${p.id}`;
+    feat.classList.toggle("hot", !!p.penting);
+    feat.innerHTML = `<span class="abf-top"><span class="abf-k">${esc(p.kategori)}</span>${p.penting ? '<span class="abf-hot">Penting</span>' : ""}<span class="abf-rel">${rel(p.tanggal)}</span></span>
+      <span class="abf-date"><b>${String(d.getDate()).padStart(2, "0")}</b><span>${BLN[d.getMonth()]}<br>${d.getFullYear()}</span></span>
+      <h3>${esc(p.judul)}</h3><p>${esc(par)}</p><span class="abf-go">Baca selengkapnya ${ic("arrow")}</span>`;
+    feat.classList.remove("swap"); void feat.offsetWidth; feat.classList.add("swap");
+  };
+  list.innerHTML = ann.map((p, i) => { const d = new Date(p.tanggal + "T00:00:00");
+    return `<li><a class="abl" href="pengumuman.html?id=${p.id}" data-i="${i}"><span class="abl-d"><b>${String(d.getDate()).padStart(2, "0")}</b>${BLN[d.getMonth()].slice(0, 3)}</span><span class="abl-t"><small>${esc(p.kategori)}${p.penting ? "<em>Penting</em>" : ""}</small><b>${esc(p.judul)}</b></span>${ic("arrow")}<i class="abl-bar"></i></a></li>`; }).join("");
+  let acur = 0, rot;
+  const pick = i => { acur = i; showFeat(ann[i]); $$(".abl", list).forEach((a, k) => a.classList.toggle("on", k === i)); };
+  const play = () => { clearInterval(rot); if (!still && ann.length > 1) rot = setInterval(() => pick((acur + 1) % ann.length), 5000); };
+  list.addEventListener("mouseover", e => { const a = e.target.closest(".abl"); if (a && +a.dataset.i !== acur) pick(+a.dataset.i); });
+  list.addEventListener("focusin", e => { const a = e.target.closest(".abl"); if (a) pick(+a.dataset.i); });
+  $("#ann").addEventListener("mouseenter", () => { clearInterval(rot); $("#ann").classList.add("paused"); });
+  $("#ann").addEventListener("mouseleave", () => { $("#ann").classList.remove("paused"); pick(acur); play(); });
+  if (ann.length) { pick(0); play(); }
   $("#ann-note").hidden = !ann.some(p => p.contoh);
   /* berita: kartu bersampul seperti album galeri */
   $("#news").innerHTML = getBerita().slice(0, 3).map(b => `<a class="card album-card reveal" href="berita.html?id=${b.id}"><div class="ac-cover">${thumb(b)}</div><div class="ac-body"><span class="tag">${esc(b.kategori)}</span><h3>${esc(b.judul)}</h3><small class="meta">${fmtDate(b.tanggal)}</small></div></a>`).join("");
