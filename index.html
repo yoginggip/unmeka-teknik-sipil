@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261116zy">
+<link rel="stylesheet" href="assets/css/style.css?v=20261116zz3">
 </head>
 <body>
 <div id="site-header"></div>
@@ -93,7 +93,7 @@
 <section class="section soft" id="karier">
   <div class="container">
     <div class="sec-head sec-c reveal"><div><span class="label">Karier dan Lowongan</span><h2 class="h2">Lowongan kerja dan <em class="ac dk">magang.</em></h2><p class="lead">Peluang kerja dan magang bidang teknik sipil untuk mahasiswa dan alumni.</p></div></div>
-    <div class="tk-grid reveal" id="jobs"></div>
+    <div class="lk-grid reveal" id="jobs"></div>
     <p class="ir-note" id="jobs-note" hidden>Lowongan di atas adalah data peraga; lowongan resmi diunggah oleh admin program studi.</p>
     <div class="sc-more"><a class="btn btn-outline btn-pill" href="karier.html">Semua lowongan <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </div>
@@ -115,7 +115,7 @@
 </main>
 <div id="site-footer"></div>
 <script src="assets/js/data.js?v=20261116z"></script>
-<script src="assets/js/app.js?v=20261116zy"></script>
+<script src="assets/js/app.js?v=20261116zz3"></script>
 <script src="assets/js/fx.js?v=20261116i" defer></script>
 <script>
 window.pageInit = function () {
@@ -209,7 +209,7 @@ window.pageInit = function () {
   /* lowongan kerja dan magang yang masih dibuka */
   /* tampil seperti tiket: info lowongan di kiri, sisa hari pendaftaran di potongan tiket kanan */
   const jobs = getLowongan().slice(0, 4);
-  if (jobs.length) $("#jobs").innerHTML = jobs.map(jobTicket).join(""); else $("#karier").hidden = true;
+  if (jobs.length) $("#jobs").innerHTML = jobs.map(jobLoker).join(""); else $("#karier").hidden = true;
   $("#jobs-note").hidden = !jobs.some(l => l.contoh);
 
   $("#ic-main").innerHTML = ic("hardhat"); $("#ic-rps").innerHTML = ic("book"); $("#ic-ta").innerHTML = ic("clipboard");

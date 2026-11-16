@@ -8,12 +8,12 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css?v=20261116zy"><link rel="stylesheet" href="admin.css?v=20261116zo">
+<link rel="stylesheet" href="../assets/css/style.css?v=20261116zz3"><link rel="stylesheet" href="admin.css?v=20261116zo">
 </head>
 <body>
 <div id="app"></div>
 <script src="../assets/js/data.js?v=20261116z"></script>
-<script src="../assets/js/app.js?v=20261116zy"></script>
+<script src="../assets/js/app.js?v=20261116zz3"></script>
 <script src="admin.js?v=20261116zo"></script>
 <script>
 window.pageInit = function () {
@@ -37,6 +37,7 @@ window.pageInit = function () {
       { k: "ringkas", label: "Deskripsi", type: "textarea", rows: 3, full: true, req: true },
       { k: "syarat", label: "Persyaratan", type: "textarea", rows: 4, full: true, help: "Satu persyaratan per baris." },
       { k: "tautan", label: "Tautan pendaftaran", type: "url", full: true, help: "Kosongkan bila pelamar diarahkan menghubungi program studi." },
+      { k: "logo", label: "Logo perusahaan", type: "image", ratio: 1, max: 320, full: true, help: "Opsional. Otomatis dipotong persegi. Bila kosong, kartu memakai ikon sesuai jenis perusahaan." },
       { k: "poster", label: "Poster lowongan", type: "image", full: true, help: "Opsional. JPG, PNG, atau WebP, maksimal 8 MB." },
     ],
   });
