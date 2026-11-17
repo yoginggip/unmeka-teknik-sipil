@@ -1700,3 +1700,102 @@ a.bn:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
 @media(max-width:860px){.rs-duo,.rs-win{grid-template-columns:minmax(0,1fr)}.rs-hero{min-height:320px}}
 @media(max-width:560px){.rs-row{grid-template-columns:46px minmax(0,1fr);padding:20px}.rs-no,.rs-row>.icon{display:none}.rs-mk{grid-column:1/-1}.rs-flow{grid-template-columns:minmax(0,1fr)}.rs-body{padding:38px 22px 26px}.rs-ic{left:22px}}
 
+/* ===== Rapikan tampilan ponsel ===== */
+@media(max-width:640px){
+  .section{padding:56px 0}
+  .sec-head{margin-bottom:28px}
+  .sec-head.sec-c{margin-bottom:30px}
+  .h2{font-size:clamp(1.8rem,8vw,2.2rem)}
+  .lead{font-size:.98rem}
+
+  /* hero beranda */
+  .hero-x>.container.hero-grid{padding:40px 0 128px}
+  .hero-x .hero-logo{margin-bottom:22px;padding:10px 16px 10px 12px}
+  .hero-x .hero-logo img{height:44px}
+  .hero-x h1{font-size:clamp(2.3rem,10.5vw,2.8rem)}
+  .hero-x p{font-size:1rem;line-height:1.6}
+  .hero-x .actions{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+  .hero-x .actions .btn{justify-content:center;width:100%}
+  .hero-x .hero-nav{bottom:84px}
+
+  /* fakta singkat 2 x 2 */
+  .facts{margin-top:-64px}
+  .facts ul{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .facts li{flex-direction:column;align-items:flex-start;gap:10px;padding:16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .facts li:nth-child(2n){border-right:0}.facts li:nth-child(n+3){border-bottom:0}
+  .facts .fi{width:38px;height:38px}
+  .facts b{font-size:.94rem}
+
+  /* berita dan lowongan di beranda: geser ke samping, bukan menumpuk panjang */
+  #news,#jobs{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -20px;padding:4px 20px 14px;scrollbar-width:none}
+  #news::-webkit-scrollbar,#jobs::-webkit-scrollbar{display:none}
+  #news>*,#jobs>*{flex:0 0 84%;scroll-snap-align:center}
+
+  /* kurikulum: kolom No dan Bidang disembunyikan agar tabel muat */
+  .kur table th:nth-child(1),.kur table td:nth-child(1),.kur table th:nth-child(4),.kur table td:nth-child(4){display:none}
+  .kur table th,.kur table td{padding:10px 10px;font-size:.86rem}
+  .bk2-mk{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .bk2-mk a{padding:8px 10px}.bk2-mk a span{font-size:.84rem}
+  .bk2-panel{padding:22px 18px}
+  .bk2-nav{justify-content:flex-start}
+
+  /* layanan akademik 2 kolom ringkas */
+  #layanan-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  #layanan-list>*{padding:18px 16px}
+  #layanan-list p{display:none}
+  #layanan-list h3{font-size:.95rem;line-height:1.35;margin:12px 0 8px}
+
+  /* fasilitas */
+  .fx-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:16px}
+  .fx-stats div{flex-direction:column;align-items:flex-start;gap:2px;margin:0}
+  .fx-stats b{font-size:1.6rem}.fx-stats small{font-size:.76rem}
+  .fx-stats a{grid-column:1/-1;padding-top:10px;border-top:1px solid var(--line)}
+  .lx-tabs button{padding:10px 12px}
+  .lx-mod li{padding:9px 12px;font-size:.9rem}
+
+  /* penelitian */
+  .rs-flow{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .rs-flow li{padding:16px}
+  .rs-pub{padding:30px 20px}
+  .rs-hero{min-height:280px}
+  .rs-item img,.rs-ph{width:76px;height:76px}
+
+  /* mitra pada mode gerak dikurangi */
+  .mt-track .pt{flex-basis:150px}
+
+  /* daftar dokumen: status turun ke baris kedua */
+  .dlr{padding:14px 16px;gap:12px}
+  .dlr .ft{width:42px;height:42px}
+  .dlr .dl-t{flex:1 1 calc(100% - 60px)}
+  .dlr .go,.dlr .na{margin-left:54px}
+
+  /* tabel RPS muat tanpa geser: No dan SKS disembunyikan */
+  .rps-t{min-width:0;table-layout:auto}
+  .rps-t th:nth-child(1),.rps-t td:nth-child(1),.rps-t th:nth-child(5),.rps-t td:nth-child(5){display:none}
+  .rps-t th{padding:12px 10px;font-size:.8rem;width:auto!important}
+  .rps-t td{padding:12px 10px;font-size:.86rem}
+  .rps-t th,.rps-t td{white-space:normal}
+  .rps-t .th{flex-wrap:wrap;gap:4px}
+  .rps-fc .na{display:none}
+  .rps-fc .rps-f{font-size:0;gap:0}.rps-fc .rps-f .icon{width:18px;height:18px}
+
+  /* dosen dan album galeri dua kolom */
+  #grid.g4,#g.g3{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  #grid.g4>*{padding:20px 12px}
+  #grid.g4 h3{font-size:.92rem}
+  #g .ac-body{padding:12px}
+  #g .ac-body h3{font-size:.9rem;line-height:1.35}
+
+  /* footer lebih ringkas */
+  .footer .container{padding-top:48px}
+  .f-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 20px}
+  .f-about{grid-column:1/-1}
+  .f-grid>div:last-child{grid-column:1/-1}
+  .f-grid>div:last-child ul{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px}
+  .footer ul{gap:9px}
+  .f-bottom{flex-direction:column;align-items:flex-start;gap:10px}
+}
+@media(max-width:640px) and (prefers-reduced-motion:reduce){
+  #news,#jobs{scroll-snap-type:none}
+}
+
